@@ -1,0 +1,317 @@
+<div >
+<!--   <div class="d-flex h-100">
+    <button mat-button class="btn-container mt-3" [routerLink]="['/programacion/cartera/denuncia/gabinete']"
+      color="primary">
+      <mat-icon>arrow_back</mat-icon>
+      Regresar
+    </button>
+  </div> -->
+ <!--  <div>
+    <h4>Seleccione un Item para generar un <b>alcance</b></h4>
+  </div> -->
+  <div class="parent" *ngIf="!showVisor">
+    <mat-accordion>
+      <div cdkDropList (cdkDropListDropped)="drop($event)">
+        <mat-expansion-panel *ngFor="let itemPrincipal of principal" cdkDrag>
+          <mat-expansion-panel-header (click)="Seleccionar(itemPrincipal.nombre)">
+            <mat-panel-title>
+              <mat-checkbox #chekSelect [(ngModel)]="itemPrincipal.completed" color="primary">
+                {{itemPrincipal.nombre}}
+              </mat-checkbox>
+              &nbsp;&nbsp;
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div *ngIf="itemPrincipal.nombre=='ANTECEDENTES'">
+            <table mat-table [dataSource]="dataSource4" matSort class="p-0">
+              <ng-container matColumnDef="Nombre">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Descripción de Antecedente
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  <div [innerHTML]="item"></div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Descripcion">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  {{item.descripcion}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                <td mat-cell *matCellDef="let item ; let id=index">
+                  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                    <mat-icon>more_horiz</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item title="Muestra el detalle del caso." (click)=" EliminarAntecedentes(item)">
+                      <mat-icon class="iconos">delete</mat-icon>
+                      <span>Eliminar</span>
+                    </button>
+                  </mat-menu>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="columns4"></tr>
+              <tr mat-row *matRowDef="let row; columns: columns4;"></tr>
+            </table>
+          </div>
+
+          <div *ngIf="itemPrincipal.nombre=='DENUNCIAS'">
+            <!-- <div class="row">
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Seleccione una Gerencia</mat-label>
+                  <mat-select (valueChange)="getSelectGerency($event)" [(ngModel)]="selectGerencia">
+                    <mat-option [value]="imp" *ngFor="let imp of gerencias">
+                      {{imp.nombre}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div> -->
+            <div>
+              <table mat-table [dataSource]="DenunciaA">
+                <ng-container matColumnDef="seleccion">
+                  <th mat-header-cell *matHeaderCellDef class="header-table center">
+                    <mat-checkbox (change)="$event ? masterToggleComplaints() : null"
+                      [checked]="selectionComplaints.hasValue() && isAllSelectedComplaints()"
+                      [indeterminate]="selectionComplaints.hasValue() && !isAllSelectedComplaints()"
+                      [color]="'primary'">
+                    </mat-checkbox>
+                  </th>
+                  <td mat-cell *matCellDef="let equipo" class="center">
+                    <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selectionComplaints.toggle(equipo) : null"
+                      [checked]="selectionComplaints.isSelected(equipo)"></mat-checkbox>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="correlativo">
+                  <th mat-header-cell *matHeaderCellDef> NO Correlativo </th>
+                  <td mat-cell *matCellDef="let element" class="center"> {{element.correlativo}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="DenunciaAprobada"></tr>
+                <tr mat-row *matRowDef="let row; columns: DenunciaAprobada;"></tr>
+              </table>
+              <!-- <div style="text-align:end">
+                <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary"
+                  (click)="guardarDenuncia(itemPrincipal)">
+                  <mat-icon>save</mat-icon>
+                  Guardar
+                </button>
+              </div> -->
+            </div>
+          </div>
+
+          <div *ngIf="itemPrincipal.nombre=='INCONSISTENCIAS'">
+            <!-- <div style="text-align:end">
+              <button mat-button color="primary" class="btn-container" (click)="reloadInconsistencias()">
+                <mat-icon>refresh</mat-icon>Recargar
+              </button>
+            </div> -->
+            <table mat-table [dataSource]="dataSource11" matSort class="p-0">
+              <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Nombre
+                </th>
+                <td mat-cell *matCellDef="let item"> {{item.nombre}} </td>
+              </ng-container>
+              <ng-container matColumnDef="desc">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Descripción
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  <div [innerHTML]="item.descripcion"></div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="rubros">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Rubros
+                </th>
+                <td mat-cell *matCellDef="let item"> {{itemToString(item.rubros)}} </td>
+              </ng-container>
+  
+              <tr mat-header-row *matHeaderRowDef="columnsHallazgo"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnsHallazgo;"></tr>
+            </table>
+            <mat-paginator #MatPaginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+              aria-label="Select page of periodic elements">
+            </mat-paginator>
+          </div>
+
+          <div class="table-responsive" *ngIf="itemPrincipal.nombre=='OBJETIVOS'">
+            <form action="" [formGroup]="cabinet">
+            <mat-form-field>
+              <mat-label>Seleccione un Objetivo</mat-label>
+              <mat-select required="true" [(ngModel)]="select" formControlName="objetivo">
+                <mat-option [value]="imp" *ngFor="let imp of catalogos">
+                  {{imp.nombre}}
+                </mat-option>
+                <mat-option [value]="0" (click)="Otro()">otros</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+            <div style="text-align:end">
+              <button mat-button class="btn-container" color="primary" [disabled]="!select" (click)="agregarObjetivo()">
+                <mat-icon>add</mat-icon>Agregar
+              </button>
+            </div>
+            <table mat-table [dataSource]="dataSourceObEspecifico" matSort>
+              <ng-container matColumnDef="caso">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Descripción de Objetivo
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  <div [innerHTML]="item"></div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                <td mat-cell *matCellDef="let item ; let id=index">
+                  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                    <mat-icon>more_horiz</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item title="Muestra el detalle del caso." (click)=" EliminarObjetivos(item)">
+                      <mat-icon class="iconos">delete</mat-icon>
+                      <span>Eliminar</span>
+                    </button>
+                  </mat-menu>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="columns"></tr>
+              <tr mat-row class="sobra-tabla" *matRowDef="let row; columns: columns;"></tr>
+            </table>
+          </div>
+
+          <div *ngIf="itemPrincipal.nombre=='PROCEDIMIENTOS'">
+            <form action="" [formGroup]="cabinet">
+            <mat-form-field>
+              <mat-label>Seleccione un procedimiento</mat-label>
+              <mat-select  [(ngModel)]="selectHijo" formControlName="select">
+                <mat-option [value]="imp" *ngFor="let imp of catalogosHijo">
+                  {{imp.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+            &nbsp; &nbsp;
+            <div style="text-align:end">
+              <button mat-button class="btn-container" [disabled]="!selectHijo" color="primary" (click)="agregarProcedimiento()">
+                <mat-icon>add</mat-icon>Agregar
+              </button>
+            </div>
+            <table mat-table [dataSource]="dataSource5" matSort class="p-0">
+              <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Nombre
+                </th>
+                <td mat-cell *matCellDef="let item"> {{item.nombre}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Descripcion">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Descripción
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  {{item.descripcion}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                <td mat-cell *matCellDef="let item ; let id=index">
+                  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                    <mat-icon>more_horiz</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item title="Muestra el detalle del caso." (click)=" EliminarProcedimientos(item)">
+                      <mat-icon class="iconos">delete</mat-icon>
+                      <span>Eliminar</span>
+                    </button>
+                  </mat-menu>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="columns3"></tr>
+              <tr mat-row *matRowDef="let row; columns: columns3;"></tr>
+            </table>
+          </div>
+
+          <div *ngIf="itemPrincipal.nombre=='ASPECTOS GENERALES'">
+            <form action="" [formGroup]="cabinet">
+            <mat-form-field>
+              <mat-label>Seleccione un aspecto</mat-label>
+              <mat-select  [(ngModel)]="selectAspecto" formControlName="aspecto">
+                <mat-option [value]="imp" *ngFor="let imp of aspectosGenerales">
+                  {{imp.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+            &nbsp; &nbsp;
+            <div style="text-align:end">
+              <button mat-button class="btn-container" [disabled]="!selectAspecto" color="primary" (click)="agregarAspecto()">
+                <mat-icon>add</mat-icon>Agregar
+              </button>
+            </div>
+            <table mat-table [dataSource]="dataSource2" matSort class="p-0">
+              <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Nombre
+                </th>
+                <td mat-cell *matCellDef="let item"> {{item.nombre}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Descripcion">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Descripción
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  {{item.descripcion}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                <td mat-cell *matCellDef="let item ; let id=index">
+                  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                    <mat-icon>more_horiz</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item title="Muestra el detalle del caso." (click)=" EliminarAspectos(item)">
+                      <mat-icon class="iconos">delete</mat-icon>
+                      <span>Eliminar</span>
+                    </button>
+                  </mat-menu>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="columns3"></tr>
+              <tr mat-row *matRowDef="let row; columns: columns3;"></tr>
+            </table>
+          </div>
+
+        </mat-expansion-panel>
+      </div>
+    </mat-accordion><br>
+    <div style="text-align:end">
+      <button mat-button color="primary" class="btn-container" (click)="GenerarAlcance()">
+        <mat-icon>description</mat-icon>Generar Alcance
+      </button>
+    </div>
+  </div>
+  <div *ngIf="showVisor">
+    <mat-card>
+      <app-visor [isScope]="true" [nodeId]="nodeId" [arregloPropiedades]="arrayProperties" [document]="documento"></app-visor>
+    </mat-card>
+    <div style="text-align:end">
+      <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="warn" (click)="regresar()">
+        <mat-icon>clear</mat-icon>
+        Cancelar
+      </button>
+      <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary"
+        (click)="GuardarArchivo()">
+        <mat-icon>save</mat-icon>
+        Guardar
+      </button>
+    </div>
+  </div>
+</div>

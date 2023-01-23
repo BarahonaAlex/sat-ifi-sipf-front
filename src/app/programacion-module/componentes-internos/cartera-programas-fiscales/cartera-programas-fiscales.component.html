@@ -1,0 +1,1018 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">Programas Fiscales
+    <div class="mt-1 pt-3">
+      <div class="ms-auto">
+        <button mat-button class="btn-container mt-3" *ngIf="!showButtons" (click)="cancel()" color="primary">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+    </div>
+
+  </mat-card-title>
+  <div class="mt-3">
+    <button class="btn-container" color="primary" mat-button
+      *ngIf="!showNew && !showUpdate && !showAskChanges && newProgramBoolean" (click)="nuevo()">
+      <mat-icon>add</mat-icon>
+      Crear programas
+    </button>
+  </div>
+
+  <mat-tab-group *ngIf="showTabGroup">
+    <mat-tab label="{{txtMatTabActivo}}">
+      <div *ngIf="showTable">
+        <mat-card class="mt-4">
+          <ng-template matStepLabel>Creación de programa</ng-template>
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-12">
+              <form>
+               
+                <div class="row">
+                  <div class="table-responsive">
+                    <table mat-table [dataSource]="dataSource2" class="table-responsive" matSort>
+                      <ng-container matColumnDef="nombrePrograma">
+                        <th mat-header-cell *matHeaderCellDef class="header-table start"> Número de programa
+                        </th>
+                        <td mat-cell class="centrar" *matCellDef="let element">
+                          {{element.codificacionPrograma}}-{{element.correlativo}}-{{element.anio}}
+                        </td>
+                      </ng-container>
+  
+                      <ng-container matColumnDef="nombreDireccionamientoAuditoria">
+                        <th mat-header-cell *matHeaderCellDef class="header-table start"> Nombre del programa
+                        </th>
+                        <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombre}}
+                        </td>
+                      </ng-container>
+  
+                      <ng-container matColumnDef="usuarioSolicitaCorreccion">
+                        <th mat-header-cell *matHeaderCellDef class="header-table start"> Usuario que solicita corrección
+                        </th>
+                        <td mat-cell class="centrar" *matCellDef="let element"> {{element.usuarioSolicitaCorreccion}}
+                        </td>
+                      </ng-container>
+  
+                      <ng-container matColumnDef="estado">
+                        <th mat-header-cell *matHeaderCellDef class="header-table start"> Estado
+                        </th>
+                        <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombreEstado}}
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="usuarioModifica">
+                        <th mat-header-cell *matHeaderCellDef class="header-table start"> Usuario
+                        </th>
+                        <td mat-cell class="centrar" *matCellDef="let element"> {{element.usuarioModifica}}
+                        </td>
+                      </ng-container>
+  
+                      <ng-container matColumnDef="fechaModifica">
+                        <th mat-header-cell *matHeaderCellDef class="header-table start"> Fecha de Solicitud
+                        </th>
+                        <td mat-cell class="centrar" *matCellDef="let element"> {{element.fechaModifica | date:'dd/MM/yyyy'}}
+                        </td>
+                      </ng-container>
+  
+                      <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                        <td mat-cell *matCellDef="let element">
+                          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                            <mat-icon>more_horiz</mat-icon>
+                          </button>
+                          <mat-menu #menu="matMenu">
+                            <button mat-menu-item title="Cambiar Nombre" *ngIf="!showAskChanges" class="iconos"
+                              (click)="modificar(element)">
+                              <mat-icon class="iconos">edit</mat-icon>
+                              <span>Modificar programa</span>
+                            </button>
+  
+                            <button mat-menu-item title="Cambiar Nombre" *ngIf="!showAskChanges" class="iconos"
+                              (click)="solicitarRevision(element)">
+                              <mat-icon class="iconos">edit_square</mat-icon>
+                              <span>Solicitar revisión</span>
+                            </button>
+  
+                            <button mat-menu-item title="Cambiar Nombre" *ngIf="showAskChanges" class="iconos"
+                              (click)="verDetalle(element)">
+                              <mat-icon class="iconos">visibility</mat-icon>
+                              <span>Ver detalle</span>
+                            </button>
+  
+                          </mat-menu>
+                        </td>
+                      </ng-container>
+  
+                      <tr mat-header-row *matHeaderRowDef="showAskChanges?displayedColumns:displayedColumns2"></tr>
+                      <tr mat-row *matRowDef="let row; columns: showAskChanges?displayedColumns:displayedColumns2;"></tr>
+                    </table>
+                  </div>
+                  
+                  <h3 *ngIf="showMessage" class="text-center m-3">No se encontraron programas a corregir.</h3>
+                  <div>
+                    <mat-paginator #MatPaginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                    </mat-paginator>
+                  </div>
+
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </mat-card>
+
+      </div>
+    </mat-tab>
+    <!--  <mat-tab label="ACTIVOS">
+      <div *ngIf="showTable">
+        <mat-card class="mt-4">
+          <ng-template matStepLabel>Creación de programa</ng-template>
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-12">
+              <form>
+                <div class="row">
+                  <table mat-table [dataSource]="dataSourceActivos" matSort>
+                    <ng-container matColumnDef="nombrePrograma">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Número de programa
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element">
+                        {{element.codificacionPrograma}}-{{element.correlativo}}-{{element.anio}}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nombreDireccionamientoAuditoria">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Nombre del programa
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombre}}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="usuarioSolicitaCorreccion">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Usuario que solicita corrección
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element"> {{element.usuarioSolicitaCorreccion}}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="estado">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Estado
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombreEstado}}
+                      </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="acciones">
+                      <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                      <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                          <mat-icon>more_horiz</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                          <button mat-menu-item title="Cambiar Nombre" *ngIf="!showAskChanges" class="iconos"
+                            (click)="modificar(element)">
+                            <mat-icon class="iconos">edit</mat-icon>
+                            <span>Modificar programa</span>
+                          </button>
+
+                          <button mat-menu-item title="Cambiar Nombre" *ngIf="!showAskChanges" class="iconos"
+                            (click)="solicitarRevision(element)">
+                            <mat-icon class="iconos">edit_square</mat-icon>
+                            <span>Solicitar revision</span>
+                          </button>
+
+                          <button mat-menu-item title="Cambiar Nombre" *ngIf="showAskChanges" class="iconos"
+                            (click)="verDetalle(element)">
+                            <mat-icon class="iconos">visibility</mat-icon>
+                            <span>Ver detalle</span>
+                          </button>
+
+                        </mat-menu>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="showAskChanges?displayedColumns:displayedColumns2"></tr>
+                    <tr mat-row *matRowDef="let row; columns: showAskChanges?displayedColumns:displayedColumns2;"></tr>
+                  </table>
+                  <h3 *ngIf="showMessage" class="text-center m-3">No se encontraron programas a corregir.</h3>
+                  <div>
+                    <mat-paginator #MatPaginatorActivos="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                    </mat-paginator>
+                  </div>
+
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </mat-card>
+
+      </div>
+    </mat-tab> -->
+    <mat-tab label="BLOQUEADOS">
+      <br>
+      <mat-accordion class="form-search" *ngIf="showTable">
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Parámetros de búsqueda
+            </mat-panel-title>
+            <mat-panel-description>
+              Consulta de Programas Bloqueados
+              <mat-icon>search</mat-icon>
+
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <form [formGroup]="searchFormGroup" class="row">
+            <mat-form-field class="col-12">
+              <mat-label>Fecha del </mat-label>
+              <input matInput [matDatepicker]="del" formControlName="periodoDelBusqueda">
+              <mat-datepicker-toggle matSuffix [for]="del">
+                <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #del></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="col-12">
+              <mat-label>Fecha al </mat-label>
+              <input matInput [matDatepicker]="hasta" formControlName="periodoAlBusqueda">
+              <mat-datepicker-toggle matSuffix [for]="hasta">
+                <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #hasta></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="col-12">
+              <mat-label>Gerencia</mat-label>
+              <mat-select formControlName="idGerenciaBusqueda">
+                <mat-option *ngFor="let item of listFiscalProgramRegional" [value]="item.codigo">{{item.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div style="text-align: center;">
+              <button class="btn-container" color="primary" mat-button (click)="consultar()"
+                [disabled]="searchFormGroup.invalid">
+                <mat-icon>search</mat-icon>
+                Buscar
+              </button>
+            </div>
+          </form>
+
+
+        </mat-expansion-panel>
+
+      </mat-accordion>
+
+      <!--  <mat-card class="mt-4" *ngIf="showTable">
+        <mat-card-title class="main-title">Parámetros de búsqueda</mat-card-title>
+
+        <div class="row d-flex justify-content-center">
+          <div class="col-sm-12">
+            <form [formGroup]="searchFormGroup">
+
+              <div style="text-align: center;">
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Gerencia</mat-label>
+                  <mat-select formControlName="idGerenciaBusqueda">
+                    <mat-option *ngFor="let item of listFiscalProgramRegional" [value]="item.codigo">{{item.nombre}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+              <div style="text-align: center;">
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Fecha del </mat-label>
+                  <input matInput [matDatepicker]="del" formControlName="periodoDelBusqueda" readonly>
+                  <mat-datepicker-toggle matSuffix [for]="del">
+                    <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #del></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div style="text-align: center;">
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Fecha al </mat-label>
+                  <input matInput [matDatepicker]="hasta" formControlName="periodoAlBusqueda" readonly>
+                  <mat-datepicker-toggle matSuffix [for]="hasta">
+                    <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #hasta></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div style="text-align: right;">
+                <button mat-button type="button" color="primary" class="btn-container mt-3" (click)="consultar()"
+                  [disabled]="searchFormGroup.invalid">
+                  <mat-icon>search</mat-icon>
+                  Buscar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </mat-card> -->
+
+      <div *ngIf="showTable">
+        <mat-card class="mt-4">
+          <ng-template matStepLabel>Creación de programa</ng-template>
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-12">
+              <form>
+                <div class="row">
+                  <table mat-table [dataSource]="dataSource" class="table-responsive" matSort>
+                    <ng-container matColumnDef="nombrePrograma">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Número de programa
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element">
+                        {{element.codificacionPrograma}}-{{element.correlativo}}-{{element.anio}}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nombreDireccionamientoAuditoria">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Nombre del programa
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombre}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="usuarioModifica">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Usuario de Bloqueo
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element"> {{element.usuarioModifica}}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fechaModifica">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Fecha de Bloqueo
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element"> {{element.fechaModifica|date:'dd/MM/yyyy'}}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acciones">
+                      <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                      <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                          <mat-icon>more_horiz</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+
+                          <button mat-menu-item title="Cambiar Nombre" *ngIf="showAskChangesBlock" class="iconos"
+                            (click)="verDetalleDesbloquear(element)">
+                            <mat-icon class="iconos">edit</mat-icon>
+                            <span>Desbloquear</span>
+                          </button>
+
+                        </mat-menu>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                  <h3 *ngIf="dataSource.data.length == 0" class="text-center m-3">No se encontraron programas
+                    bloqueados.</h3>
+                  <div>
+                    <mat-paginator #MatPaginator="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                    </mat-paginator>
+                  </div>
+
+                </div>
+
+              </form>
+            </div>
+          </div>
+
+        </mat-card>
+
+      </div>
+    </mat-tab>
+
+    <mat-tab label="CONSULTAR PROGRAMAS">
+      <br>
+      <mat-accordion class="form-search" *ngIf="showTable">
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Parámetros de búsqueda
+            </mat-panel-title>
+            <mat-panel-description>
+              Consulta de Programas
+              <mat-icon>search</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <form [formGroup]="searchAllFormGroup" class="row">
+
+            <mat-form-field class="col-12">
+              <mat-label>Fecha del </mat-label>
+              <input matInput [matDatepicker]="del" formControlName="periodoDelBusqueda" readonly>
+              <mat-datepicker-toggle matSuffix [for]="del">
+                <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #del></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="col-12">
+              <mat-label>Fecha al </mat-label>
+              <input matInput [matDatepicker]="hasta" formControlName="periodoAlBusqueda" readonly>
+              <mat-datepicker-toggle matSuffix [for]="hasta">
+                <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #hasta></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="col-12">
+              <mat-label>Gerencia</mat-label>
+              <mat-select formControlName="idGerenciaBusqueda">
+                <mat-option *ngFor="let item of listFiscalProgramRegional" [value]="item.codigo">{{item.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+
+            <mat-form-field class="col-12">
+              <mat-label>Estado</mat-label>
+              <mat-select formControlName="idStatus">
+                <mat-option *ngFor="let item of listFiscalProgramStatus" [value]="item.codigo">{{item.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div style="text-align: center;">
+              <button class="btn-container" color="primary" mat-button (click)="searchAll()"
+                [disabled]="searchAllFormGroup.invalid">
+                <mat-icon>search</mat-icon>
+                Buscar
+              </button>
+            </div>
+          </form>
+
+
+        </mat-expansion-panel>
+
+      </mat-accordion>
+
+      <!--  <mat-card class="mt-4" *ngIf="showTable">
+        <mat-card-title class="main-title">Parámetros de búsqueda</mat-card-title>
+
+        <div class="row d-flex justify-content-center">
+          <div class="col-sm-12">
+            <form [formGroup]="searchFormGroup">
+
+              <div style="text-align: center;">
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Gerencia</mat-label>
+                  <mat-select formControlName="idGerenciaBusqueda">
+                    <mat-option *ngFor="let item of listFiscalProgramRegional" [value]="item.codigo">{{item.nombre}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+              <div style="text-align: center;">
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Fecha del </mat-label>
+                  <input matInput [matDatepicker]="del" formControlName="periodoDelBusqueda" readonly>
+                  <mat-datepicker-toggle matSuffix [for]="del">
+                    <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #del></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div style="text-align: center;">
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Fecha al </mat-label>
+                  <input matInput [matDatepicker]="hasta" formControlName="periodoAlBusqueda" readonly>
+                  <mat-datepicker-toggle matSuffix [for]="hasta">
+                    <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #hasta></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div style="text-align: right;">
+                <button mat-button type="button" color="primary" class="btn-container mt-3" (click)="consultar()"
+                  [disabled]="searchFormGroup.invalid">
+                  <mat-icon>search</mat-icon>
+                  Buscar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </mat-card> -->
+
+      <div *ngIf="showTable">
+        <mat-card class="mt-4">
+          <ng-template matStepLabel>Creación de programa</ng-template>
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-12">
+              <form>
+                <div class="row">
+                  <table mat-table [dataSource]="dataSource3" class="table-responsive" matSort>
+                    <ng-container matColumnDef="nombrePrograma">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Número de programa
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element">
+                        {{element.codificacionPrograma}}-{{element.correlativo}}-{{element.anio}}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nombreDireccionamientoAuditoria">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Nombre del programa
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombre}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="usuarioModifica">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Usuario
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element"> {{element.usuarioModifica}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fechaModifica">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Fecha de Modificación
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element"> {{element.fechaModifica|date:'dd/MM/yyyy'}}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acciones">
+                      <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                      <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                          <mat-icon>more_horiz</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+
+                          <button mat-menu-item title="Cambiar Nombre" *ngIf="showAskChangesBlock" class="iconos"
+                            (click)="showProgramDetail(element)">
+                            <mat-icon class="iconos">visibility</mat-icon>
+                            <span>Ver detalle</span>
+                          </button>
+
+                        </mat-menu>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                  <h3 *ngIf="dataSource3.data.length == 0" class="text-center m-3">No se encontraron programas.</h3>
+                  <div>
+                    <mat-paginator #MatPaginator3="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                    </mat-paginator>
+                  </div>
+
+                </div>
+
+              </form>
+            </div>
+          </div>
+
+        </mat-card>
+
+      </div>
+    </mat-tab>
+    <mat-tab label="PROGRAMAS AUTORIZADOS">
+      <br>
+      <!-- <mat-accordion class="form-search" *ngIf="showTable">
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Parámetros de búsqueda
+            </mat-panel-title>
+            <mat-panel-description>
+              Consulta de Programas
+              <mat-icon>search</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <form [formGroup]="searchAllFormGroup" class="row">
+
+            <mat-form-field class="col-12">
+              <mat-label>Fecha del </mat-label>
+              <input matInput [matDatepicker]="del" formControlName="periodoDelBusqueda" readonly>
+              <mat-datepicker-toggle matSuffix [for]="del">
+                <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #del></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="col-12">
+              <mat-label>Fecha al </mat-label>
+              <input matInput [matDatepicker]="hasta" formControlName="periodoAlBusqueda" readonly>
+              <mat-datepicker-toggle matSuffix [for]="hasta">
+                <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #hasta></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="col-12">
+              <mat-label>Gerencia</mat-label>
+              <mat-select formControlName="idGerenciaBusqueda">
+                <mat-option *ngFor="let item of listFiscalProgramRegional" [value]="item.codigo">{{item.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+
+            <mat-form-field class="col-12">
+              <mat-label>Estado</mat-label>
+              <mat-select formControlName="idStatus">
+                <mat-option *ngFor="let item of listFiscalProgramStatus" [value]="item.codigo">{{item.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div style="text-align: center;">
+              <button class="btn-container" color="primary" mat-button (click)="searchAll()"
+                [disabled]="searchAllFormGroup.invalid">
+                <mat-icon>search</mat-icon>
+                Buscar
+              </button>
+            </div>
+          </form>
+
+
+        </mat-expansion-panel>
+
+      </mat-accordion> -->
+
+      <div *ngIf="showTable">
+        <mat-card class="mt-4">
+          <ng-template matStepLabel>Creación de programa</ng-template>
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-12">
+              <form>
+                <div class="row">
+                  <table mat-table [dataSource]="dataSource4" class="table-responsive" matSort>
+                    <ng-container matColumnDef="nombrePrograma">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Número de programa
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element">
+                        {{element.codificacionPrograma}}-{{element.correlativo}}-{{element.anio}}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nombreDireccionamientoAuditoria">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Nombre del programa
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombre}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="usuarioModifica">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Usuario
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element"> {{element.usuarioModifica}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fechaModifica">
+                      <th mat-header-cell *matHeaderCellDef class="header-table start"> Fecha de autorización
+                      </th>
+                      <td mat-cell class="centrar" *matCellDef="let element"> {{element.fechaModifica|date:'dd/MM/yyyy'}}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acciones">
+                      <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                      <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                          <mat-icon>more_horiz</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+
+                          <button mat-menu-item title="Cambiar Nombre" *ngIf="showAskChangesBlock" class="iconos"
+                            (click)="showProgramDetail(element)">
+                            <mat-icon class="iconos">visibility</mat-icon>
+                            <span>Ver detalle</span>
+                          </button>
+
+                        </mat-menu>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                  <h3 *ngIf="dataSource4.data.length == 0" class="text-center m-3">No se encontraron programas.</h3>
+                  <div>
+                    <mat-paginator #MatPaginator4="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                    </mat-paginator>
+                  </div>
+
+                </div>
+
+              </form>
+            </div>
+          </div>
+
+        </mat-card>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+  <div *ngIf="showUnlock">
+    <mat-card class="mt-4">
+
+
+      <ng-template matStepLabel>Modificación de programa</ng-template>
+      <div class="row d-flex justify-content-center">
+        <div class="col-sm-12">
+          <form [formGroup]="generalFormGroup">
+
+            <div class="ojo" *ngIf="(showChangesMessage || showUnlock) && showButtons">
+              <div *ngIf="showUnlock">
+                <b>Justificación de bloqueo</b>
+              </div>
+              
+              <div style="text-indent: 50px;" [innerHTML]="changesMessageText">
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Tipo de programa</mat-label>
+                <mat-select formControlName="idTipoPrograma">
+                  <mat-option *ngFor="let item of listFiscalProgramType" [value]="item.codigo">{{item.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Direccionamiento de la auditoría</mat-label>
+                <mat-select formControlName="idDireccionamientoAuditoria">
+                  <mat-option *ngFor="let item of listFiscalProgramRouting" [value]="item.codigo">
+                    {{item.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Tipo de auditoria de campo</mat-label>
+                <mat-select formControlName="idTipoAuditoria">
+                  <mat-option *ngFor="let item of listFiscalProgramCountrysideRouting" [value]="item.codigo">
+                    {{item.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Gerencia</mat-label>
+                <mat-select formControlName="idGerencia">
+                  <mat-option *ngFor="let item of listFiscalProgramRegional" [value]="item.codigo">{{item.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Periodo desde</mat-label>
+                <input #fechaIncidente matInput [matDatepicker]="fechaInicio" formControlName="periodoInicio" readonly>
+                <mat-datepicker-toggle matSuffix [for]="fechaInicio">
+                  <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #fechaInicio></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Periodo hasta</mat-label>
+                <input #fechaIncidente matInput [matDatepicker]="fechaHasta" formControlName="periodoFin" readonly>
+                <mat-datepicker-toggle matSuffix [for]="fechaHasta">
+                  <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #fechaHasta></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Nombre del programa </mat-label>
+                <input matInput formControlName="nombre">
+              </mat-form-field>
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Descripción del programa</mat-label>
+                <input matInput formControlName="descripcion">
+              </mat-form-field>
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Impuesto(s)</mat-label>
+                <mat-select formControlName="impuestos" multiple="true">
+                  <mat-option *ngFor="let item of listFiscalProgramTaxes" [value]="item.codigo">{{item.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Departamento que programa</mat-label>
+                <mat-select formControlName="idDepartamento">
+                  <mat-option *ngFor="let item of listProgramerDepartment" [value]="item.codigo">
+                    {{item.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="standard" class="col-sm-6" hidden>
+                <mat-label>Estado del programa</mat-label>
+                <mat-select formControlName="idEstado">
+                  <mat-option *ngFor="let item of listFiscalProgramStatus" [value]="item.codigo">
+                    {{item.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </div>
+          </form>
+        </div>
+      </div>
+      <mat-divider *ngIf="showButtons"></mat-divider>
+      <div class="d-flex mt-1 pt-3" *ngIf="showButtons">
+        <div class="ms-auto">
+          <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" (click)="cancel()">
+            <mat-icon>clear</mat-icon>
+            Cancelar
+          </button>
+
+          <button mat-button type="button" color="primary" class="btn-container mt-3" (click)="desbloquear()"
+            [disabled]="generalFormGroup.invalid">
+            <mat-icon>save</mat-icon>
+            Activar Programa
+          </button>
+
+        </div>
+      </div>
+
+    </mat-card>
+  </div>
+
+  <div *ngIf="showUpdate || showNew">
+    <mat-card class="mt-4">
+
+      
+      <ng-template matStepLabel>Modificación de programa</ng-template>
+      <div class="row d-flex justify-content-center">
+        <div class="col-sm-12">
+          <form [formGroup]="generalFormGroup">
+
+            <div class="ojo" *ngIf="showChangesMessage">
+              <div>
+                <b>Corrección Solicitada</b>
+              </div>
+              <div style="text-indent: 50px;" [innerHTML]="changesMessageText">
+              </div>
+
+            </div>
+            <div class="ojo" *ngIf="showLock">
+              <b>Justificación de desbloqueo</b>
+              <div style="text-indent: 50px;" [innerHTML]="changesMessageText"></div>
+            </div>
+
+            <div class="row">
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Tipo de programa</mat-label>
+                <mat-select formControlName="idTipoPrograma">
+                  <mat-option *ngFor="let item of listFiscalProgramType" [value]="item.codigo">{{item.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Direccionamiento de la auditoría</mat-label>
+                <mat-select formControlName="idDireccionamientoAuditoria">
+                  <mat-option *ngFor="let item of listFiscalProgramRouting" [value]="item.codigo">
+                    {{item.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Tipo de auditoria de campo</mat-label>
+                <mat-select formControlName="idTipoAuditoria">
+                  <mat-option *ngFor="let item of listFiscalProgramCountrysideRouting" [value]="item.codigo">
+                    {{item.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Gerencia</mat-label>
+                <mat-select formControlName="idGerencia">
+                  <mat-option *ngFor="let item of listFiscalProgramRegional" [value]="item.codigo">{{item.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Periodo desde</mat-label>
+                <input #fechaIncidente matInput [matDatepicker]="fechaInicio" formControlName="periodoInicio" readonly>
+                <mat-datepicker-toggle matSuffix [for]="fechaInicio">
+                  <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #fechaInicio></mat-datepicker>
+              </mat-form-field>
+
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Periodo hasta</mat-label>
+                <input #fechaIncidente matInput [matDatepicker]="fechaHasta" formControlName="periodoFin" readonly>
+                <mat-datepicker-toggle matSuffix [for]="fechaHasta">
+                  <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #fechaHasta></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Nombre del programa </mat-label>
+                <input #nombre matInput formControlName="nombre" maxlength="150">
+                <mat-hint>{{nombre.value.length}} / 150</mat-hint>
+              </mat-form-field>
+
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Descripción del programa</mat-label>
+                <input #descripcion matInput formControlName="descripcion" maxlength="250">
+                <mat-hint>{{descripcion.value.length}} / 250</mat-hint>
+              </mat-form-field>
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Impuesto(s)</mat-label>
+                <mat-select formControlName="impuestos" multiple="true">
+                  <mat-option *ngFor="let item of listFiscalProgramTaxes" [value]="item.codigo">{{item.descripcion}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Departamento que programa</mat-label>
+                <mat-select formControlName="idDepartamento">
+                  <mat-option *ngFor="let item of listProgramerDepartment" [value]="item.codigo">
+                    {{item.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            
+              <mat-form-field appearance="standard" class="col-sm-6" hidden>
+                <mat-label>Estado del programa</mat-label>
+                <mat-select formControlName="idEstado">
+                  <mat-option *ngFor="let item of listFiscalProgramStatus" [value]="item.codigo">
+                    {{item.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-divider></mat-divider>
+
+            <mat-form-field appearance="standard" class="col-sm-6" *ngIf="showLock">
+              <mat-label>Usuario Desbloqueo</mat-label>
+              <input matInput formControlName="usuarioAgrega" maxlength="250">
+            </mat-form-field>
+          
+              <mat-form-field appearance="standard" class="col-sm-6" *ngIf="showLock">
+                <mat-label>Fecha de Desbloqueo</mat-label>
+                <input #fechaIncidente matInput [matDatepicker]="fechaModifica" formControlName="fechaModifica" readonly>
+                <mat-datepicker-toggle matSuffix [for]="fechaModifica">
+                  <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #fechaModifica></mat-datepicker>
+              </mat-form-field>
+
+            </div>
+          </form>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="d-flex mt-1 pt-3">
+        <div class="ms-auto">
+
+          <button mat-button type="button" color="primary" *ngIf="showUpdate" class="btn-container mt-3"
+            (click)="actualizar()" [disabled]="generalFormGroup.invalid">
+            <mat-icon>save</mat-icon>
+            {{btnUpdateText}}
+          </button>
+
+          <button mat-button type="button" color="primary" *ngIf="showAskChanges" class="btn-container mt-3"
+            (click)="solicitarCambios()" [disabled]="generalFormGroup.invalid">
+            <mat-icon>edit</mat-icon>
+            Solicitar Cambios
+          </button>
+
+          <button mat-button type="button" color="primary" *ngIf="showAskChanges" class="btn-container mt-3"
+            (click)="bloquear()" [disabled]="generalFormGroup.invalid">
+            <mat-icon>block</mat-icon>
+            Bloquear Programa
+          </button>
+
+          <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" (click)="cancel()">
+            <mat-icon>clear</mat-icon>
+            Cancelar
+          </button>
+
+          <button mat-button type="button" color="primary" *ngIf="showNew" class="btn-container mt-3"
+            (click)="guardar()" [disabled]="generalFormGroup.invalid">
+            <mat-icon>save</mat-icon>
+            Guardar
+          </button>
+
+        </div>
+      </div>
+
+    </mat-card>
+  </div>
+</div>

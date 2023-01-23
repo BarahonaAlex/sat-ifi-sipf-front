@@ -1,0 +1,164 @@
+<div class="row">
+  <div class="col">
+    <mat-card-title class="justify-content-center align-self-center mt-2">
+      Edición de Denuncia <b>{{data}}</b>
+    </mat-card-title>
+    <p>Aqui podra editar los <b>detalles de la denuncia</b> seleccionada.</p><br>
+    <!--       <div class="result-count">
+       <span class="title">Región: </span>
+       <span class="count">{{region}}</span>&nbsp;
+       <span class="title">Tipo Proceso: </span>
+       <span class="count">{{region}}</span>
+     </div> -->
+  </div>
+  <div class="col">
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col">
+    <form [formGroup]="generalFormGroup">
+      <mat-form-field appearance="standard" class="col-sm-12">
+        <mat-label>Motivo de denuncia</mat-label>
+        <input matInput autocomplete="off" formControlName="motivoDenuncia" readonly="true">
+      </mat-form-field>
+    </form>
+    <form [formGroup]="generalFormGroup2">
+      <div class="col-sm-12">
+        <mat-form-field appearance="standard" class="col-sm-12">
+          <mat-label>Estado Denuncia</mat-label>
+          <mat-select (valueChange)="getStateComplaintAction($event)" formControlName="estadoDenuncia">
+            <mat-option *ngFor="let estadoDenuncia of estados" [value]="estadoDenuncia.codigo">{{estadoDenuncia.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field><br>
+      </div>
+    </form>
+    <form [formGroup]="generalFormGroup">
+      <mat-form-field appearance="standard" class="col-sm-12">
+        <mat-label>Forma de pago</mat-label>
+        <input matInput autocomplete="off" formControlName="formaPago" readonly="true">
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="col">
+    <form [formGroup]="generalFormGroup">
+      <mat-form-field appearance="standard" class="col-sm-12">
+        <mat-label>Fecha de pago</mat-label>
+        <input matInput autocomplete="off" formControlName="fechaPago" readonly="true">
+      </mat-form-field>
+    </form>
+    <form [formGroup]="generalFormGroup">
+      <mat-form-field appearance="standard" class="col-sm-12">
+        <mat-label>Valor</mat-label>
+        <input matInput autocomplete="off" formControlName="valorDenuncia" readonly="true">
+      </mat-form-field>
+    </form>
+    <div *ngIf="!mostrar">
+      <form [formGroup]="generalFormGroup">
+        <mat-form-field appearance="standard" class="col-sm-12">
+          <mat-label>Departamento</mat-label>
+          <input matInput autocomplete="off" formControlName="departamento" readonly="true">
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+</div>
+<div *ngIf="!mostrar">
+  <div class="row">
+    <div class="col-sm-6">
+      <form [formGroup]="generalFormGroup">
+        <mat-form-field appearance="standard" class="col-sm-12">
+          <mat-label>Región</mat-label>
+          <input matInput autocomplete="off" formControlName="region" readonly="true">
+        </mat-form-field>
+      </form>
+    </div>
+
+    <div class="col-sm-6">
+      <form [formGroup]="generalFormGroup">
+        <mat-form-field appearance="standard" class="col-sm-12">
+          <mat-label>Dirección Fiscal</mat-label>
+          <input matInput autocomplete="off" formControlName="direccionFiscal" readonly="true">
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6">
+    <form [formGroup]="generalFormGroup">
+      <mat-form-field appearance="standard" class="col-sm-12">
+        <mat-label>Observación De Denuncia</mat-label>
+        <input matInput autocomplete="off" formControlName="observacion" readonly="true">
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div class="col-sm-6">
+    <form [formGroup]="generalFormGroup">
+      <mat-form-field appearance="standard" class="col-sm-12">
+        <mat-label>Tipo Denuncia</mat-label>
+        <mat-select (valueChange)="getSelectProcess($event)" formControlName="tipo">
+          <mat-option *ngFor="let tipoProcesos of tipos" [value]="tipoProcesos.codigo">{{tipoProcesos.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field><br>
+    </form>
+  </div>
+</div><br>
+<!--  <span>Información sobre el <b>Denunciante:</b></span>
+       <table mat-table [dataSource]="detailComplaints" class="table-responsive">
+        <ng-container matColumnDef="nitDenunciante">
+          <th mat-header-cell *matHeaderCellDef class="center"> Nit Denunciante </th>
+          <td mat-cell *matCellDef="let element" class="center"> {{element.nitDenunciante}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombreDenunciante">
+          <th mat-header-cell *matHeaderCellDef class="center"> Nombre Denunciante </th>
+          <td mat-cell *matCellDef="let element" class="center"> {{element.nombreDenunciante}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef class="center"> Email </th>
+          <td mat-cell *matCellDef="let element" class="center"> {{element.email}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="telDenunciante">
+          <th mat-header-cell *matHeaderCellDef class="center"> Telefono </th>
+          <td mat-cell *matCellDef="let element" class="center"> {{element.telDenunciante}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="getDetailComplaints"></tr>
+        <tr mat-row *matRowDef="let row; columns: getDetailComplaints;"></tr>
+      </table><br>
+      <span>Información sobre el <b>Denunciado:</b></span>
+      <table mat-table [dataSource]="detailComplaintsTwo" class="table-responsive">
+        <ng-container matColumnDef="nitDenunciado">
+          <th mat-header-cell *matHeaderCellDef class="center"> Nit Denunciado</th>
+          <td mat-cell *matCellDef="let element" class="center"> {{element.nitDenunciado}} </td>
+        </ng-container>
+        <ng-container matColumnDef="nombreDenunciado">
+          <th mat-header-cell *matHeaderCellDef class="center"> Nombre Denunciado </th>
+          <td mat-cell *matCellDef="let element" class="center"> {{element.nombreDenunciado}} </td>
+        </ng-container>
+        <ng-container matColumnDef="establecimiento">
+          <th mat-header-cell *matHeaderCellDef class="center"> Establecimiento </th>
+          <td mat-cell *matCellDef="let element" class="center"> {{element.establecimiento}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="getDetailComplaintsTwo"></tr>
+        <tr mat-row *matRowDef="let row; columns: getDetailComplaintsTwo;"></tr>
+      </table> -->
+<div class="d-flex mt-1 pt-3">
+  <div class="ms-auto">
+    <button mat-button type="button" color="warn" class="btn-container mt-3" (click)="cancel()">
+      <mat-icon>cancel</mat-icon>
+      Cancelar
+    </button>
+    <button mat-button type="button" color="primary" class="btn-container mt-3" (click)="saveEdit()"
+      [disabled]="generalFormGroup2.invalid">
+      <mat-icon>save</mat-icon>
+      Guardar
+    </button>
+  </div>
+</div>

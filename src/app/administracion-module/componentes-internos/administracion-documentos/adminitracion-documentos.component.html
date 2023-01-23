@@ -1,0 +1,87 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="mt-2 main-title">Administración de Documentos</mat-card-title>
+
+  <div class="row text-ruta">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li *ngFor="let ruta of routeDocs; let i = index" class="breadcrumb-item botonAccion" aria-current="page"
+          (click)="deleteItemRoute(ruta.nodeId,i)" style="cursor: pointer;">
+          {{ruta.route}}</li>
+      </ol>
+    </nav>
+  </div>
+
+  <mat-card *ngIf="showVisor">
+    <div class="d-flex">
+      <mat-form-field appearance="standard">
+        <mat-label>Filtro</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="">
+      </mat-form-field>
+
+      <div class="mt-3 ms-2">
+        <button class="btn-container" mat-button (click)="createFolder()">
+          &nbsp;&nbsp;&nbsp;<mat-icon class="color-icon">add</mat-icon> Crear Carpeta&nbsp;&nbsp;&nbsp;
+        </button>
+        <button class="btn-container" mat-button (click)="uploadDocFolderACS()">
+          <mat-icon class="color-icon">file_upload</mat-icon> Cargar Documento
+        </button>
+      </div>
+    </div>
+    <div>
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- Columna nombre -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+          <td mat-cell *matCellDef="let documentos"
+            (click)="getListNodeChildren(documentos.name,documentos.id, documentos.isFile)">
+            <button class="btn-container" style="cursor: pointer;" mat-flat-button [disableRipple]="true">
+              <mat-icon class="color-icon">{{documentos.ruta}}</mat-icon> {{documentos.name}}
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Columna fecha Creacion -->
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Creación</th>
+          <td mat-cell *matCellDef="let documentos"> {{documentos.createdAt}} </td>
+        </ng-container>
+
+        <!-- Columna fecha Modificacion -->
+        <ng-container matColumnDef="modifiedAt">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Modificación
+          </th>
+          <td mat-cell *matCellDef="let documentos"> {{documentos.modifiedAt}} </td>
+        </ng-container>
+
+
+        <!-- Columna Acciones -->
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let documento">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item title="Cambiar Nombre" class="iconos" (click)="editNameNode(documento)">
+                <mat-icon class="iconos">edit</mat-icon>
+                <span>Cambiar Nombre</span>
+              </button>
+              <button mat-menu-item title="Eliminar" class="iconos" (click)="validDeleteNode(documento)">
+                <mat-icon class="iconos">delete</mat-icon>
+                <span>Eliminar</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row class="sobra-tabla" *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5,10,15]" showFirstLastButtons></mat-paginator>
+    </div>
+  </mat-card>
+
+  <mat-card *ngIf="!showVisor">
+    <app-visor [nodeId]="nodeId" [arregloPropiedades]="arrayProperties"></app-visor>
+  </mat-card>
+</div>

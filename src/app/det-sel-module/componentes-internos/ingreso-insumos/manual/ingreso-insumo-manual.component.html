@@ -1,0 +1,82 @@
+<mat-card class="mt-3">
+  <div class="row d-flex justify-content-center">
+    <div class="col-sm-12">
+      <div class="result-count">
+        <span class="count me-2">&nbsp;1&nbsp;</span>
+        <span class="title">Información de Insumo</span>
+      </div>
+      <mat-divider class="mt-3 mb-3"></mat-divider>
+      <br>
+      <form [formGroup]="masiveLoadForm" class="mt-3">
+        <div class="row">
+          <mat-form-field class="col-sm-12">
+            <mat-label>
+              Insumo
+            </mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
+          <mat-form-field appearance="standard" [ngClass]="tipo.value == 971? 'col-sm-6': 'col-sm-4' ">
+            <mat-label>Gerencia</mat-label>
+            <mat-select #entidad formControlName="management">
+              <mat-option *ngFor="let item of catalogs.managements" [value]="item.codigo">
+                {{item.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="standard" [ngClass]="tipo.value == 971? 'col-sm-6': 'col-sm-4' ">
+            <mat-label>Tipo</mat-label>
+            <mat-select #tipo formControlName="type" (valueChange)="cleanDepartment(tipo.value)">
+              <mat-option *ngFor="let item of catalogs.types" [value]="item.codigo">
+                {{item.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field [hidden]="tipo.value == 971" appearance="standard" class="col-sm-4">
+            <mat-label>Departamento</mat-label>
+            <mat-select #entidad formControlName="departament" >
+              <mat-option *ngFor="let item of catalogs.departaments" [value]="item.codigo">
+                {{item.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-sm-12">
+            <mat-label>
+              Descripción
+            </mat-label>
+            <textarea matInput formControlName="description"></textarea>
+          </mat-form-field>
+        </div>
+        <mat-divider></mat-divider>
+        <br>
+        <div class="result-count">
+          <span class="count me-2">&nbsp;2&nbsp;</span>
+          <span class="title">Información de Casos</span>
+        </div>
+        <br>
+        <mat-divider></mat-divider>
+        <button mat-raised-button type="button" class="btn-container mt-3" color="primary" (click)="addTaxPayer()">
+          <mat-icon>add</mat-icon>
+          Agregar Caso
+        </button>
+        <div class="row pb-1">
+          <app-tabla-dinamica #table *ngIf="data" [dataTable]="data" [noDataMsg]="'No se han ingresado casos.'">
+          </app-tabla-dinamica>
+        </div>
+      </form>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="d-flex">
+    <div class="ms-auto">
+      <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" (click)="cancel()">
+        <mat-icon>clear</mat-icon>
+        Cancelar
+      </button>
+      <button mat-button type="button" color="primary" class="btn-container mt-3"
+        [disabled]="masiveLoadForm.invalid || data.data.length == 0" (click)="save()">
+        <mat-icon>save</mat-icon>
+        Guardar
+      </button>
+    </div>
+  </div>
+</mat-card>

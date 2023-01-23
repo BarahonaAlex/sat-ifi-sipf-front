@@ -1,0 +1,6 @@
+<div class="result-count" *ngIf="label">
+  <span class="title">{{label}}</span>
+</div>
+<editor #editor [init]="options" [outputFormat]="outputFormat" (onKeyUp)="validateText()" (onChange)="validateText()"
+  [initialValue]="initialValue" class="mt-2">
+</editor>

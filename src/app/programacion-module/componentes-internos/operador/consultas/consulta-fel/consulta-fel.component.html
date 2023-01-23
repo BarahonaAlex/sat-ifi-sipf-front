@@ -1,0 +1,103 @@
+<div class="contanier">
+  <br>
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Consulta por contribuyente
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form [formGroup]="queryParameters" class="row">
+
+        <mat-form-field class="col-lg-6 col-ms-12">
+          <mat-label>Tipo de Consulta</mat-label>
+          <mat-select formControlName="operationType">
+            <mat-option *ngFor="let option of catOperationsType" [value]="option.key">{{option.value}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="col-lg-6 col-ms-12">
+          <mat-label>Mes a Consultar</mat-label>
+          <input matInput [matDatepicker]="dp" formControlName="rangeDate" [max]="dateActual">
+          <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+          <mat-datepicker #dp startView="multi-year" (monthSelected)="setMonthAndYear($event, dp)"
+            panelClass="example-month-picker">
+          </mat-datepicker>
+        </mat-form-field>
+      </form>
+      <mat-action-row>
+        <button mat-button type="button" class="btn-container" color="warn" (click)="cleanQueryParameters()">
+          <mat-icon>close</mat-icon>
+          Limpiar
+        </button>
+        <button mat-button type="button" class="btn-container" color="primary" (click)="getDET()">
+          <mat-icon>search</mat-icon>
+          Consultar
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div class="table-container">
+    <table mat-table [dataSource]="data">
+      <ng-container matColumnDef="numeroAutorizacion">
+        <th mat-header-cell class="thc" *matHeaderCellDef>Número de Autorización</th>
+        <td mat-cell *matCellDef="let row">{{row.numeroAutorizacion}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="serie">
+        <th mat-header-cell class="thc" *matHeaderCellDef>Serie</th>
+        <td mat-cell *matCellDef="let row">{{row.serie}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="fechaEmision">
+        <th mat-header-cell class="thc" *matHeaderCellDef>Fecha de Emisión</th>
+        <td mat-cell *matCellDef="let row">{{row.fechaEmision | date}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="fechaCertificacion">
+        <th mat-header-cell class="thc" *matHeaderCellDef>Fecha de Certificación</th>
+        <td mat-cell *matCellDef="let row">{{row.fechaCertificacion | date}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="nitReceptor">
+        <th mat-header-cell class="thc" *matHeaderCellDef>NIT Receptor</th>
+        <td mat-cell *matCellDef="let row">{{row.nitReceptor}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="nomReceptor">
+        <th mat-header-cell class="thc" *matHeaderCellDef>Nombre del Receptor</th>
+        <td mat-cell *matCellDef="let row">{{row.nomReceptor}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="total">
+        <th mat-header-cell class="thc" *matHeaderCellDef>Total</th>
+        <td mat-cell *matCellDef="let row">{{row.total}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  <div class="centrar">
+    <!-- <label>Registros por página <b>50</b>&nbsp;&nbsp;</label> -->
+    <button title="Primera Pagina" mat-button type="button" color="primary" class="btn-container me-2 mt-3"
+      (click)="firstFel()"  [disabled]="disable">
+      <mat-icon>first_page</mat-icon>
+    </button>
+    <button title="Pagina Anterior" mat-button type="button" color="primary" class="btn-container me-2 mt-3"
+      (click)="previousRetentions()"  [disabled]="disable">
+      <mat-icon>navigate_before</mat-icon>
+    </button>
+    <label>&nbsp;Página <b>{{numeroPagina}}</b><!--  de <b>{{ totalPaginas}}</b> -->&nbsp;&nbsp;</label>
+    <button title="Pagina Siguiente" mat-button type="button" color="primary" class="btn-container me-2 mt-3"
+      (click)="nextRetention()" [disabled]="disable1">
+      <mat-icon>navigate_next</mat-icon>
+    </button>
+    <button title="Ultima Pagina" mat-button type="button" color="primary" class="btn-container me-2 mt-3"
+      (click)="lastRetention()"  [disabled]="disable">
+      <mat-icon>last_page</mat-icon>
+    </button>
+    <!-- <label>&nbsp;&nbsp;Total de Facturas: <b>{{totalFacturas}}</b></label> -->
+  </div>
+</div>

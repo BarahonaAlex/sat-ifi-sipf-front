@@ -1,0 +1,134 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">
+    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="selectOption(1)"
+    *ngIf="vShow!=1">
+    <mat-icon>arrow_back</mat-icon>
+    Bandeja de Insumos
+  </button>
+  </mat-card-title>
+ 
+  <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="showCatalogs()"
+    *ngIf="vShow==3">
+    <mat-icon>list</mat-icon>
+    Catalogos
+  </button>
+  <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="downloadTemplate()"
+    *ngIf="vShow==3">
+    <mat-icon>save_alt</mat-icon>
+    Plantilla de Carga Masiva
+  </button>
+  <div *ngIf="vShow==1">
+    <div class="my-4">
+      <button mat-button color="primary" (click)="selectOption(2)" class="btn-container">
+        <mat-icon>add</mat-icon>Agregar
+      </button>
+      <button mat-button color="primary" (click)="selectOption(3)" class="btn-container">
+        <mat-icon>upload</mat-icon>Carga Masiva
+      </button>
+    </div>
+    <div>
+      <mat-card class="parent">
+        <div class="result-count">
+          <span class="title">Resultados de búsqueda </span>
+          <span class="count">{{dataSource.data.length}}</span>
+        </div>
+        <div class="table-responsive">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="insumo">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Identificador <br> Insumo
+              </th>
+              <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.idInsumo}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nombreInsumo">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Nombre Insumo
+              </th>
+              <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.nombreInsumo}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="gerencia">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Gerencia
+              </th>
+              <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}">
+                {{item.nombreGerencia}} </td>
+            </ng-container>
+            <ng-container matColumnDef="depto">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Departamento
+              </th>
+              <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}">
+                {{item.nombreDepartamento}} </td>
+            </ng-container>
+            <ng-container matColumnDef="descripcion">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Descripción
+              </th>
+              <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.descripcion}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="estado">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Estado
+              </th>
+              <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.nombreEstado}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="casos">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Cantidad de Casos
+              </th>
+              <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.cantidadCasos}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="fecha_publicacion">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Fecha Publicación
+              </th>
+              <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.fechaPublicacion}}
+              </td>
+            </ng-container>
+            <!--acciones-->
+            <ng-container matColumnDef="acciones">
+              <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+              <td mat-cell *matCellDef="let item; let id=index">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                  <mat-icon>more_horiz</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <!--    <button mat-menu-item title="Muestra los alcances del caso." (click)="Editar(id)">
+                    <mat-icon class="iconos">edit</mat-icon>
+                    <span>Editar insumo</span>
+                  </button>
+                  <button mat-menu-item title="Muestra los alcances del caso.">
+                    <mat-icon class="iconos">clear</mat-icon>
+                    <span>Eliminar insumo</span>
+                  </button> -->
+                  <button mat-menu-item title="Muestras la insumo a corregir" *ngIf="item.idEstado==vconstante"
+                    (click)="CorregirInsumo(item.idInsumo)">
+                    <mat-icon class="iconos">clear</mat-icon>
+                    <span>Corregir Insumo</span>
+                  </button>
+                  <button mat-menu-item title="Muestra los casos del insumo." (click)="infoDetail(item.idInsumo)">
+                    <mat-icon class="iconos">visibility</mat-icon>
+                    <span>Ver Detalle</span>
+
+                  </button>
+                </mat-menu>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columns"></tr>
+            <tr mat-row class="sobra-tabla" *matRowDef="let row; columns: columns;"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5,10,15]" showFirstLastButtons></mat-paginator>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  <app-ingreso-insumo-manual *ngIf="vShow == 2" (onFinished)="onResult($event)"></app-ingreso-insumo-manual>
+  <app-ingreso-insumos *ngIf="vShow == 3" (onFinished)="onResult($event)"></app-ingreso-insumos>
+</div>

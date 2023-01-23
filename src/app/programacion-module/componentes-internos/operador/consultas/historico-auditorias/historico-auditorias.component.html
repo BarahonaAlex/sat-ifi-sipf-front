@@ -1,0 +1,118 @@
+<div class="row">
+  <table mat-table [dataSource]="dataSource" matSort>
+
+
+    <ng-container matColumnDef="numeroExpediente">
+      <th mat-header-cell *matHeaderCellDef class="header-table start" mat-sort-header>Número de expediente
+      </th>
+      <td mat-cell class="centrar" *matCellDef="let element">
+        {{element.numeroExpediente}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ubicacion">
+      <th mat-header-cell *matHeaderCellDef class="header-table start" mat-sort-header>Ubicación
+      </th>
+      <td mat-cell class="centrar" *matCellDef="let element"> {{element.ubicacion}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="estadoExpediente">
+      <th mat-header-cell *matHeaderCellDef class="header-table start" mat-sort-header>Estado
+      </th>
+      <td mat-cell class="centrar" *matCellDef="let element"> {{element.estadoExpediente}}
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="nombramiento">
+      <th mat-header-cell *matHeaderCellDef class="header-table start" mat-sort-header>Nombramiento
+      </th>
+      <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombramiento}}
+      </td>
+    </ng-container>
+
+
+
+    <ng-container matColumnDef="fechaPeriodoDel">
+      <th mat-header-cell *matHeaderCellDef class="header-table start" mat-sort-header>Del
+      </th>
+      <td mat-cell class="centrar" *matCellDef="let element"> {{element.fechaPeriodoDel.replace('
+        00:00:00', '')}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fechaPeriodoAl">
+      <th mat-header-cell *matHeaderCellDef class="header-table start" mat-sort-header>Al
+      </th>
+      <td mat-cell class="centrar" *matCellDef="let element"> {{element.fechaPeriodoAl.replace(' 00:00:00', '')}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="estadoNombramiento">
+      <th mat-header-cell *matHeaderCellDef class="header-table start" mat-sort-header>Estado nombramiento
+      </th>
+      <td mat-cell class="centrar" *matCellDef="let element"> {{element.estadoNombramiento}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nombrePlan">
+      <th mat-header-cell *matHeaderCellDef class="header-table start" mat-sort-header>Programa
+      </th>
+      <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombrePlan}}
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="multa">
+      <th mat-header-cell *matHeaderCellDef class="header-table start" mat-sort-header>Multa
+      </th>
+      <td mat-cell class="centrar" *matCellDef="let element"> {{element.multa}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ajuste">
+      <th mat-header-cell *matHeaderCellDef class="header-table start" mat-sort-header>Ajuste
+      </th>
+      <td mat-cell class="centrar" *matCellDef="let element"> {{element.ajuste}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="comentario">
+      <th mat-header-cell *matHeaderCellDef class="header-table start" mat-sort-header>Comentario
+      </th>
+      <td mat-cell class="centrar" *matCellDef="let element"> {{element.comentario}}
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+          <mat-icon>more_horiz</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item title="Cambiar Nombre" class="iconos" (click)="goSaveComment(element)">
+            <mat-icon class="iconos">edit</mat-icon>
+            <span>Agregar comentario</span>
+          </button>
+          <button mat-menu-item title="Eliminar Comentario" class="iconos" (click)="deleteComment(element)"
+            *ngIf="element.comentario">
+            <mat-icon class="iconos">delete</mat-icon>
+            <span>Eliminar comentario</span>
+          </button>
+
+
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+    </mat-paginator>
+  </div>
+</div>

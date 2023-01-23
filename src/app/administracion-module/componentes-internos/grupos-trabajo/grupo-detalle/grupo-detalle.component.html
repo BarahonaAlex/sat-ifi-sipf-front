@@ -1,0 +1,246 @@
+<mat-horizontal-stepper labelPosition="bottom" #stepper>
+  <mat-step completed="false" [stepControl]="groupDetailStep">
+    <ng-template matStepLabel>Detalles del grupo</ng-template>
+    <div class="row d-flex justify-content-center">
+      <div class="col-sm-12">
+        <form [formGroup]="groupDetailStep">
+          <div class="row">
+            <app-unidades-administrativas [child]="true" [initValue]="group?.unidades" #unitAdministrative>
+            </app-unidades-administrativas>
+            <mat-form-field appearance="standard" class="col">
+              <mat-label>Nombre Grupo</mat-label>
+              <input #name matInput formControlName="name" maxlength="200">
+              <mat-hint>{{name.value.length}} / 200</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="standard" class="col-sm-6" *ngIf="group">
+              <mat-label>Estado Grupo</mat-label>
+              <mat-select #entidad formControlName="state">
+                <mat-option *ngFor="let item of states" [value]="item.codigo">
+                  {{item.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="standard" class="col-sm-12">
+              <mat-label>Descripción Grupo</mat-label>
+              <textarea #descripcion matInput formControlName="description" maxlength="400"></textarea>
+              <mat-hint>{{descripcion.value.length}} / 400</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" class="col-sm-3"
+              (change)="getEmployee(intendente.value, 12, 'intendente')">
+              <mat-label>NIT Autorizador Gerencial Intendente</mat-label>
+              <input #intendente matInput formControlName="intendente" [maxlength]="maxNitLenght">
+              <mat-error id="intendente"></mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="standard" class="col-sm-6">
+              <mat-label>Nombre Autorizador Gerencial Intendente</mat-label>
+              <input matInput formControlName="intendenteName">
+            </mat-form-field>
+            <mat-form-field class="col-sm-3" appearance="standard">
+              <mat-label>Perfil Autorizador Gerencial Intendente</mat-label>
+              <mat-select formControlName="intendenteProfile">
+                <mat-option *ngFor="let perfil of profiles.intendente" [value]="perfil.idPerfil">
+                  {{perfil.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" class="col-sm-3"
+              (change)="getEmployee(generalAuth.value, 8, 'generalAuth')">
+              <mat-label>NIT Autorizador Gerencial</mat-label>
+              <input #generalAuth matInput formControlName="generalAuth" [maxlength]="maxNitLenght">
+              <mat-error id="generalAuth"></mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="standard" class="col-sm-6">
+              <mat-label>Nombre Autorizador Gerencial</mat-label>
+              <input matInput formControlName="generalAuthName">
+            </mat-form-field>
+            <mat-form-field class="col-sm-3" appearance="standard">
+              <mat-label>Perfil Autorizador Gerencial</mat-label>
+              <mat-select formControlName="generalAuthProfile">
+                <mat-option *ngFor="let perfil of profiles.generalAuth" [value]="perfil.idPerfil">
+                  {{perfil.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" class="col-sm-3" (change)="getEmployee(auth.value, 1, 'auth')">
+              <mat-label>NIT Autorizador</mat-label>
+              <input #auth matInput formControlName="auth" [maxlength]="maxNitLenght">
+              <mat-error id="auth"></mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="standard" class="col-sm-6">
+              <mat-label>Nombre Autorizador</mat-label>
+              <input matInput formControlName="authName">
+            </mat-form-field>
+            <mat-form-field class="col-sm-3" appearance="standard">
+              <mat-label>Perfil Autorizador</mat-label>
+              <mat-select formControlName="authProfile">
+                <mat-option *ngFor="let perfil of profiles.auth" [value]="perfil.idPerfil">
+                  {{perfil.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" class="col-sm-3"
+              (change)="getEmployee(approver.value, 2, 'approver')">
+              <mat-label>NIT Aprobador</mat-label>
+              <input #approver matInput formControlName="approver" [maxlength]="maxNitLenght">
+              <mat-error id="approver"></mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="standard" class="col-sm-6">
+              <mat-label>Nombre Aprobador</mat-label>
+              <input matInput formControlName="approverName">
+            </mat-form-field>
+            <mat-form-field class="col-sm-3" appearance="standard">
+              <mat-label>Perfil Aprobador</mat-label>
+              <mat-select formControlName="approverProfile">
+                <mat-option *ngFor="let perfil of profiles.approver" [value]="perfil.idPerfil">
+                  {{perfil.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" class="col-sm-3"
+              (change)="getEmployee(verifier.value, 4, 'verifier')">
+              <mat-label>NIT Verificador</mat-label>
+              <input #verifier matInput formControlName="verifier" [maxlength]="maxNitLenght">
+              <mat-error id="verifier"></mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="standard" class="col-sm-6">
+              <mat-label>Nombre Verificador</mat-label>
+              <input matInput formControlName="verifierName">
+            </mat-form-field>
+            <mat-form-field class="col-sm-3" appearance="standard">
+              <mat-label>Perfil Verificador</mat-label>
+              <mat-select formControlName="verifierProfile">
+                <mat-option *ngFor="let perfil of profiles.verifier" [value]="perfil.idPerfil">
+                  {{perfil.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="d-flex mt-1 pt-3">
+      <div class="ms-auto">
+        <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" (click)="onCancel.emit()">
+          <mat-icon>clear</mat-icon>
+          Cancelar
+        </button>
+        <button mat-button type="button" color="primary" class="btn-container mt-3" (click)="validateForm()"
+          [disabled]="groupDetailStep.invalid || unitAdministrative.selectedRow == 0">
+          <mat-icon>arrow_forward</mat-icon>
+          Siguiente
+        </button>
+      </div>
+    </div>
+  </mat-step>
+  <mat-step completed="false" [stepControl]="membersStep">
+    <ng-template matStepLabel>Integantes del grupo</ng-template>
+    <div class="row d-flex justify-content-center">
+      <div class="col-sm-12">
+        <form [formGroup]="membersStep">
+          <div class="row d-flex justify-content-center">
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-8">
+                <div class="row d-flex justify-content-center">
+                  <mat-form-field class="col-sm-5" appearance="standard">
+                    <mat-label>Perfil Operador</mat-label>
+                    <mat-select formControlName="operatorProfile">
+                      <mat-option *ngFor="let perfil of profiles.operator" [value]="perfil.idPerfil">
+                        {{perfil.nombre}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint>El perfil seleccionado será asignado a todos los operadores</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="row">
+                  <mat-form-field appearance="standard" class="col-sm-5"
+                    (change)="getEmployee(operatorNit.value, 3, 'operator')">
+                    <mat-label>NIT Operador</mat-label>
+                    <input #operatorNit matInput formControlName="operator" [maxlength]="maxNitLenght">
+                    <mat-error id="operator"></mat-error>
+                  </mat-form-field>
+                  <mat-form-field appearance="standard" class="col-sm-5">
+                    <mat-label>Nombre Operador</mat-label>
+                    <input matInput formControlName="operatorName">
+                  </mat-form-field>
+
+                  <button mat-button type="button" color="primary" class="btn-container col mt-3"
+                    (click)="addOperator()" [disabled]="!operator">
+                    <mat-icon>add</mat-icon>
+                    Agregar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="nit">
+            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+              NIT del Colaborador
+            </th>
+            <td mat-cell *matCellDef="let item"> {{item.nit}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="puesto">
+            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+              Puesto de Trabajo
+            </th>
+            <td mat-cell *matCellDef="let item"> {{item.puesto}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+              Nombre del Colaborador
+            </th>
+            <td mat-cell *matCellDef="let item"> {{item.nombre}} </td>
+          </ng-container>
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+              Estado
+            </th>
+            <td mat-cell *matCellDef="let item"> {{item.estado}} </td>
+          </ng-container>
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+            <td mat-cell *matCellDef="let item">
+              <button mat-icon-button title="Quitar integrante" color="warn" type="button"
+                (click)="deleteOperator(item)">
+                <mat-icon class="iconos">delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnasColaborador"></tr>
+          <tr mat-row @enterExitLeft class="sobra-tabla" *matRowDef="let row; columns: columnasColaborador;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5,10,15]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="d-flex mt-1 pt-3">
+      <div class="ms-auto">
+        <button mat-button type="button" color="primary" class="btn-container mt-3" matStepperPrevious
+          [disabled]="membersStep.invalid">
+          <mat-icon>arrow_back</mat-icon>
+          Atras
+        </button>
+        <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" (click)="onCancel.emit()">
+          <mat-icon>clear</mat-icon>
+          Cancelar
+        </button>
+        <button mat-button type="button" color="primary" class="btn-container mt-3" matStepperNext
+          [disabled]="membersStep.invalid || dataSource.data.length == 0" (click)="save()">
+          <mat-icon>save</mat-icon>
+          Guardar
+        </button>
+      </div>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

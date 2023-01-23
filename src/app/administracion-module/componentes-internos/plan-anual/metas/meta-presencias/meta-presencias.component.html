@@ -1,0 +1,50 @@
+<form [formGroup]="planForm">
+    <div>
+        <table border="1" bordercolor="E7EFF7">
+            <tr class="titulo">
+                <th scope="row">Gerencia</th>
+                <th scope="row">Cantidad</th>
+            </tr>
+            <tr>
+                <th scope="row" class="tituloColumnaGerencia">Central</th>
+                <td>
+                    <input type="number" class="input" formControlName="goal1" (input)="calculateTotals()">
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="tituloColumnaGerencia">Sur</th>
+                <td>
+                    <input type="number" class="input" formControlName="goal2" (input)="calculateTotals()">
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="tituloColumnaGerencia">Occidente</th>
+                <td>
+                    <input type="number" class="input" formControlName="goal3" (input)="calculateTotals()">
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="tituloColumnaGerencia">NorOriente</th>
+                <td>
+                    <input type="number" class="input" formControlName="goal4" (input)="calculateTotals()">
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="tituloColumnaGerencia">Especiales Medianos</th>
+                <td>
+                    <input type="number" class="input" formControlName="goal5" (input)="calculateTotals()">
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="tituloColumnaGerencia">Especiales Grandes</th>
+                <td>
+                    <input type="number" class="input" formControlName="goal6" (input)="calculateTotals()">
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="total3">Total</th>
+                <td class="total3">{{totalsManagement}}</td>
+            </tr>
+        </table>
+    </div>
+</form>

@@ -1,0 +1,22 @@
+.color-icon {
+  color: #14649B
+}
+
+.highlight {
+  transform: scale(1.010) !important;
+
+  td {
+    color: #14649B;
+    font-weight: bold;
+
+    button {
+      color: #14649B;
+      font-weight: bold;
+    }
+
+    &:last-child::after {
+      font-family: 'Material Icons';
+      content: "\e876";
+    }
+  }
+}

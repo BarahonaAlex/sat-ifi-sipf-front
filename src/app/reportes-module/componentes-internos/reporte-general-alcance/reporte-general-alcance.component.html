@@ -1,0 +1,138 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">Imprimir Alcance</mat-card-title>
+  <br>
+  <button mat-button type="button" class="btn-container mt-3 mb-2" color="primary">
+    <mat-icon>arrow_back</mat-icon>
+    Regresar
+  </button>
+  <mat-checkbox class="example-margin" (click)="showCardMassScope()">
+    Alcance Masivo
+  </mat-checkbox><br><br>
+  <div *ngIf="scopeFilter">
+    <mat-card class="example-form">
+      <mat-card-subtitle>Ingrese la informacion que se le solicita:</mat-card-subtitle>
+      <body-container>
+        <form class="centrar" [formGroup]="scope">
+          <mat-form-field class="col-sm-3" appearance="standard">
+            <mat-label>NIT:</mat-label>
+            <input matInput formControlName="Nit" autocomplete="off">
+          </mat-form-field>
+
+          <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary"
+            [disabled]="scope.invalid" (click)="getScope()">
+            <mat-icon>search</mat-icon>
+            Búsqueda
+          </button>
+        </form>
+      </body-container>
+      <form>
+        <div *ngIf="showTable">
+          <table mat-table [dataSource]="dataSourceScope" matSort>
+            <!-- Position Column 
+            <ng-container matColumnDef="contribuyente">
+              <th mat-header-cell *matHeaderCellDef class="header-table">Nombre Contribuyente</th>
+              <td mat-cell class="centrar" *matCellDef="let element"> {{element.contribuyente}} </td>
+            </ng-container>-->
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="nit">
+              <th mat-header-cell *matHeaderCellDef class="header-table">NIT</th>
+              <td mat-cell class="centrar" *matCellDef="let element"> {{element.nit}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="programa">
+              <th mat-header-cell *matHeaderCellDef class="header-table">Programa</th>
+              <td mat-cell class="centrar" *matCellDef="let element"> {{element.programa}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="periodo">
+              <th mat-header-cell *matHeaderCellDef class="header-table">Periodo</th>
+              <td mat-cell class="centrar" *matCellDef="let element">Del {{element.periodoDel | date:
+                            'dd/MM/yyyy'}} Al
+                {{element.periodoAl | date: 'dd/MM/yyyy'}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="acciones">
+              <th mat-header-cell *matHeaderCellDef class="header-table">Acciones</th>
+              <td mat-cell class="centrar" *matCellDef="let documento">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                  <mat-icon>more_horiz</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item type="button" title="Reasignar" color="primary"
+                    (click)="getScopeReport(documento)">
+                    <mat-icon class="iconos">print</mat-icon>
+                    <span>Imprimir</span>
+                  </button>
+                </mat-menu>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsScope"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsScope;"></tr>
+          </table>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+  <div *ngIf="massScopeFilter">
+    <mat-card class="example-form">
+      <mat-card-subtitle>Ingrese la informacion que se le solicita:</mat-card-subtitle>
+      <body-container>
+        <form class="centrar" [formGroup]="massScope">
+          <mat-form-field class="col-sm-3" appearance="standard">
+            <mat-label>ID del Caso:</mat-label>
+            <input matInput formControlName="ID" autocomplete="off">
+          </mat-form-field>
+
+          <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary"
+            [disabled]="massScope.invalid" (click)="getMassScope()">
+            <mat-icon>search</mat-icon>
+            Búsqueda
+          </button>
+        </form>
+      </body-container>
+      <form>
+        <div *ngIf="showTableMass">
+          <table mat-table [dataSource]="dataSourceMassScope" matSort>
+            <!-- Name Column -->
+            <ng-container matColumnDef="actividad">
+              <th mat-header-cell *matHeaderCellDef class="header-table">Actividad</th>
+              <td mat-cell class="centrar" *matCellDef="let element"> {{element.actividad}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="programa">
+              <th mat-header-cell *matHeaderCellDef class="header-table">Programa</th>
+              <td mat-cell class="centrar" *matCellDef="let element"> {{element.programa}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="plazo">
+              <th mat-header-cell *matHeaderCellDef class="header-table">Plazo</th>
+              <td mat-cell class="centrar" *matCellDef="let element">Del {{element.plazoDel | date:
+                            'dd/MM/yyyy'}} Al
+                {{element.plazoAl | date: 'dd/MM/yyyy'}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="acciones">
+              <th mat-header-cell *matHeaderCellDef class="header-table">Acciones</th>
+              <td mat-cell class="centrar" *matCellDef="let documento">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                  <mat-icon>more_horiz</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item type="button" title="Reasignar" color="primary"
+                    (click)="getMassScopeReport(documento)">
+                    <mat-icon class="iconos">print</mat-icon>
+                    <span>Imprimir</span>
+                  </button>
+                </mat-menu>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsMassScope"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsMassScope;"></tr>
+          </table>
+        </div>
+      </form>
+    </mat-card>
+  </div>

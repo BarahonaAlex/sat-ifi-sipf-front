@@ -1,0 +1,116 @@
+<h1 mat-dialog-title>
+	Detalle de Ubicación
+</h1>
+
+
+<div mat-dialog-content>
+
+	<div class="container">
+
+		<div class="row">
+			<p class="fw-bold">Correo Electrónico:
+				<span class="fw-normal">{{detalleUbicacion.correoElectronico}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Tipo de Dirección:
+				<span class="fw-normal">{{detalleUbicacion.descTipoDireccion}}</span>
+			</p>
+		</div>
+		<div class="row" *ngIf="muestraFechaCambioDom">
+			<p class="fw-bold">Fecha Cambio Domicilio:</p>
+			<span class="fw-normal">{{fechaCambioDomFiscal}}</span>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Departamento:
+				<span class="fw-normal">{{detalleUbicacion.departamentoDesc}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Municipio:
+				<span class="fw-normal">{{detalleUbicacion.municipioDesc}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Zona:
+				<span class="fw-normal">{{detalleUbicacion.zonaDesc}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Grupo Habitacional:
+				<span class="fw-normal">{{detalleUbicacion.grupoHabitacionalDesc}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold"> Descripcion Grupo Habitacional:
+				<span class="fw-normal">{{detalleUbicacion.descripcionGrupoHabitacional}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Vialidad:
+				<span class="fw-normal">{{detalleUbicacion.vialidadDesc}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Número de vialidad:
+				<span class="fw-normal">{{detalleUbicacion.vialidadNumero}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Nombre de vialidad:
+				<span class="fw-normal">{{detalleUbicacion.vialidadNombre}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Número de casa:
+				<span class="fw-normal">{{detalleUbicacion.casaNumero}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Letra de casa:
+				<span class="fw-normal">{{detalleUbicacion.casaLetra}} </span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Número de apartamento o similar:
+				<span class="fw-normal">{{detalleUbicacion.apartamentoNumero}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Letra de apartamento o similar:
+				<span class="fw-normal">{{detalleUbicacion.apartamentoLetra}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Teléfono Celular:
+				<span class="fw-normal">{{detalleUbicacion.celularArea}} - {{detalleUbicacion.celularNumero}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Compañía telefónica:
+				<span class="fw-normal">{{detalleUbicacion.celularCompaniaDesc}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Teléfono Linea Fija:
+				<span class="fw-normal">{{detalleUbicacion.lineaFijaArea}} - {{detalleUbicacion.lineaFijaNumero}}
+				</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Compañía telefónica:
+				<span class="fw-normal">{{detalleUbicacion.lineaFijaCompaniaDesc}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Apartado Postal:
+				<span class="fw-normal">{{detalleUbicacion.apartadoPostal}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Complemento de la dirección:
+				<span class="fw-normal">{{detalleUbicacion.otros}}</span>
+			</p>
+		</div>
+	</div>
+</div>

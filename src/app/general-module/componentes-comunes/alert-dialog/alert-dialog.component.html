@@ -1,0 +1,25 @@
+<div class="dialog-container">
+  <div class="d-flex flex-row" *ngIf="data.icon || data.title || data.text">
+    <div class="icon {{data.icon}}">
+      <mat-spinner *ngIf="data.icon == 'loading'" diameter="38">
+      </mat-spinner>
+    </div>
+    <div class="text">
+      <mat-card-title *ngIf="data.title">{{data.title}}</mat-card-title>
+      <div *ngIf="data.text" [innerHtml]="data.text"></div>
+    </div>
+  </div>
+  <button mat-icon-button mat-dialog-close class="close" *ngIf="data.showCloseButton" [color]="data.closeButtonColor">
+    <mat-icon>close</mat-icon>
+  </button>
+  <mat-dynamic-form *ngIf="data.formStructure" [structure]="data.formStructure"></mat-dynamic-form>
+</div>
+<mat-dialog-actions class="d-flex justify-content-around"
+  *ngIf="data.showConfirmButton || data.showSecondaryButton || data.showCancelButton">
+  <button mat-button mat-dialog-close class="btn-container" *ngIf="data.showConfirmButton"
+    [color]="data.confirmButtonColor" (click)="onActionClick('primary')">{{ data.confirmButtonText }}</button>
+  <button mat-button mat-dialog-close class="btn-container" *ngIf="data.showSecondaryButton"
+    [color]="data.secondaryButtonColor" (click)="onActionClick('secondary')">{{ data.secondaryButtonText }}</button>
+  <button mat-button mat-dialog-close class="btn-container" *ngIf="data.showCancelButton"
+    [color]="data.cancelButtonColor" (click)="onActionClick('cancel')">{{ data.cancelButtonText }}</button>
+</mat-dialog-actions>

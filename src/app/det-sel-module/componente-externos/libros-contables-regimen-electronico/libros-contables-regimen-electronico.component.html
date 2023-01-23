@@ -1,0 +1,78 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+    <mat-card-title class="main-title">Libros Contables Régimen Electrónico, Devolución IVA</mat-card-title>
+    <mat-card>
+        <div class="centrar">
+            <mat-card-title class="mt-2 main-Subtitle">Información y Período</mat-card-title>
+            <ng-container>
+                <form [formGroup]="generalFormGroup">
+                    <div>
+                        <mat-form-field  appearance="legacy"
+                        class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4">
+                            <mat-label>Tipo de Período</mat-label>
+                            <mat-select formControlName="tipoPeriodo" (valueChange)="typePeriodSelected($event)">
+                                <mat-option *ngFor="let type of tipoPeriodo" [value]="type">
+                                    {{type.nombre}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field  appearance="legacy"
+                        class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4">
+                            <mat-label>Mes</mat-label>
+                            <mat-select formControlName="mesPeriodo" (valueChange)="monthSelected($event)">
+                                <mat-option *ngFor="let mes of mesPeriodo" [value]="mes.codigo">
+                                    {{mes.nombre}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="legacy"
+                            class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4">
+                            <mat-label>Año</mat-label>
+                            <mat-select formControlName="anioPeriodo" (valueChange)="yearSelected($event)">
+                                <mat-option *ngFor="let year of years" [value]="year">{{year}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field> 
+                    </div>
+                    <!-- <div *ngIf="showPeriod">
+                        <mat-form-field appearance="legacy" class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4" >
+                            <mat-label> Periodo: </mat-label>
+                            <input matInput formControlName="periodo" readonly>
+                        </mat-form-field> 
+                    </div> -->
+                    <div *ngIf="showPeriod">
+                        <mat-form-field appearance="legacy"
+                        class="col-5 col-sm-5 col-md-5 col-lg-5 me-0 me-sm-0 me-md-5 me-lg-7">
+                            <mat-label>Tipo de Archivo</mat-label>
+                            <mat-select formControlName="tipoArchivo" (valueChange)="typeSelected($event)">
+                                <mat-option *ngFor="let archivo of archivos" [value]="archivo">
+                                    {{archivo.nombre}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="contenedorDos" *ngIf="uploadFile">
+                            <upload-file #payment class="upLoaderDos" [filename]="nombreArchivo" 
+                              [label]="nombreArchivo" [accept]="[tipoDoc]" [id]="'archivoRespaldo'" 
+                              [saveOnLoad]="false" [folder]="folder" [formControlName]="'archivoRespaldo'"
+                              (onStateChange)="stateChangePayment($event)" >
+                            </upload-file>
+                        </div>
+                    </div>          
+                </form>
+            </ng-container>
+        </div>
+        <mat-divider></mat-divider>
+      <div class="d-flex">
+        <div class="ms-auto">
+          <!-- <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" (click)="cancel()">
+            <mat-icon>clear</mat-icon>
+            Cancelar
+          </button> -->
+          <button mat-button type="button" color="primary" class="btn-container mt-3" [disabled]="!documentoValido"
+            (click)="save()">
+            <mat-icon>save</mat-icon>
+            Guardar
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>

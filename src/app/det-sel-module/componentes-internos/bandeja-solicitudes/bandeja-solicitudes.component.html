@@ -1,0 +1,74 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+
+  <mat-card-title class="main-title">Bandeja de solicitudes</mat-card-title>
+
+  <br>
+  <div *ngIf="showVisor">
+    <mat-card>
+      <!-- Tabla 2 resumen de automovil -->
+      <div class="table-responsive">
+        <table mat-table [dataSource]="bandejacasos" matSort>
+          <!-- Position Column -->
+          <ng-container matColumnDef="idSolicitud">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Identificador de Solicitud</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.idSolicitud}} </td>
+          </ng-container>
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="nit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>NIT</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.nit}} </td>
+          </ng-container>
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre del Contribuyente</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.nombre}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.estado}} </td>
+          </ng-container>
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="solicitud">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>No. Solicitud</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.solicitud}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+            <td mat-cell class="centrar" *matCellDef="let element">
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item type="button" title="Reasignar" color="primary" (click)="getVisor(element)">
+                  <mat-icon class="iconos">visibility</mat-icon>
+                  <span>Revision de Documento</span>
+                </button>
+              </mat-menu>
+            </td>
+
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+        </table>
+        <mat-paginator #MatPaginator="matPaginator" [pageSizeOptions]="[5,10,15]" showFirstLastButtons></mat-paginator>
+      </div>
+    </mat-card>
+  </div>
+
+  <div *ngIf="!showVisor">
+    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="regresar()">
+      <mat-icon>arrow_back</mat-icon>
+      Regresar
+    </button>
+    <mat-card>
+      <app-visor [nodeId]="node.id"></app-visor>
+    </mat-card>
+  </div>
+</div>

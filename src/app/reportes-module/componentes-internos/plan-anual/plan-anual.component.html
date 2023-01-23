@@ -1,0 +1,58 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="mt-2 main-title">Plan Anual de Fiscalización</mat-card-title>
+  <mat-card class="mt-3">
+    <div class="row d-flex justify-content-center">
+      <div class="col-sm-7">
+        <form [formGroup]="filterForm" class="row">
+          <mat-form-field appearance="standard" class="col-sm-6">
+            <mat-label>Año</mat-label>
+            <input formControlName="year" matInput [matDatepicker]="picker" [disabled]="true" />
+            <mat-datepicker-toggle matSuffix [for]="picker">
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker startView="multi-year" (yearSelected)="yearPicked($event, picker)"
+              [disabled]="false">
+            </mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="col-sm-6" appearance="standard">
+            <mat-label>Seleccione el Mes</mat-label>
+            <mat-select #profesional formControlName="month">
+              <mat-option *ngFor="let month of catalogs.months" [value]="month.codigo">{{month.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </div>
+      <div class="col-sm-2">
+        <button mat-button type="button" color="primary" class="btn-container me-2 mt-3"
+          (click)="findGolsByYearAndMonth()" [disabled]="filterForm.invalid">
+          <mat-icon>search</mat-icon>
+          Buscar
+        </button>
+      </div>
+    </div>
+    <div *ngIf="data.showData">
+      <mat-divider></mat-divider>
+      <div title="Publicacion" >
+        <p class="subtitle">Metas Generales de Publicación</p>
+        <app-meta-publicaciones #month [readOnly]="true"></app-meta-publicaciones>
+      </div>
+      <div title="Presencias" >
+        <p class="subtitle">Metas Generales de Presencias</p>
+        <app-meta-presencias #presence [readOnly]="true"></app-meta-presencias>
+      </div>
+    </div>
+
+
+    
+
+    <div *ngIf="showMessage">
+      <mat-divider></mat-divider>
+      <div title="Publicacion">
+        <p class="subtitle">No existe plan anual de fiscalización creado </p>
+
+      </div>
+
+    </div>
+
+  </mat-card>
+</div>

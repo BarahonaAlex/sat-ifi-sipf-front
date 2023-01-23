@@ -1,0 +1,181 @@
+<div><br>
+  <mat-card>
+    <div class="centrar">
+      <form [formGroup]="generalFormGroup">
+        <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4" appearance="standard">
+          <mat-label>Retenciones que declara</mat-label>
+          <mat-select #profesional formControlName="retencion">
+            <mat-option *ngFor="let retencion of retenciones" [value]="retencion.codigo">{{retencion.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4" appearance="standard">
+          <mat-label>Período Del</mat-label>
+          <input matInput formControlName="periodoDel" [matDatepicker]="picker" [max]="dateActual">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4" appearance="standard">
+          <mat-label>Período AL</mat-label>
+          <input matInput formControlName="periodoAl" [matDatepicker]="picker2" [max]="dateActual2">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4" appearance="standard">
+          <mat-label>Estado</mat-label>
+          <mat-select #profesional formControlName="estado">
+            <mat-option *ngFor="let estado of estados" [value]="estado.codigo">{{estado.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4" appearance="standard">
+          <mat-label>Régimen del IVA</mat-label>
+          <mat-select #profesional formControlName="regimen">
+            <mat-option *ngFor="let regimen of regimenes" [value]="regimen" click>{{regimen.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4" appearance="standard">
+          <mat-label>Tipo Descarga Excel</mat-label>
+          <mat-select #profesional formControlName="tipoExcel">
+            <mat-option *ngFor="let tipo of tipoExcel" [value]="tipo.nombre">{{tipo.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4" appearance="standard">
+          <mat-label>NIT Retenido</mat-label>
+          <input matInput placeholder="Nit" formControlName="nitRetenido">
+        </mat-form-field>
+        <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4" appearance="standard">
+          <mat-label>Numero de Constancia</mat-label>
+          <input matInput placeholder="No. Constancia" formControlName="constancia">
+        </mat-form-field>
+      </form>
+      <div>
+        <button mat-button type="button" color="primary" class="btn-container me-2 mt-3" (click)="getRetention()"
+          [disabled]="generalFormGroup.invalid">
+          <mat-icon>search</mat-icon>
+          Buscar
+        </button>
+      </div><br><br>
+    </div>
+
+    <div *ngIf="mostrar">
+      <mat-divider></mat-divider>
+      <div class="centrar">
+        <button mat-button type="button" color="primary" class="btn-container me-2 mt-3"
+          (click)="generateExcelMasive()">
+          <mat-icon>file_download</mat-icon>
+          Generar Reporte
+        </button>
+        <button mat-button type="button" color="primary" class="btn-container me-2 mt-3"
+          (click)="generateExcelMasiveTotal()">
+          <mat-icon>download_for_offline</mat-icon>
+          Generar Reporte Masivo
+        </button>
+      </div>
+
+      <ng-container>
+        <div class="table-container">
+          <div class="table-responsive">
+            <table mat-table [dataSource]="retenIVA">
+              <ng-container matColumnDef="seleccion">
+                <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                <td mat-cell *matCellDef="let reten">
+                  <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(reten): null"
+                    [checked]="selection.isSelected(reten)"></mat-checkbox>
+                </td>
+              </ng-container>
+              <!-- Name Column -->
+              <ng-container matColumnDef="nit">
+                <th mat-header-cell *matHeaderCellDef>NIT</th>
+                <td mat-cell *matCellDef="let element"> {{element.nitEmisorFactura}} </td>
+              </ng-container>
+              <!-- Weight Column -->
+              <ng-container matColumnDef="nombreRetenido">
+                <th mat-header-cell *matHeaderCellDef>Nombre Retenido</th>
+                <td mat-cell *matCellDef="let element"> {{element.nombreEmisorFactura}} </td>
+              </ng-container>
+              <!-- Weight Column -->
+              <ng-container matColumnDef="cantidadFactura">
+                <th mat-header-cell *matHeaderCellDef>Cantidad de Facturas</th>
+                <td mat-cell *matCellDef="let element"> {{element.cantidadFacturas}} </td>
+              </ng-container>
+              <!-- Weight Column -->
+              <ng-container matColumnDef="concepto">
+                <th mat-header-cell *matHeaderCellDef>Concepto</th>
+                <td mat-cell *matCellDef="let element"> {{element.concepto}} </td>
+              </ng-container>
+              <!-- Weight Column -->
+              <ng-container matColumnDef="constancia">
+                <th mat-header-cell *matHeaderCellDef>Constancia</th>
+                <td mat-cell *matCellDef="let element"> {{element.numeroConstancia}} </td>
+              </ng-container>
+              <!-- Weight Column -->
+              <ng-container matColumnDef="fechaConstancia">
+                <th mat-header-cell *matHeaderCellDef>Fecha Emisión Constancia</th>
+                <td mat-cell *matCellDef="let element"> {{element.fechaEmision}} </td>
+              </ng-container>
+              <!-- Weight Column -->
+              <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef>Estado</th>
+                <td mat-cell *matCellDef="let element"> {{element.estadoRetencion}} </td>
+              </ng-container>
+              <!-- Weight Column -->
+              <ng-container matColumnDef="totalFactura">
+                <th mat-header-cell *matHeaderCellDef>Total Factura</th>
+                <td mat-cell *matCellDef="let element"> <b>{{element.totalFacturas}} </b> </td>
+              </ng-container>
+              <!-- Weight Column -->
+              <ng-container matColumnDef="importeNeto">
+                <th mat-header-cell *matHeaderCellDef>Importe Neto</th>
+                <td mat-cell *matCellDef="let element"> <b>{{element.totalImporteNeto}} </b> </td>
+              </ng-container>
+              <!-- Weight Column -->
+              <ng-container matColumnDef="afectoRetencion">
+                <th mat-header-cell *matHeaderCellDef>Afecto Retencíon</th>
+                <td mat-cell *matCellDef="let element"> <b>{{element.totalValorAfecto}}</b> </td>
+              </ng-container>
+              <!-- Weight Column -->
+              <ng-container matColumnDef="retencion">
+                <th mat-header-cell *matHeaderCellDef>Retencíon</th>
+                <td mat-cell *matCellDef="let element"> <b>{{element.totalRetencion}}</b> </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="centrar">
+        <label>Registros por página <b>100</b>&nbsp;&nbsp;</label>
+        <button title="Primera Pagina" mat-button type="button" color="primary" class="btn-container me-2 mt-3"
+          (click)="firstRetentions()" [disabled]="btnFirst">
+          <mat-icon>first_page</mat-icon>
+        </button>
+        <button title="Pagina Anterior" mat-button type="button" color="primary" class="btn-container me-2 mt-3"
+          (click)="previousRetentions()" [disabled]="btnBack">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+        <label>&nbsp;Página <b>{{numeroPagina}}</b> de <b>{{totalPaginas}}</b>&nbsp;&nbsp;</label>
+        <button title="Pagina Siguiente" mat-button type="button" color="primary" class="btn-container me-2 mt-3"
+          (click)="nextRetention()" [disabled]="btnNext">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+        <button title="Ultima Pagina" mat-button type="button" color="primary" class="btn-container me-2 mt-3"
+          (click)="lastRetention()" [disabled]="btnLast">
+          <mat-icon>last_page</mat-icon>
+        </button>
+        <button title="Ultimas 100 Constancias" mat-button type="button" color="primary" class="btn-container me-2 mt-3"
+          (click)="getAllRecords()" [disabled]="btnAll">
+          <mat-icon>skip_next</mat-icon>
+        </button>
+        <label>&nbsp;&nbsp;Total de Constancias: <b>{{totalConstancias}}</b></label>
+      </div>
+
+    </div>
+  </mat-card>
+</div>

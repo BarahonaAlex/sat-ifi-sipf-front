@@ -1,0 +1,137 @@
+<div *ngIf="!mostrarDatosContribuyente"><br>
+    <mat-card>
+        <div class="centrar">
+            <mat-card-title class="mt-2 main-Subtitle">IDENTIFICACIÓN DEL CONTRIBUYENTE</mat-card-title>
+            <ng-container>
+                <form [formGroup]="datosContribuyente">
+                    <div class="centrar">
+                        <mat-form-field appearance="standard"
+                            class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4">
+                            <mat-label> NIT: </mat-label>
+                            <input matInput formControlName="nit" readonly>
+                        </mat-form-field>
+                        <mat-form-field appearance="standard">
+                            <mat-label> Nombre o Razón Social: </mat-label>
+                            <input matInput formControlName="nombre" readonly>
+                        </mat-form-field>
+                    </div>
+                </form>
+            </ng-container>
+        </div>
+    </mat-card>
+</div>
+<div><br>
+    <mat-card>
+        <div class="centrar">
+            <mat-card-title class="mt-2 main-Subtitle">Período a Consultar</mat-card-title>
+            <ng-container>
+                <form [formGroup]="generalFormGrup">
+                    <mat-form-field appearance="legacy"
+                        class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4">
+                        <mat-label>Mes</mat-label>
+                        <mat-select formControlName="mesConsulta">
+                            <mat-option *ngFor="let mes of mesConsulta" [value]="mes.value">
+                                {{mes.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="legacy"
+                        class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4">
+                        <mat-label>Año</mat-label>
+                        <mat-select formControlName="anioConsulta">
+                            <mat-option *ngFor="let year of years" [value]="year">{{year}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="legacy"
+                        class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4">
+                        <mat-label>Tipo de Busqueda</mat-label>
+                        <mat-select formControlName="tipoConsulta">
+                            <mat-option *ngFor="let tipo of tipoConsulta" [value]="tipo.value">
+                                {{tipo.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button mat-button class="btn-container" color="primary" (click)="getReporte()"
+                        [disabled]="generalFormGrup.invalid">
+                        <mat-icon>search</mat-icon>{{!botonConsulta ? 'Nueva búsqueda' : 'Buscar'}}
+                    </button>
+                </form>
+            </ng-container>
+        </div>
+    </mat-card>
+</div>
+<div *ngIf="!mostrarReporte"><br>
+    <mat-card>
+        <div class="centrar">
+            <form [formGroup]="generalFormGrup">
+                <mat-form-field appearance="standard"
+                    class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4"
+                    *ngIf="!mostrarDatosContribuyente">
+                    <mat-label> NIT: </mat-label>
+                    <input matInput formControlName="nit" readonly="true">
+                </mat-form-field>
+                <mat-form-field appearance="standard"
+                    class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4">
+                    <mat-label> Período: </mat-label>
+                    <input matInput formControlName="periodo" readonly>
+                </mat-form-field>
+                <mat-form-field appearance="standard"
+                    class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4">
+                    <mat-label> Fecha Habilitación FEL: </mat-label>
+                    <input matInput formControlName="fecha" readonly>
+                </mat-form-field>
+                <mat-form-field appearance="standard"
+                    class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4">
+                    <mat-label> Cantidad de Documentos: </mat-label>
+                    <input matInput formControlName="sumaCantDoc" readonly>
+                </mat-form-field>
+                <mat-form-field appearance="standard"
+                    class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4">
+                    <mat-label> IVA Total: </mat-label>
+                    <input matInput formControlName="sumaIVA" readonly>
+                </mat-form-field>
+                <mat-form-field appearance="standard"
+                    class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4">
+                    <mat-label> Valor Total de los Documentos: </mat-label>
+                    <input matInput formControlName="sumaValorDoc" readonly>
+                </mat-form-field>
+                <button mat-button class="btn-container col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4"
+                    color="primary" (click)="getExcelReporte()">
+                    <mat-icon>view</mat-icon>Ver Detalles del Mes
+                </button>
+            </form>
+        </div>
+        <ng-container>
+            <div class="table-responsive">
+                <table mat-table [dataSource]="reporte">
+                    <ng-container matColumnDef="tipoDoc">
+                        <th mat-header-cell *matHeaderCellDef> Tipo Documento </th>
+                        <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="estado">
+                        <th mat-header-cell *matHeaderCellDef> Estado </th>
+                        <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="iva">
+                        <th mat-header-cell *matHeaderCellDef> Total IVA </th>
+                        <td mat-cell *matCellDef="let element"> {{element.totaliva}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="cantidadDoc">
+                        <th mat-header-cell *matHeaderCellDef> Cantidad Documentos </th>
+                        <td mat-cell *matCellDef="let element"> {{element.cantidad_documentos}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="valorTotalDoc">
+                        <th mat-header-cell *matHeaderCellDef> Valor Total Documentos </th>
+                        <td mat-cell *matCellDef="let element"> {{element.totaldoc}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+                </table>
+                <mat-paginator #MatPaginator="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </div>
+        </ng-container>
+    </mat-card>
+</div>

@@ -1,0 +1,215 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="mt-2 main-title">Desasignación de casos</mat-card-title>
+  <mat-card class="mt-3">
+
+    <form [formGroup]="generalFormGroup" class="centrar">
+      <div class="row">
+        <mat-form-field appearance="standard" class="col-sm-3">
+          <mat-label>ID CASO</mat-label>
+          <input #idCaso matInput formControlName="idCaso" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="col-sm-3">
+          <mat-label>NIT Contribuyente</mat-label>
+          <input #nitContrib matInput formControlName="nitContribuyente" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="col-sm-3">
+          <mat-label>Operador</mat-label>
+          <mat-select formControlName="nitProfesinal">
+            <mat-option *ngFor="let profesional of autocompleteData" [value]="profesional.nit">
+              {{profesional.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="col-sm-3" style="text-align:left">
+          <button mat-button color="primary" class="btn-container mt-3 mb-2" (click)="getCaseByCollaborators()">
+            <!-- (click)="getPerfilNit(scope.get('Nit')?.value)" -->
+            <mat-icon>search</mat-icon>
+            Búsqueda
+          </button>
+        </div>
+      </div>
+    </form>
+    <!--  <ng-container #SelectionProfessional>
+      <form action="" [formGroup]="generalFormGroup">
+        <div class="row">
+          <form action="" [formGroup]="generalFormGroup">
+            
+          </form>
+        </div>
+      </form>
+    </ng-container> -->
+
+<!--     <ng-container>
+      <p class="main-title-two">Casos con proceso iniciado</p>
+      <table mat-table [dataSource]="dataProfessionalInformationReassign">
+ 
+        <ng-container matColumnDef="idCaso" class="txtTable">
+          <th mat-header-cell *matHeaderCellDef class="txtTable"> ID de caso </th>
+          <td mat-cell *matCellDef="let element" class="txtTable"> {{element.idCaso}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombreCaso" class="txtTable">
+          <th mat-header-cell *matHeaderCellDef class="txtTable"> Nombre de caso </th>
+          <td mat-cell *matCellDef="let element" class="txtTable"> {{element.nombreCaso}} </td>
+        </ng-container>
+        <ng-container matColumnDef="nitContribuhente" class="txtTable">
+          <th mat-header-cell *matHeaderCellDef class="txtTable"> NIT del Contribuyente </th>
+          <td mat-cell *matCellDef="let element" class="txtTable"> {{element.nitContribuhente}} </td>
+        </ng-container>
+        <ng-container matColumnDef="impouesto" class="txtTable">
+          <th mat-header-cell *matHeaderCellDef class="txtTable"> Impuesto</th>
+          <td mat-cell *matCellDef="let element" class="txtTable"> {{element.nombreImpuesto}} </td>
+        </ng-container>
+        <ng-container matColumnDef="departamento" class="txtTable">
+          <th mat-header-cell *matHeaderCellDef class="txtTable"> Departamento </th>
+          <td mat-cell *matCellDef="let element" class="txtTable"> {{element.departamento}} </td>
+        </ng-container>
+        <ng-container matColumnDef="profesional">
+          <th mat-header-cell *matHeaderCellDef class="txtTable">Seleccion de profesional</th>
+          <td mat-cell *matCellDef="let element" class="center">
+              <mat-select  (valueChange)="getIdCasesForUnassign($event)" >
+                <mat-option *ngFor="let profesional of reasignProfessionals" [value]="profesional.nitContribuyente">
+                  {{profesional.nombreContribuyente}}
+                </mat-option>
+              </mat-select>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="seleccion" class="txtTable">
+          <th mat-header-cell *matHeaderCellDef class="txtTable"> Seleccion de caso </th>
+        <th mat-header-cell *matHeaderCellDef class="header-table center">
+          <mat-checkbox (change)="$event ? masterToggleCasesForReassign() : null"
+            [checked]="selectionProfessionalUnassign.hasValue() && isAllSelectedCasesForReassign()"
+            [indeterminate]="selectionProfessionalUnassign.hasValue() && !isAllSelectedCasesForReassign()" [color]="'primary'">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let equipo" class="center">
+          <mat-checkbox (click)="$event.stopPropagation()"
+            (change)="$event ? selectionProfessionalReassign.toggle(equipo) : null"
+            [checked]="selectionProfessionalReassign.isSelected(equipo)"></mat-checkbox>
+        </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="professionalInformationReassign"></tr>
+        <tr mat-row *matRowDef="let row; columns: professionalInformationReassign;"></tr>
+      </table>
+      <br><br>
+    </ng-container>  -->
+
+    <ng-container #Unassig&Reassign>
+      <!-- <mat-divider></mat-divider>
+      <br><br>
+      <ng-container #DesasignarCaso>
+        <div class="row">
+          <div class="col">
+            <p class="main-title-two">Casos sin proceso iniciado</p>
+            <p>En esta sección se encuentran los casos que se pueden <b>desasignar</b> del profesional.</p>
+            <table mat-table [dataSource]="dataProfessionalInformationUnassign">
+
+              <ng-container matColumnDef="idCaso">
+                <th mat-header-cell *matHeaderCellDef class="txtTable">ID de caso </th>
+                <td mat-cell *matCellDef="let element" class="txtTable"> {{element.idCaso}} </td>
+              </ng-container>
+            
+              <ng-container matColumnDef="nitContribuyente">
+                <th mat-header-cell *matHeaderCellDef class="txtTable"> NIT de contribuyente</th>
+                <td mat-cell *matCellDef="let element" class="txtTable"> {{element.nitContribuyente}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nombreEstado">
+                <th mat-header-cell *matHeaderCellDef class="txtTable">Estado</th>
+                <td mat-cell *matCellDef="let element" class="txtTable"> {{element.nombreEstado}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="seleccion">
+                <th mat-header-cell *matHeaderCellDef class="txtTable">Seleccion de caso</th>
+                <th mat-header-cell *matHeaderCellDef class="header-table center">
+                  <mat-checkbox (change)="$event ? masterToggleCasesForUnassign() : null"
+                    [checked]="selectionProfessionalUnassign.hasValue() && isAllSelectedCasesForUnassign()"
+                    [indeterminate]="selectionProfessionalUnassign.hasValue() && !isAllSelectedCasesForUnassign()" [color]="'primary'">
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let equipo" class="center">
+                  <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? selectionProfessionalUnassign.toggle(equipo) : null"
+                    [checked]="selectionProfessionalUnassign.isSelected(equipo)"></mat-checkbox>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="professionalInformationUnassign"></tr>
+              <tr mat-row *matRowDef="let row; columns: professionalInformationUnassign;"></tr>
+            </table>
+            <mat-paginator #Mat1="matPaginator" [pageSizeOptions]="[5,10,15]" showFirstLastButtons></mat-paginator>
+            <div class="d-flex mt-1 pt-3">
+              <div class="ms-auto">
+                <button mat-button type="button" color="primary" class="btn-container"
+                (click)="saveUnassignCasestoProfessional()" *ngIf="buttonDesasignar">
+                  <mat-icon>exit_to_app</mat-icon>
+                  Desasignar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container> -->
+      <div *ngIf="dataProfessionalInformationReassign">
+        <ng-container #ReasignacionCaso>
+          <p class="main-title-two">Casos con proceso iniciado</p>
+          <table mat-table [dataSource]="dataProfessionalInformationReassign">
+            
+            <ng-container matColumnDef="idCaso" class="txtTable">
+              <th mat-header-cell *matHeaderCellDef class="txtTable"> ID de caso </th>
+              <td mat-cell *matCellDef="let element" class="txtTable"> {{element.idCaso}} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="nitContribuyente" class="txtTable">
+              <th mat-header-cell *matHeaderCellDef class="txtTable"> NIT del Contribuyente </th>
+              <td mat-cell *matCellDef="let element" class="txtTable"> {{element.nitContribuyente}} </td>
+            </ng-container>
+            <ng-container matColumnDef="nombreContribuyente" class="txtTable">
+              <th mat-header-cell *matHeaderCellDef class="txtTable"> Nombre del Contribuyente </th>
+              <td mat-cell *matCellDef="let element" class="txtTable"> {{element.nombreContribuyente}} </td>
+            </ng-container>
+            <ng-container matColumnDef="nombreProfesional" class="txtTable">
+              <th mat-header-cell *matHeaderCellDef class="txtTable"> Nombre del Profesional</th>
+              <td mat-cell *matCellDef="let element" class="txtTable"> {{element.nombreProfesional}} </td>
+            </ng-container>
+            <ng-container matColumnDef="nitProfesional" class="txtTable">
+              <th mat-header-cell *matHeaderCellDef class="txtTable"> NIT del Profesional</th>
+              <td mat-cell *matCellDef="let element" class="txtTable"> {{element.nitProfesional}} </td>
+            </ng-container>
+            <ng-container matColumnDef="nombreEstado" class="txtTable">
+              <th mat-header-cell *matHeaderCellDef class="txtTable"> Estado</th>
+              <td mat-cell *matCellDef="let element" class="txtTable"> {{element.nombreEstado}} </td>
+            </ng-container>
+            <ng-container matColumnDef="seleccion" class="txtTable">
+              <th mat-header-cell *matHeaderCellDef class="txtTable"> Selección de caso </th>
+              <th mat-header-cell *matHeaderCellDef class="header-table center">
+                <mat-checkbox (change)="$event ? masterToggleCasesForReassign() : null"
+                  [checked]="selectionProfessionalReassign.hasValue() && isAllSelectedCasesForReassign()"
+                  [indeterminate]="selectionProfessionalReassign.hasValue() && !isAllSelectedCasesForReassign()"
+                  [color]="'primary'">
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let element" class="center">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                  (change)="$event ? selectionProfessionalReassign.toggle(element) : null"
+                  [checked]="selectionProfessionalReassign.isSelected(element)"></mat-checkbox>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="professionalInformationReassign"></tr>
+            <tr mat-row *matRowDef="let row; columns: professionalInformationReassign;"></tr>
+          </table>
+          <mat-paginator #Mat2="matPaginator" [pageSizeOptions]="[5,10,15]" showFirstLastButtons></mat-paginator>
+          <div class="d-flex mt-1 pt-3">
+            <div class="ms-auto">
+              <button [disabled]="selectionProfessionalReassign.selected.length == 0" mat-button type="button"
+                color="primary" class="btn-container" (click)="actionRevision(2)">
+                <mat-icon>how_to_reg</mat-icon>
+                Reasignar
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  
+  </mat-card>
+</div>

@@ -1,0 +1,13 @@
+<div class="d-flex flex-row dialog-container">
+  <div class="icon {{data.icon}}">
+    <mat-spinner *ngIf="data.icon == 'loading'" diameter="30">
+    </mat-spinner>
+  </div>
+  <div class="text">
+    <p *ngIf="data.title" class="title">{{data.title}}</p>
+    <p *ngIf="data.text" class="content">{{data.text}}</p>
+  </div>
+  <button mat-icon-button class="close" *ngIf="data.showCloseButton" [color]="data.closeButtonColor" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>

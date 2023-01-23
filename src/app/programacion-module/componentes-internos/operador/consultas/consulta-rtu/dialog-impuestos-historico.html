@@ -1,0 +1,28 @@
+<h1 mat-dialog-title class="font-weight-bold">
+	Histórico de {{data.Impuesto}}
+</h1>
+<div mat-dialog-content>
+	<!--Histórico de Inpuesto-->
+
+	<div class="table-responsive">
+		<table class="table table-bordered">
+			<thead class="text-center">
+				<tr>
+					<th style="color: #FFF; background-color: #14649B;">Régimen</th>
+					<th style="color: #FFF; background-color: #14649B;">Fecha desde</th>
+					<th style="color: #FFF; background-color: #14649B;">Fecha hasta de permanencia en Régimen</th>
+				</tr>
+			</thead>
+			<tbody>
+				<ng-container>
+					<tr *ngFor="let hist of data.historico">
+						<td>{{hist.nombreCodRegimen}}</td>
+						<td>{{hist.fechaAdicion  | date: 'dd/MM/yyyy'}}</td>
+						<td>{{hist.fechaCambioRegimen | date: 'dd/MM/yyyy'}}</td>
+					</tr>
+				</ng-container>
+			</tbody>
+		</table>
+	</div>
+
+</div>

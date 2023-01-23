@@ -1,0 +1,75 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">Bandeja de Presencias Fiscales</mat-card-title>
+  <div class="d-flex h-100">
+  <button mat-button id="scope_button" class="btn-container mt-3" color="primary" 
+  [routerLink]="['/programacion/alcances/masivos/0']">
+    <mat-icon id="tax-icon">grading</mat-icon>
+    Creación de Alcance
+  </button>
+</div>
+  <div class="row mt-2">
+    <div class="col-sm py-3 ps-2 pe-3">
+      <mat-card class="parent">
+        <div class="result-count">
+          <span class="title">Resultados de búsqueda </span>
+          <span class="count">{{dataSource.data.length}}</span>
+         
+        </div>
+        <div  class="table-responsive">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="idFormulario">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Identificador <br> Formulario
+              </th>
+              <td mat-cell *matCellDef="let item"  [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.idFormulario}} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="lugarDepartamental">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Lugar Departamental
+              </th>
+              <td mat-cell *matCellDef="let item"  [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.lugarDepartamental}} </td>
+            </ng-container>
+            <ng-container matColumnDef="meta">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Meta
+              </th>
+              <td mat-cell *matCellDef="let item"  [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.meta}} </td>
+            </ng-container>
+            <ng-container matColumnDef="estado">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Estado
+              </th>
+              <td mat-cell *matCellDef="let item"  [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.nombreEstado}} </td>
+            </ng-container>
+            <ng-container matColumnDef="fechaInicio">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Fecha Inicio
+              </th>
+              <td mat-cell *matCellDef="let item"  [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.fechaInicio| date:'dd/MM/yyyy'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="acciones">
+              <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+              <td mat-cell *matCellDef="let item">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                  <mat-icon>more_horiz</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item title="Muestra de manera detalla la información de la presencia" (click)="showAnalityc(item.idFormulario)" >
+                    
+                    <mat-icon class="iconos">visibility</mat-icon>
+                    <span>Detalles</span>
+                  </button>
+                </mat-menu>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columns"></tr>
+            <tr mat-row *matRowDef="let row; columns: columns;" ></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5,10,15]" showFirstLastButtons></mat-paginator>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

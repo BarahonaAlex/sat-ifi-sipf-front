@@ -1,0 +1,73 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="mt-2 main-title">Plan Anual de Fiscalización</mat-card-title>
+  <button mat-button class="btn-container mt-3" (click)="back()" color="primary">
+    <mat-icon>arrow_back</mat-icon>
+    Regresar
+  </button>
+  <mat-card class="mt-3">
+    <div class="row d-flex justify-content-center">
+      <div class="col-sm-12">
+        <div class="result-count">
+          <span class="count me-2">&nbsp;1&nbsp;</span>
+          <span class="title">Encabezado del Plan</span>
+        </div>
+        <br>
+        <mat-divider></mat-divider>
+        <form [formGroup]="planFormGroup" class="mt-3">
+          <div class="row">
+            <mat-form-field appearance="standard">
+              <mat-label>Año</mat-label>
+              <input formControlName="year" matInput [matDatepicker]="picker" />
+              <mat-datepicker-toggle matSuffix [for]="picker">
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker startView="multi-year" (yearSelected)="yearPicked($event, picker)">
+              </mat-datepicker>
+            </mat-form-field>
+          </div>
+        </form>
+        <button mat-raised-button type="button" class="btn-container mt-3" color="primary" (click)="showAddIndicator()">
+          <mat-icon>add</mat-icon>
+          Agregar Indicador
+        </button>
+        <div class="row pb-1">
+          <app-tabla-dinamica #indicatorsTable *ngIf="indicators" [dataTable]="indicators"
+            [noDataMsg]="'No se han ingresado indicadores.'">
+          </app-tabla-dinamica>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="d-flex">
+          <div class="ms-auto">
+            <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" [disabled]="!edited"
+              (click)="cancelIndicatorEditing()">
+              <mat-icon>clear</mat-icon>
+              Cancelar
+            </button>
+            <button mat-button type="button" color="primary" class="btn-container mt-3"
+              [disabled]="!edited || planFormGroup.invalid || indicators.data.length == 0" (click)="saveYearlyPlan()">
+              <mat-icon>save</mat-icon>
+              Guardar
+            </button>
+          </div>
+        </div>
+        <mat-divider class="mt-3"></mat-divider>
+        <br>
+        <div class="result-count mt-3">
+          <span class="count me-2">&nbsp;2&nbsp;</span>
+          <span class="title">Metas del Plan</span>
+        </div>
+        <br>
+        <mat-divider></mat-divider>
+        <button mat-raised-button type="button" class="btn-container mt-3" color="primary"
+          [disabled]="edited || !idYearlyPlan" (click)="showAddGoal()">
+          <mat-icon>add</mat-icon>
+          Agregar Meta
+        </button>
+        <div class="row pb-1">
+          <app-tabla-dinamica #goalsTable *ngIf="months" [dataTable]="months"
+            [noDataMsg]="'No se han ingresado metas.'">
+          </app-tabla-dinamica>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

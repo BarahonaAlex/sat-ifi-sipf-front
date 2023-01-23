@@ -1,0 +1,186 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <div *ngIf="!showVisorRejet">
+    <mat-card-title class="main-title">{{showVisor ? 'Bandeja de Casos' : 'Bandeja de caso Rechazados'}}</mat-card-title>
+
+    <!-- <div class="row mt-2"> -->
+
+    <!--  <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="ruta()">
+      <mat-icon>highlight_off</mat-icon>
+      Casos Rechazados
+    </button>
+
+    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary"
+      (click)="ruta2()">
+      <mat-icon>analytics</mat-icon>
+      Reviosn de Alcance
+    </button> -->
+    <!-- <div class="col-sm-3 p-3">
+      <mat-card class="p-0">
+        <mat-accordion>
+
+
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Filtro específico
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field appearance="outline" class="col-sm-12">
+              <mat-label>Identificador Insumo</mat-label>
+              <input matInput>
+            </mat-form-field>
+          </mat-expansion-panel>
+
+
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Filtro básico
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field appearance="outline" class="col-sm-12">
+              <mat-label>NIT</mat-label>
+              <input matInput>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-sm-12">
+              <mat-label>Contribuyente</mat-label>
+              <input matInput>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-sm-12">
+              <mat-label>Impuesto</mat-label>
+              <input matInput>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-sm-12">
+              <mat-label>Descripción Insumo</mat-label>
+              <input matInput>
+            </mat-form-field>
+          </mat-expansion-panel>
+
+
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Filtro avanzado
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field appearance="outline" class="col-sm-12">
+              <mat-label>Fecha publicación</mat-label>
+              <input matInput>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-sm-12">
+              <mat-label>Mes publicación</mat-label>
+              <input matInput>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-sm-12">
+              <mat-label>Gerencia</mat-label>
+              <input matInput>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-sm-12">
+              <mat-label>Departamento</mat-label>
+              <input matInput>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-sm-12">
+              <mat-label>Estado</mat-label>
+              <input matInput>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-sm-12">
+              <mat-label>Periodo inicio</mat-label>
+              <input matInput>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-sm-12">
+              <mat-label>Periodo fin</mat-label>
+              <input matInput>
+            </mat-form-field>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-divider></mat-divider>
+        <div class="d-flex mt-3 pb-3 px-3">
+          <button mat-button type="button" color="primary" class="btn-container me-auto">
+            <mat-icon>clear</mat-icon>
+            Limpiar
+          </button>
+          <button mat-raised-button type="button" color="primary" class="btn-container ms-auto">
+            <mat-icon>search</mat-icon>
+            Buscar
+          </button>
+        </div>
+      </mat-card>
+    </div> -->
+
+    <div class="col-sm-12 py-3 ps-2 pe-3" *ngIf="showVisor">
+      <mat-card class="parent">
+        <div class="table-responsive">
+        <app-tabla-dinamica *ngIf="dataTable" [dataTable]="dataTable"></app-tabla-dinamica>
+        </div>
+      </mat-card>
+    </div>
+
+    <!--   <div *ngIf="!showVisor">
+      <app-bandeja-caso-rechazo-aprobador></app-bandeja-caso-rechazo-aprobador>
+    </div> -->
+    <!-- </div> -->
+  </div>
+  <div *ngIf="showVisorRejet">
+    <mat-card-title>Informacion del Caso Rechzado</mat-card-title>
+    <br>
+    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="ruta3()">
+      <mat-icon>arrow_back</mat-icon>
+      Regresar
+    </button>
+    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="warn" (click)="notAprove()">
+      <mat-icon>clear</mat-icon>
+      Rechazar
+    </button>
+    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="approveRejected()">
+      <mat-icon>done</mat-icon>
+      Aprobar Rechazo
+    </button>
+    <br>
+    <br>
+    <mat-card>
+      <p>
+        <strong>Comentario de Rechazo</strong>
+        <br>
+        <div [innerHTML]="rechazoComentario"></div>
+    </mat-card>
+    <br>
+    <mat-card>
+      <form [formGroup]="rechazoFrom">
+        <div class="row">
+          <mat-form-field appearance="standard" class="col-sm-6">
+            <mat-label>Identificardor de Caso</mat-label>
+            <input matInput formControlName="idCaso">
+          </mat-form-field>
+          <mat-form-field appearance="standard" class="col-sm-6">
+            <mat-label>Nombre del Caso</mat-label>
+            <input matInput formControlName="nombreCaso">
+          </mat-form-field>
+          <mat-form-field appearance="standard" class="col-sm-6">
+            <mat-label>NIT Colaborador</mat-label>
+            <input matInput formControlName="nitColaborador">
+          </mat-form-field>
+          <mat-form-field appearance="standard" class="col-sm-6">
+            <mat-label>Nombre del Colaborador</mat-label>
+            <input matInput formControlName="nombreColaborador">
+          </mat-form-field>
+          <mat-form-field appearance="standard" class="col-sm-6">
+            <mat-label>Gerencia</mat-label>
+            <input matInput formControlName="nombreGerencia">
+          </mat-form-field>
+          <mat-form-field appearance="standard" class="col-sm-6">
+            <mat-label>Departamento</mat-label>
+            <input matInput formControlName="nombreDepartamento">
+          </mat-form-field>
+          <mat-form-field appearance="standard" class="col-sm-6">
+            <mat-label>Estado del Caso</mat-label>
+            <input matInput formControlName="estadoCaso">
+          </mat-form-field>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</div>

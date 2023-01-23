@@ -1,0 +1,18 @@
+::ng-deep #header .mat-checkbox-frame {
+    border-color: white;
+  }
+  
+  .result-count {
+    font-size: 14px;
+    font-weight: bold;
+    color: #707070;
+  
+    .count {
+      background: #14649B;
+      color: white;
+      padding: 4px 5px 4.5px 6px;
+      border-color: transparent;
+      margin-right: 6px;
+      border-radius: 6px;
+    }
+  }

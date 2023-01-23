@@ -1,0 +1,80 @@
+<body>
+    <div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+        <h1 class="main-title">Reasignación de Casos</h1>
+        <mat-card>
+            <body-container>
+                <form class="centrar" [formGroup]="profecional">
+                    <mat-form-field class="example-full-width" appearance="standard">
+                        <mat-label>NIT:</mat-label>
+                        <input matInput formControlName="Nit" autocomplete="off" #nit>
+                    </mat-form-field>
+
+                    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary"
+                        [disabled]="profecional.invalid" (click)="searchCases(profecional.get('Nit')?.value)">
+                        <mat-icon>search</mat-icon>
+                        Búsqueda
+                    </button>
+                </form>
+            </body-container>
+
+
+            <!--  <div *ngIf="mostrar"> -->
+            <table mat-table [dataSource]="dataSource" matSort>
+                <!-- Position Column -->
+                <ng-container matColumnDef="Nombre">
+                    <th mat-header-cell *matHeaderCellDef class="header-table"> Nombre del
+                        Contribuyente
+                    </th>
+                    <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombre}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="NIT">
+                    <th mat-header-cell *matHeaderCellDef class="header-table"> NIT </th>
+                    <td mat-cell class="centrar" *matCellDef="let element"> {{element.nitContribuyente}} </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="Estado">
+                    <th mat-header-cell *matHeaderCellDef class="header-table"> Estado </th>
+                    <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombreEstado}}</td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="Origen">
+                    <th mat-header-cell *matHeaderCellDef class="header-table "> Origen </th>
+                    <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombreOrigen}} </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="Acciones">
+                    <th mat-header-cell *matHeaderCellDef class="header-table "> Acciones </th>
+                    <td mat-cell class="centrar" *matCellDef="let element">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                            <mat-icon>more_horiz</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-button type="button" title="Reasignar" class="btn-container mt-3 mb-2"
+                                color="primary" (click)="openDialog(element.id_caso)">
+                                <mat-icon class="iconos">edit</mat-icon>
+                                <span>Reasignar</span>
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+
+            <div>
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                </mat-paginator>
+            </div>
+
+            <!-- </div> -->
+        </mat-card>
+    </div>
+</body>

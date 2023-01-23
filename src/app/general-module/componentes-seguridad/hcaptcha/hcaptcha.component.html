@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="row p-3">
+        <div class="col-12 text-center">
+            <img class="img-fluid" width="300" src="https://cdn.c.sat.gob.gt/resources/img/sat-logo.png">
+        </div>
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <ng-hcaptcha class="col-12 text-center" (verify)="onVerify($event)" (expired)="onExpired($event)"
+            (error)="onError($event)" [size]="size">
+        </ng-hcaptcha>
+    </div>
+
+    <br>
+    <mat-card-title class="row card-title text-center">
+        <div class="col-12 text-center caption">
+            Gracias por utilizar los sistemas de modernización <span>SAT</span>
+        </div>
+    </mat-card-title>
+</div>

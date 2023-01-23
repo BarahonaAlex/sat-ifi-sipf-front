@@ -1,0 +1,36 @@
+<div *ngIf="a && currentYear != -1">
+    <h3 class="my-auto pl-5">Año: {{currentYear}}</h3>
+</div>
+<br>
+<br>
+<button *ngIf="a" mat-button (click)="back()" class="btn-container mt-3" color="primary">
+    <mat-icon>arrow_back</mat-icon>
+    Regresar
+</button>
+<button *ngIf="a" mat-button (click)="exportConsolidado()" class="btn-container mt-3" color="primary">
+    <mat-icon>file_download</mat-icon>
+    Exportar a Excel
+</button>
+<br *ngIf="a">
+<br>
+<br>
+<div *ngIf="b" class="row d-flex justify-content-center">
+    <div class="col-sm-8 ">
+            <mat-form-field appearance="standard" class="col-sm-8">
+                <mat-label>Año</mat-label>
+                <input matInput [matDatepicker]="dp" [formControl]="date"  [max]="currentDate" [disabled]= "true">
+                <!-- <mat-hint>YYYY</mat-hint> -->
+                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp startView="multi-year" [disabled]="false" (yearSelected)="selectedYear($event, dp)"
+                    panelClass="DatePicker">
+                </mat-datepicker>
+            </mat-form-field>
+        <button mat-button (click)="findByYear()" class="btn-container mt-3 col" color="primary">
+            <mat-icon>search</mat-icon>
+            Buscar
+        </button>
+    </div>
+</div>
+
+<app-tabla-dinamica #resumenDecla *ngIf="b" [dataTable]="data"></app-tabla-dinamica>
+<app-tabla-dinamica #table *ngIf="a" [dataTable]="dataB"></app-tabla-dinamica>

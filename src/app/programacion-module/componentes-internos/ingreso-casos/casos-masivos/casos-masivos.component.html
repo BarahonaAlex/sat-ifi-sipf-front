@@ -1,0 +1,48 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">Solicitud Fiscalización Masiva</mat-card-title>
+  <br>
+  <button mat-button type="button" class="btn-container mt-3 mb-2" color="primary">
+    <mat-icon>arrow_back</mat-icon>
+    Regresar
+  </button>
+  <mat-card class="example-form container">
+    <form [formGroup]="generalFormGroup"><br>
+      <mat-card-subtitle>Ingrese la información que se le solicita:</mat-card-subtitle>
+
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Nombre de la Solicitud</mat-label>
+        <input matInput placeholder="Solicitud Nueva" formControlName="nombreSolicitud">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Objetivo de la Solicitud</mat-label>
+        <textarea matInput placeholder="Esta Solicitud sera creada para..."
+          formControlName="objetivoSolicitud"></textarea>
+      </mat-form-field>
+
+      <br>
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Seleccione una Gerencia</mat-label>
+        <mat-select #gerencia (valueChange)="consultCollaborators(gerencia.value)" formControlName="gerencia">
+          <mat-option *ngFor="let dato of datos" [value]="dato.codigo">{{dato.nombre}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Seleccione un Profesional</mat-label>
+        <mat-select #profesional formControlName="profesional">
+          <mat-option *ngFor="let pro of collaborator" [value]="pro.nit">{{pro.nombres}}</mat-option>
+        </mat-select>
+      </mat-form-field><br>
+
+      <div class="col-3 container">
+        <button mat-button type="button" class="btn-container mt-3 mb-2" color="primary"
+          [disabled]="generalFormGroup.invalid" (click)="openDialog(generalFormGroup.value)">
+          <mat-icon>save</mat-icon>
+          Guardar
+        </button>
+      </div>
+    </form>
+  </mat-card><br>
+</div>

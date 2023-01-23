@@ -1,0 +1,11 @@
+td {
+    max-height: 10px !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+  
+    &>* {
+      max-height: 56px !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+    }
+  }

@@ -1,0 +1,203 @@
+<h1 mat-dialog-title>
+	Detalle del Establecimiento {{data.nombreEstablecimiento}}
+</h1>
+<div mat-dialog-content class="container">
+
+	<div class="row">
+		<p class="fw-bold">Nombre comercial:
+			<span class="fw-normal">{{data.nombreEstablecimiento}}</span>
+		</p>
+	</div>
+	<div class="row">
+		<p class="fw-bold">Número de secuencia de establecimiento:
+			<span class="fw-normal">{{data.numeroSecuenciaEstablecimiento}}</span>
+		</p>
+	</div>
+	<div class="row">
+		<p class="fw-bold">Actividad económica por establecimiento:
+			<span class="fw-normal">{{data.nombreActividadEconomica}}</span>
+		</p>
+	</div>
+	<div class="row">
+		<p class="fw-bold">Número resolución:
+			<span class="fw-normal">{{data.numeroResolucionBeneficioFiscal}}</span>
+		</p>
+	</div>
+	<div class="row">
+		<p class="fw-bold">Fecha de resolución:
+			<span class="fw-normal">{{data.fechaResolucionBeneficioFiscal}}</span>
+		</p>
+	</div>
+	<div class="row">
+		<p class="fw-bold">Fecha Cambio Domicilio:
+			<span class="fw-normal">{{fechaCambioDom}}</span>
+		</p>
+	</div>
+	<div *ngIf="data.ubicacion">
+		<div class="row">
+			<p class="fw-bold">Departamento:
+				<span class="fw-normal">{{data.ubicacion.departamentoDesc}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Municipio:
+				<span class="fw-normal">{{data.ubicacion.municipioDesc}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Zona:
+				<span class="fw-normal">{{data.ubicacion.zonaDesc}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Colonia o barrio / Grupo habitacional:
+				<span class="fw-normal">{{ data.ubicacion.grupoHabitacionalDesc }} {{
+					data.ubicacion.descripcionGrupoHabitacional }}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Vialidad:
+				<span class="fw-normal">{{data.ubicacion.vialidadDesc}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Número de vialidad:
+				<span class="fw-normal">{{data.ubicacion.vialidadNumero}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Nombre de vialidad:
+				<span class="fw-normal">{{data.ubicacion.vialidadNombre}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Número y letra de casa:
+				<span class="fw-normal">{{data.ubicacion.casaNumero}} {{data.ubicacion.casaLetra}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Número y letra de apartamento:
+				<span class="fw-normal">{{data.ubicacion.apartamentoNumero}} {{data.ubicacion.apartamentoLetra}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Teléfono:
+				<span class="fw-normal">{{data.ubicacion.lineaFijaNumero}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Compañía telefónica:
+				<span class="fw-normal">{{data.ubicacion.lineaFijaCompaniaDesc}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="fw-bold">Apartado Postal:
+				<span class="fw-normal">{{data.ubicacion.apartadoPostal}}</span>
+			</p>
+		</div>
+		<div class="row">
+			<p class="py-0">Complemento de la dirección:
+				<span class="fw-normal">{{data.ubicacion.otros}}</span>
+			</p>
+		</div>
+
+	</div>
+	<div class="row" *ngIf="!data.ubicacion">
+		<p class="fw-bold">Ubicación
+			<span class="fw-normal">NO POSEE UBICACIÓN</span>
+		</p>
+	</div>
+
+	<div class="row">
+		<p class="fw-bold">Fecha Inicio de Operaciones:
+			<span class="fw-normal">{{data.fechaInicioOperaciones}}</span>
+		</p>
+	</div>
+	<div class="row">
+		<p class="fw-bold">Clasificación por establecimiento:
+			<span class="fw-normal">{{data.nombreClasificacionEstablecimiento}}</span>
+		</p>
+	</div>
+	<div class="row">
+		<p class="fw-bold">Tipo de Establecimiento:
+			<span class="fw-normal">{{data.nombreTipoEstablecimiento}}</span>
+		</p>
+	</div>
+	<div class="row">
+		<p class="fw-bold">Estado:
+			<span class="fw-normal">{{data.estadoDesc}}</span>
+		</p>
+	</div>
+	<div class="row">
+		<p class="fw-bold">Fecha estado:
+			<span class="fw-normal">{{data.fechaEstado}}</span>
+		</p>
+	</div>
+	<div class="row">
+		<p class="fw-bold">Fecha cancelación:
+			<span class="fw-normal">{{data.fechaCancelacion}}</span>
+		</p>
+	</div>
+	<div class="row">
+		<p class="fw-bold">Motivo:
+			<span class="fw-normal">{{data.motivo}}</span>
+		</p>
+	</div>
+	<div class="row">
+		<p class="fw-bold">Obligaciones por tipo de establecimiento
+			<span class="fw-normal"> exenIVA:
+				{{data.obligacionesEstablecimiento?.estado_exenIva == 1020?'ACTIVO':'INACTIVO' }}
+				, eCAI:
+				{{data.obligacionesEstablecimiento?.estado_eCai == 1020?'ACTIVO':'INACTIVO' }}
+			</span>
+		</p>
+	</div>
+	<div class="row">
+		<p class="fw-bold">Fecha Inicial de Beneficio Fiscal
+			<span class="fw-normal">{{data.fechaInicialBeneficioFiscal}}</span>
+		</p>
+	</div>
+	<div class="row">
+		<p class="fw-bold">Fecha Final de Beneficio Fiscal
+			<span class="fw-normal">{{data.fechaFinalBeneficioFiscal}}</span>
+		</p>
+	</div>
+
+	<!--Histórico de establecimientos-->
+	<div class="row" class="card border">
+		<div class="row" class="card-header card-header-blue-sat">
+			<h4 class="card-title">Histórico cambios de domicilio</h4>
+		</div>
+		<div class="row" class="card-body">
+			<ng-template [ngIf]="data.historicoCambioDomicilio!.length" [ngIfElse]="no_tiene_Hubicacion_ubicaciones">
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr style="color: #FFF; background-color: #1c8ad8;">
+								<th>Número de secuencia</th>
+								<th>Nombre comercial</th>
+								<th>Dirección</th>
+								<th>Fecha cambio nombre comercial</th>
+								<th>Fecha cambio domicilio comercial</th>
+								<th>Fecha cambio actividad comercial</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let estab of data.historicoCambioDomicilio">
+								<td>{{estab.numeroDeSecuencia}}</td>
+								<td>{{estab.nombreComercial}}</td>
+								<td>{{estab.direccion}}</td>
+								<td>{{estab.fechaCambioNombreComercial}}</td>
+								<td>{{estab.fechaCambioDomicilioComercial}}</td>
+								<td>{{estab.fechaCambioActividadComercial}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</ng-template>
+			<ng-template #no_tiene_Hubicacion_ubicaciones>
+				<h5>No existen datos de histórico</h5>
+			</ng-template>
+		</div>
+	</div>
+</div>

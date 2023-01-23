@@ -1,0 +1,97 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">Bandeja de Denuncias Gabinete</mat-card-title>
+
+  <button mat-button id="alcances_button" class="btn-container mt-3" color="primary" (click)="openModalComplaint()">
+    <mat-icon id="tax-icon">task</mat-icon>
+    Denuncia
+  </button>
+
+  <button mat-button id="alcances_button" class="btn-container mt-3" color="primary" (click)="openModalScope()">
+    <mat-icon id="tax-icon">description</mat-icon>
+    Presencias, Puntos Fijos
+  </button>
+
+  <button mat-button id="alcances_button" class="btn-container mt-3" color="primary" (click)="openModalCabinet()">
+    <mat-icon id="tax-icon">splitscreen</mat-icon>
+    Gabinete
+  </button><br><br>
+
+  <div class="row mt-2">
+    <mat-card class="parent">
+
+      <div class="result-count">
+        <div class="row">
+          <div class="col">
+            <span class="title">Total de <b>denuncias</b> sin atender</span>
+            <span class="count">{{Complaints.data.length}}</span>
+          </div>
+        </div>
+      </div>
+
+      <table mat-table [dataSource]="Complaints">
+
+        <ng-container matColumnDef="correlativo">
+          <th mat-header-cell *matHeaderCellDef class="center"> No. Correlativo </th>
+          <td mat-cell *matCellDef="let element" class="center"> {{element.correlativo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nitDenunciado">
+          <th mat-header-cell *matHeaderCellDef class="center"> Concepto de la denuncia </th>
+          <td mat-cell *matCellDef="let element" class="center"> {{element.nombre}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombreDenunciado">
+          <th mat-header-cell *matHeaderCellDef class="center"> Producto o Servicio </th>
+          <td mat-cell *matCellDef="let element" class="center"> {{element.producto}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nitDenunciante">
+          <th mat-header-cell *matHeaderCellDef class="center"> Valor de Compra o Servicio </th>
+          <td mat-cell *matCellDef="let element" class="center"> {{element.compra}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="accion">
+          <th mat-header-cell *matHeaderCellDef> Acción </th>
+          <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <!--(click)="showAnalityc(documento.idCaso)" ALCANCES-->
+              <button mat-menu-item title="Cambiar Nombre" class="iconos" (click)="showAnalitycs(element.correlativo)">
+                <mat-icon class="iconos">query_stats</mat-icon>
+                <span>Analizar</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="accion">
+          <th mat-header-cell *matHeaderCellDef class="center"> Acción </th>
+          <th mat-header-cell *matHeaderCellDef class="header-table" class="center"></th>
+          <td mat-cell *matCellDef="let documento">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+
+              <button mat-menu-item title="Cambiar Nombre" class="iconos" (click)="abrirAlcance()">
+                <mat-icon class="iconos">add</mat-icon>
+                <span>Crear Alcance</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>  -->
+
+
+        <tr mat-header-row *matHeaderRowDef="getComplaints"></tr>
+        <tr mat-row *matRowDef="let row; columns: getComplaints;"></tr>
+      </table>
+
+      <mat-paginator #MatPaginator1="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+      </mat-paginator>
+
+    </mat-card>
+  </div>
+</div>

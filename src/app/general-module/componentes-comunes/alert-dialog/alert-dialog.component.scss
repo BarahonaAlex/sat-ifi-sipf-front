@@ -1,0 +1,67 @@
+$transition-duration: 5s;
+
+.dialog-container {
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 100000000;
+
+  .close {
+    position: absolute;
+    right: -18px;
+    top: -18px;
+  }
+
+  .icon {
+    margin-top: 16px;
+
+    mat-spinner {
+      transition: all $transition-duration ease;
+      margin: -16px 24px 0 0;
+    }
+
+    &:before {
+      transition: all $transition-duration ease;
+      margin-right: 24px;
+      font-size: 38px;
+    }
+  }
+
+  .text {
+    mat-card-title {
+      font-size: large;
+      font-weight: bolder;
+      color: #19324B;
+    }
+  }
+
+  .info:before {
+    color: #006CE3;
+    font-family: "Material Icons";
+    content: '\e88e';
+  }
+
+  .success:before {
+    color: #3DBC60;
+    font-family: "Material Icons";
+    content: '\e86c';
+  }
+
+  .warning:before {
+    color: #EF9400;
+    font-family: "Material Icons";
+    content: '\e000';
+  }
+
+  .error:before {
+    color: #ED4E2B;
+    font-family: "Material Icons";
+    content: '\e5c9';
+  }
+
+  .question:before {
+    color: #87ADBD;
+    font-family: "Material Icons";
+    content: '\e887';
+  }
+}

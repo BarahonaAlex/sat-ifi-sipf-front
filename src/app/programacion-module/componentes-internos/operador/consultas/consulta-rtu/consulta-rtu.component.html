@@ -1,0 +1,2746 @@
+<!-- detalle del contribuyente -->
+<div *ngIf="nitseleccionado != null">
+
+  <div class="my-1">
+    <mat-tab-group #stepper>
+      <!-- Identificacion  -->
+      <mat-tab label="Identificación" class="active">
+        <!--Información del contribuyente Individual-->
+        <ng-container *ngIf="isPersonaNegocio">
+
+          <form [formGroup]="informacionContribuyenteFormGroup" #tipo="ngForm">
+            <!-- Estado nit-->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label " for="estadoNit">Estado del NIT:</label>
+              <div class="col-sm-9">
+                <mat-form-field class="my-0">
+                  <input class="text-uppercase" class="text-uppercase" matInput formControlName="estadoNit">
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Fecha de inscripcion en RTU-->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label" for="fechaInscripcionRTU">Fecha de
+                inscripción en RTU:</label>
+              <div class="col-sm-9">
+                <mat-form-field class="my-0">
+                  <input type="date" class="text-uppercase" matInput formControlName="fechaInscripcionRTU">
+                </mat-form-field>
+              </div>
+            </div>
+            <!-- Primer Nombre-->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label " for="txtNombre1">Primer nombre:</label>
+              <div class="col-sm-9">
+                <mat-form-field class="my-0">
+                  <input class="text-uppercase" class="text-uppercase" matInput formControlName="txtNombre1">
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Segundo Nombre-->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label" for="txtNombre2">Segundo nombre:</label>
+              <div class="col-sm-9">
+                <mat-form-field class="my-0">
+                  <input class="text-uppercase" matInput formControlName="txtNombre2">
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Tercer Nombre-->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label" for="txtNombre3">
+                Tercer nombre y otros nombres:</label>
+              <div class="col-sm-9">
+                <mat-form-field class="my-0">
+                  <input class="text-uppercase" matInput formControlName="txtNombre3">
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Primer Apellido-->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label" for="txtPrimerApellido">
+                Primer apellido:
+              </label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" matInput formControlName="txtPrimerApellido">
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Segundo Apellido-->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label" for="txtSegundoApellido">Segundo
+                apellido:</label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" matInput formControlName="txtSegundoApellido">
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Apellido Casada-->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label" for="txtApellidoCasada">Apellido
+                casada:</label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" matInput formControlName="txtApellidoCasada">
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Personeria -->
+            <div class="">
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtPersoneria">Tipo
+                  personeria:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtPersoneria">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <!--Nit Conyrow -->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtNitConyuge">NIT cónyuge:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtNitConyuge">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Nombre y Apellidos del conyuge-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtNombreConyuge">
+                  Nombres y apellidos cónyuge:
+                </label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtNombreConyuge">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="isGuatemalteco || isDomiciliado">
+              <!--Código Unico de identificacion-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtDpi">Código único de
+                  identificación:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtDpi">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Fecha de vencimiento de DPI-->
+              <div class="form-group row m-0 p-0"
+                *ngIf="informacionContribuyenteFormGroup.controls.txtFecVencimientoDpi.value != ''">
+                <label class="col-sm-3 col-form-label" for="txtFecVencimientoDpi">Fecha de
+                  vencimiento:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtFecVencimientoDpi" type="date">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="poseeCedula">
+              <!--Cédula de vecindad-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtCedulaVecindad">Cédula de
+                  vecindad:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtCedulaVecindad">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Municipio de emisión-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtMunicipioEmision">Municipio de
+                  emisión:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtMunicipioEmision">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="isExtranjero">
+              <!--Pasaporte-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtPasaporteIndividual">{{labelTipoPasaporte}}:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtPasaporteIndividual">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Fecha expira Pasaporte-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtFechaExpiraPasaporte">Fecha
+                  expira pasaporte:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtFechaExpiraPasaporte" type="date">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="isExtranjero || isDomiciliado">
+              <!--Pais de origen-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtPaisOrigen">País de
+                  origen:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtPaisOrigen">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <!--Fecha de nacimiento-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtFecNacimiento">Fecha de
+                  nacimiento:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtFecNacimiento" type="date">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Genero-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtGenero">Sexo:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtGenero">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Nacionalidad-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtNacionalidad">Nacionalidad:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtNacionalidad">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Estado Civil-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtEstadoCivil">Estado
+                  civil:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtEstadoCivil">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="isGuatemalteco">
+              <!--Municipio de Nacimiento-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtMunNacimiento">Municipio de
+                  nacimiento:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtMunNacimiento">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Departamento de nacimiento-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtDeptoNacimiento">Departamento de
+                  nacimiento:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtDeptoNacimiento">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Población-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtPoblacion">Población:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtPoblacion">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Comunidad Lingüistica-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtComLinguistica">Comunidad
+                  lingüistica:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtComLinguistica">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="isGuatemalteco">
+              <!--NIT o CUI del padre-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtNitPadre">NIT o CUI del
+                  padre:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtNitPadre">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Nombre del padre-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtNombrePadre">Nombre del
+                  padre:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtNombrePadre">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--NIT o CUI de la madre-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtNitMadre">NIT o CUI de la
+                  madre:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtNitMadre">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Nombre de la madre-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtNombreMadre">Nombre de la
+                  madre:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtNombreMadre">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <!--Actividad económica -->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label" for="txtActividadEconomica">Actividad
+                económica
+                principal:</label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <textarea class="text-uppercase" matInput formControlName="txtActividadEconomica"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Fecha de fallecimiento-->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label" for="txtPersoneria">Fecha de
+                fallecimiento:</label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" matInput formControlName="txtFallecimiento" type="date">
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Sector Economico-->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label">Sector económico</label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" formControlName="sectorEconomico" matInput>
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Sector economico hasta-->
+            <div class="form-group row m-0 p-0" [hidden]="!poseeSectorEconomico">
+              <label class="col-sm-3 col-form-label">Fecha desde (sector económico) </label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" formControlName="fechaDesdeSecEconomico" matInput type="date">
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Participacion en Gremial-->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label">Participación en gremial</label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" formControlName="partGremial" matInput>
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Nombre de Gremial -->
+            <div class="form-group row m-0 p-0" [hidden]="!participacionEnGremial">
+              <label class="col-sm-3 col-form-label">Nombre de gremial</label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" formControlName="gremial" matInput>
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Participación en gremial hasta-->
+            <div class="form-group row m-0 p-0" [hidden]="!participacionEnGremial">
+              <label class="col-sm-3 col-form-label">Fecha desde (gremial)</label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" formControlName="fechaDesdeGremial" matInput type="date">
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Participacion en Camara Empresarial-->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label">Participación en cámara empresarial</label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" formControlName="partEmpresarial" matInput>
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Nombre de Cámara Empresarial-->
+            <div class="form-group row m-0 p-0" [hidden]="!participacionEnCamaraE">
+              <label class="col-sm-3 col-form-label">Nombre de cámara empresarial</label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" formControlName="empresarial" matInput>
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Participación en camara empresarial hasta-->
+            <div class="form-group row m-0 p-0" [hidden]="!participacionEnCamaraE">
+              <label class="col-sm-3 col-form-label">Fecha desde (camara empresarial)</label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" formControlName="fechaDesdeEmpresarial" matInput type="date">
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Categoria del Contribuyente TODO: 3S1DF3A1SDF-->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label" for="txtPersoneria">Categoría del
+                contribuyente:</label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" matInput formControlName="txtCategoria">
+                </mat-form-field>
+              </div>
+            </div>
+            <!--Ente Inscriptor -->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label" for="txtEnteInscriptor">Ente
+                inscriptor:</label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" matInput formControlName="txtEnteInscriptor">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!--Tipo de NIT -->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label" for="txtTipodeNIT">Tipo de NIT:</label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" matInput formControlName="txtTipodeNIT">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!--Clasificación -->
+            <div class="form-group row m-0 p-0">
+              <label class="col-sm-3 col-form-label" for="txtClasificacion">Clasificación:</label>
+              <div class="col-sm-9">
+                <mat-form-field>
+                  <input class="text-uppercase" matInput formControlName="txtClasificacion">
+                </mat-form-field>
+              </div>
+            </div>
+            <!-- Colegiados -->
+            <mat-expansion-panel *ngIf="listaColegiados.length">
+              <mat-expansion-panel-header>
+                <mat-panel-title class="font-weight-bold">
+                  Colegiados
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <ng-template matExpansionPanelContent>
+                <div class="material-datatables table-responsive border">
+                  <table id="obligacionesCable" class="table ">
+                    <thead>
+                      <tr>
+                        <th class="">No. colegiado</th>
+                        <th class="">Fecha colegiado</th>
+                        <th class="">Profesión</th>
+                        <th class="">Colegio profesional</th>
+                        <th class="">Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let col of listaColegiados; let i = index">
+                        <td>{{col.numeroColegiado}}</td>
+                        <td>{{col.fechaColegiado | date:'dd/MM/yyyy':'UTC'}}</td>
+                        <td>{{col.codTituloDesc}}</td>
+                        <td>{{col.codProfesionDesc}}</td>
+                        <td>{{col.estadoDesc}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </mat-expansion-panel>
+          </form>
+        </ng-container>
+
+        <!--Información del contribuyente Jurìdico-->
+        <ng-container *ngIf="isEmpresaOrganizacion">
+
+          <form [formGroup]="informacionEmpresaFormGroup" #tipo="ngForm">
+            <div>
+              <!-- Estado nit-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label " for="estadoNit">Estado del NIT:</label>
+                <div class="col-sm-9">
+                  <mat-form-field class="my-0">
+                    <input class="text-uppercase" class="text-uppercase" matInput formControlName="estadoNit">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Fecha de inscripcion en RTU-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="fechaInscripcionRTU">Fecha de
+                  inscripción en RTU:</label>
+                <div class="col-sm-9">
+                  <mat-form-field class="my-0">
+                    <input type="date" class="text-uppercase" matInput formControlName="fechaInscripcionRTU">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Razón social-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label">Razón o denominación social</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="txtRazonSocial" matInput>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Tipo de personeria-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label">Tipo personería</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="nombrePersoneria" matInput>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!--Numero de documento de constitucion-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label">Número documento constitución</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="numDocConstitucion" matInput>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Fecha de constitucion-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label">Fecha de constitución</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="fechaConstitucion" matInput type="date">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Tipo de documento de constitucion-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label">Tipo de documento de constitución</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="tipoDocConstitucion" matInput>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Fecha de inscripcion en el registro-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label">Fecha de inscripción en el
+                  registro</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="fechaInsRegistroC" matInput type="date">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Actividad económica principal-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label">Actividad económica principal</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="activEconomicaP" matInput>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Sector Economico-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label">Sector económico</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="sectorEconomico" matInput>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Sector economico hasta-->
+              <div class="form-group row m-0 p-0" [hidden]="!poseeSectorEconomico">
+                <label class="col-sm-3 col-form-label">Fecha desde (sector económico) </label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="fechaDesdeSecEconomico" matInput type="date">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Participacion en Gremial-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label">Participación en gremial</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="partGremial" matInput>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Nombre de Gremial -->
+              <div class="form-group row m-0 p-0" [hidden]="!participacionEnGremial">
+                <label class="col-sm-3 col-form-label">Nombre de gremial</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="gremial" matInput>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Participación en gremial hasta-->
+              <div class="form-group row m-0 p-0" [hidden]="!participacionEnGremial">
+                <label class="col-sm-3 col-form-label">Fecha desde (gremial)</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="fechaDesdeGremial" matInput type="date">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Participacion en Camara Empresarial-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label">Participación en cámara
+                  empresarial</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="partEmpresarial" matInput>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Nombre de Cámara Empresarial-->
+              <div class="form-group row m-0 p-0" [hidden]="!participacionEnCamaraE">
+                <label class="col-sm-3 col-form-label">Nombre de cámara empresarial</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="empresarial" matInput>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Participación en camara empresarial hasta-->
+              <div class="form-group row m-0 p-0" [hidden]="!participacionEnCamaraE">
+                <label class="col-sm-3 col-form-label">Fecha desde (camara empresarial)</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="fechaDesdeEmpresarial" matInput type="date">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--fecha de Cambio de Razón Social o Denomicación social-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label">Fecha de cambio de razón social o
+                  denominación social
+                </label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="fechaCamRazon" matInput type="date">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Documento de Modificación-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label">Documento de modificación</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="docModificacion" matInput>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Fecha de cancelación-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label">Fecha cancelación</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="fechaCancelacion" matInput type="date">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Categoria del contribuyente-->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label">Categoría del contribuyente</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" formControlName="catContribuyente" matInput>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!--Ente Inscriptor -->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtEnteInscriptor">Ente
+                  inscriptor:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtEnteInscriptor">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!--Tipo de NIT -->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtTipodeNIT">Tipo de NIT:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtTipodeNIT">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!--Clasificación -->
+              <div class="form-group row m-0 p-0">
+                <label class="col-sm-3 col-form-label" for="txtClasificacion">Clasificación:</label>
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <input class="text-uppercase" matInput formControlName="txtClasificacion">
+                  </mat-form-field>
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </ng-container>
+      </mat-tab>
+
+      <!-- DATOS DEL NOTARIO-->
+      <mat-tab *ngIf="isEmpresaOrganizacion" label="Datos del notario">
+        <div>
+          <!-- NOTARIO -->
+          <div class="card border">
+            <div class="card-header card-header-blue-sat">
+              <h4 class="card-title">Notario</h4>
+            </div>
+            <div class="card-body">
+              <ng-template [ngIf]="poseeNotario" [ngIfElse]="no_tiene_notario">
+                <form [formGroup]="informacionEmpresaFormGroup">
+                  <!-- Nit del notario-->
+                  <div class="form-group row m-0 p-0">
+                    <label class="col-sm-3 col-form-label " for="nitNotario">NIT del
+                      notario:</label>
+                    <div class="col-sm-9">
+                      <mat-form-field class="my-0">
+                        <input class="text-uppercase" class="text-uppercase" matInput formControlName="nitNotario">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <!--Nombre del notario-->
+                  <div class="form-group row m-0 p-0">
+                    <label class="col-sm-3 col-form-label" for="nombreNotario">Nombre del
+                      notario:</label>
+                    <div class="col-sm-9">
+                      <mat-form-field class="my-0">
+                        <input class="text-uppercase" matInput formControlName="nombreNotario">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </form>
+              </ng-template>
+              <ng-template #no_tiene_notario>
+                <h5>Este contribuyente no tiene notario registrado</h5>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!--MARCAS-->
+      <mat-tab label="Marcas">
+
+        <ng-template [ngIf]="marcas.length" [ngIfElse]="no_tiene_marcas">
+
+          <div class="col mt-2">
+            <div class="row border" *ngFor="let marca of marcas">
+              <div class="col-sm-6">
+                <h5 class="font-weight-bold mt-2">{{marca.nombreCodigoMarca}}</h5>
+              </div>
+              <div class="col-sm-6">
+                Vigencia: <br>
+                <li>Desde: {{marca.vigenciaDesde | date:'dd/MM/yyyy':'UTC'}}</li>
+                <li *ngIf="marca.vigenciaHasta">Hasta:
+                  {{marca.vigenciaHasta | date:'dd/MM/yyyy':'UTC'}}</li>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #no_tiene_marcas>
+          <div class="card">
+            <div class="card-header  card-header-blue-sat">
+              <h5 class="card-title text-center">Este contribuyente no tiene ninguna marca</h5>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <!--Ubicación-->
+      <mat-tab label="Ubicación">
+        <form [formGroup]="ubicacionFormGroup">
+
+          <div class="row mx-0 mt-3">
+            <!--Información general-->
+            <div class=" form-group col-12 col-sm-6">
+              <mat-form-field>
+                <label class="sr-only">Correo electrónico principal</label>
+                <input formControlName="emailPrincipal" placeholder="Correo electrónico Principal" matInput>
+              </mat-form-field>
+            </div>
+            <!--Correo para notificaciones-->
+            <div class=" form-group col-12 col-sm-6">
+              <mat-form-field>
+                <label class="sr-only">Correo electrónico para notificaciones</label>
+                <input formControlName="emailNotificaciones" placeholder="Correo electrónico para Notificaciones"
+                  matInput>
+              </mat-form-field>
+            </div>
+            <!--Correo electronico adicional-->
+            <div class=" form-group col-12 col-sm-5">
+              <mat-form-field>
+                <label class="sr-only">Correo electrónico adicional</label>
+                <input formControlName="emailAdicional" placeholder="Correo electrónico Adicional" matInput>
+              </mat-form-field>
+            </div>
+            <!--Tipo de dirección-->
+            <div class=" form-group col-12 col-sm-4">
+              <mat-form-field>
+                <label class="sr-only">Tipo de medio</label>
+                <input formControlName="txtTipoDireccion" placeholder="Tipo de Medio" matInput>
+              </mat-form-field>
+            </div>
+            <!--Usuario-->
+            <div class="form-group col-12 col-sm-3">
+              <mat-form-field>
+                <label class="sr-only">Usuario</label>
+                <input formControlName="txtUsuarioRed" placeholder="Usuario" matInput>
+              </mat-form-field>
+            </div>
+          </div>
+
+        </form>
+
+        <!--Listado de Ubicaciones-->
+        <div class="card border">
+          <div class="card-header card-header-blue-sat">
+            <h4 class="card-title">Listado de Ubicaciones</h4>
+          </div>
+          <div class="card-body">
+            <ng-template [ngIf]="Ubicaciones.length" [ngIfElse]="no_tiene_ubicaciones">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class="text-center thead-light">
+                    <tr>
+                      <th class="">Direccion vista previa</th>
+                      <th class="">Tipo direccion</th>
+                      <th class="">Teléfono celular</th>
+                      <th class="text-center">Teléfono casa</th>
+                      <th class="text-center">Estado</th>
+                      <th class="text-center">Detalle</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let detalle of Ubicaciones">
+                      <td>{{detalle.vistaPrevia}}</td>
+                      <td class="text-center">{{detalle.descTipoDireccion}}</td>
+                      <td class="text-center">{{detalle.celularNumero}}</td>
+                      <td class="text-center">{{detalle.lineaFijaNumero}}</td>
+                      <td class="text-center">{{detalle.estadoDesc}}</td>
+                      <td class="text-center">
+                        <button class="btn btn-blue-sat btn-sm btn-round" mat-button
+                          (click)="openDialogDetalleUbicacion(detalle,fechaCambioDomFiscal)">
+                          Ver
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+            <ng-template #no_tiene_ubicaciones>
+              <h5>No existen datos de ubicaciones</h5>
+            </ng-template>
+          </div>
+        </div>
+
+        <!--Listado de Historico de Ubicaciones-->
+        <div class="card border">
+          <div class="card-header card-header-blue-sat">
+            <h4 class="card-title">Historico cambio de domicilio</h4>
+          </div>
+          <div class="card-body">
+            <ng-template [ngIf]="HistoricoUbicacion.length" [ngIfElse]="no_tiene_historico_ubica">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class="text-center thead-light">
+                    <tr>
+                      <th class="">Direccion</th>
+                      <th class="">Desde</th>
+                      <th class="">Hasta</th>
+                      <th class="text-center">Detalle</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let hist of HistoricoUbicacion">
+                      <td>
+                        {{hist.direccion.vistaPrevia}}
+                      </td>
+                      <td>{{hist.fechaDesde | date:'dd/MM/yyyy':'UTC'}}</td>
+                      <td>{{hist.fechaHasta | date:'dd/MM/yyyy':'UTC'}}</td>
+                      <td class="text-center">
+                        <button class="btn btn-blue-sat btn-sm btn-round" mat-button
+                          (click)="openDialogDetalleHistoricoUbicacion(hist)">
+                          Ver
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+            <ng-template #no_tiene_historico_ubica>
+              <h5>No existen datos de historico cambio de domicilio</h5>
+            </ng-template>
+          </div>
+        </div>
+        <!--Fin de listado de ubicaciones-->
+      </mat-tab>
+
+      <!--Establecimientos-->
+      <mat-tab label="Establecimientos">
+
+        <!--Listado de establecimientos-->
+        <div class="card border">
+          <div class="card-header card-header-blue-sat">
+            <h4 class="card-title">Listado de establecimientos activos</h4>
+          </div>
+          <div class="card-body">
+            <ng-template [ngIf]="establecimientos.length" [ngIfElse]="no_tiene_ubicaciones">
+              <div class="table-responsive">
+                <table class="table" mat-table [dataSource]="bandejacasos2" matSort >
+
+                  <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Número de secuencia</th>
+                    <td mat-cell class="centrar pequeño" *matCellDef="let estab">
+                      {{estab.numeroSecuenciaEstablecimiento}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="id1">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Dirección</th>
+                    <td mat-cell class="centrar pequeño" *matCellDef="let estab">
+                      {{estab.ubicacion?estab.ubicacion.vistaPrevia:'SIN VISTA PREVIA'}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="id2">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre comercial</th>
+                    <td mat-cell class="centrar pequeño" *matCellDef="let estab"> {{estab.nombreEstablecimiento}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="id3">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Actividad económica por establecimiento</th>
+                    <td mat-cell class="centrar pequeño" *matCellDef="let estab"> {{estab.nombreActividadEconomica}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="id4">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Actividad comercial</th>
+                    <td mat-cell class="centrar pequeño" *matCellDef="let estab"> {{estab.nombreActividadComercial}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="id5">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de establecimiento</th>
+                    <td mat-cell class="centrar pequeño" *matCellDef="let estab"> {{estab.nombreTipoEstablecimiento}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="id6">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                    <td mat-cell class="centrar pequeño" *matCellDef="let estab"> {{estab.estado == 1020? 'ACTIVO' :
+                      'INACTIVO'}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="id7">
+                    <th mat-header-cell *matHeaderCellDef class="header-table">Detalle</th>
+                    <td mat-cell class="centrar" *matCellDef="let estab">
+                      <button class="btn btn-blue-sat btn-sm btn-round" mat-button
+                        (click)="openDialogdetalleEstable(estab)">
+                        Ver
+                      </button>
+                    </td>
+                  </ng-container>
+                  <!-- <ng-container matColumnDef="id7">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Detalle</th>
+                    <td mat-cell class="centrar pequeño" *matCellDef="let estab"> {{estab.numeroSecuenciaEstablecimiento}} </td>
+                  </ng-container> -->
+                  <!--    <thead class="text-center thead-light">
+                    <tr>
+                      <th class="font-weight-bold">Número de secuencia</th>
+                      <th class="font-weight-bold">Dirección</th>
+                      <th class="font-weight-bold">Nombre comercial</th>
+                      <th class="font-weight-bold">Actividad económica por establecimiento
+                      </th>
+                      <th class="font-weight-bold">Actividad comercial</th>
+                      <th class="font-weight-bold">Tipo de establecimiento</th>
+                      <th class="font-weight-bold">Estado</th>
+                      <th class="font-weight-bold">Detalle</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let estab of establecimientos">
+                      <td>{{estab.numeroSecuenciaEstablecimiento}}</td>
+                      <td>{{estab.ubicacion?estab.ubicacion.vistaPrevia:'SIN VISTA PREVIA'}}</td>
+                      <td>{{estab.nombreEstablecimiento}}</td>
+                      <td>{{estab.nombreActividadEconomica}}</td>
+                      <td>{{estab.nombreActividadComercial}}</td>
+                      <td>{{estab.nombreTipoEstablecimiento}}</td>
+                      <td>{{estab.estado == 1020?'ACTIVO':'INACTIVO'}}</td>
+                      <td class="text-center">
+                        <button class="btn btn-blue-sat btn-sm btn-round" mat-button
+                          (click)="openDialogdetalleEstable(estab)">
+                          Ver
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody> -->
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                </table>
+                <div>
+                  <mat-paginator #MatPaginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                  </mat-paginator>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template #no_tiene_ubicaciones>
+              <h5>No existen datos de Establecimientos Activos</h5>
+            </ng-template>
+          </div>
+        </div>
+
+      </mat-tab>
+
+      <!--Datos del Contador -->
+      <mat-tab label="Datos del contador">
+        <div>
+          <!-- CONTADOR ACTIVO -->
+          <div class="card border">
+            <div class="card-header card-header-blue-sat">
+              <h4 class="card-title">Contador</h4>
+            </div>
+            <div class="card-body">
+              <ng-template [ngIf]="Contador" [ngIfElse]="no_tiene_contador">
+                <form [formGroup]="datosContadorFormGroup" data-color="blue-sat">
+                  <div class="row mx-0">
+                    <!--Nit del contador-->
+                    <div class="form-group col-4 col-sm-3 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="nitContador">NIT del
+                          contador</label>
+                        <input matInput type="text" formControlName="nitContador" placeholder="NIT del contador">
+                      </mat-form-field>
+                    </div>
+                    <!--Nombre del contador-->
+                    <div class="form-group col-8 col-sm-6">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="txtNombre2">Nombre contador</label>
+                        <input matInput type="text" formControlName="nombreContador" placeholder="Nombre contador">
+                      </mat-form-field>
+                    </div>
+                    <!--Fecha nombramiento del contador por parte del contribuyente-->
+                    <div class="form-group col-6 col-sm-3">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="fechaNombramientoContador">Fecha de
+                          nombramiento</label>
+                        <input matInput type="text" formControlName="fechaNombramientoContador"
+                          placeholder="Fecha de nombramiento" type="date">
+                      </mat-form-field>
+                    </div>
+                    <!--Tipo de prestación de servicio-->
+                    <div class="form-group col-6 col-sm-6 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="tipoPrestacionServicio">Fecha de
+                          nombramiento</label>
+                        <input matInput type="text" formControlName="tipoPrestacionServicio"
+                          placeholder="Tipo de prestación de servicio">
+                      </mat-form-field>
+                    </div>
+                    <!--Estado del contador -->
+                    <div class="form-group col-6 col-sm-3">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="estadoContador">Estado</label>
+                        <input matInput type="text" formControlName="estadoContador" placeholder="Estado del contador">
+                      </mat-form-field>
+                    </div>
+                    <!--Fecha de cambio del contador -->
+                    <div class="form-group col-6 col-sm-3">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="fechaCambioContador">Fecha de
+                          cambio de contador</label>
+                        <input matInput type="text" formControlName="fechaCambioContador"
+                          placeholder="Fecha de cambio de contador" type="date">
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                </form>
+              </ng-template>
+              <ng-template #no_tiene_contador>
+                <h5>Este contribuyente no cuenta con un contador activo</h5>
+              </ng-template>
+            </div>
+          </div>
+
+          <!-- HISTORICO CONTADOR -->
+          <div class="card border">
+            <div class="card-header card-header-blue-sat">
+              <h4 class="card-title">Historico de contadores</h4>
+            </div>
+            <div class="card-body">
+              <ng-template [ngIf]="historicoContador?.length" [ngIfElse]="no_tiene_Historico_conta">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="font-weight-bold">Nit del contador</th>
+                        <th class="font-weight-bold">Nombre del contador</th>
+                        <th class="font-weight-bold">Fecha de nombramiento</th>
+                        <th class="font-weight-bold">Fecha desde:</th>
+                        <th class="font-weight-bold">Fecha hasta: </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let hist of historicoContador">
+                        <td>{{hist.nitContador}}</td>
+                        <td>{{hist.nombresApellidos}}</td>
+                        <td>{{hist.fechaNombramiento | date:'dd/MM/yyyy':'UTC'}}</td>
+                        <td>{{hist.fechaDesde | date:'dd/MM/yyyy':'UTC'}}</td>
+                        <td>{{hist.fechaHasta | date:'dd/MM/yyyy':'UTC'}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+              <ng-template #no_tiene_Historico_conta>
+                <h5>No existen datos de historico de contadores</h5>
+              </ng-template>
+            </div>
+          </div>
+
+        </div>
+      </mat-tab>
+
+      <!--Datos del Representante-->
+      <mat-tab label="Datos del representante">
+        <div>
+          <!--Listado Representante-->
+          <div class="card border">
+            <div class="card-header card-header-blue-sat">
+              <h4 class="card-title">Listado de Representantes</h4>
+            </div>
+            <div class="card-body">
+              <ng-template [ngIf]="representantes.length" [ngIfElse]="no_tiene_representantes">
+                <div class="table-responsive">
+                  <table class="table">
+
+                    <thead class="text-center thead-light">
+                      <tr>
+                        <th>NIT del representante</th>
+                        <th>Nombre del representante</th>
+                        <th>Fecha de nombramiento</th>
+                        <th>Cantidad de años</th>
+                        <th>Fecha de inscripción en el registro</th>
+                        <th>Fecha de vencimiento de la Representación</th>
+                        <th>Tipo de Representante</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let repres of representantes">
+                        <td class="text-center">{{repres.nit}}</td>
+                        <td class="text-center">{{repres.nombre}}</td>
+                        <td class="text-center">
+                          {{repres.fechaNombramiento | date:'dd/MM/yyyy':'UTC'}}</td>
+                        <td class="text-center">{{repres.aniosRepresentacion}}</td>
+                        <td class="text-center">
+                          {{repres.fechaInscripcion | date:'dd/MM/yyyy':'UTC'}}</td>
+                        <td class="text-center">
+                          {{repres.fechaVigenteHasta | date:'dd/MM/yyyy':'UTC'}}</td>
+                        <td class="text-center">{{repres.tipoDesc}}</td>
+                        <td class="text-center">{{repres.descEstado}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+              <ng-template #no_tiene_representantes>
+                <h5>No existen datos de representantes</h5>
+              </ng-template>
+            </div>
+          </div>
+
+          <!--Listado de Historico de Representantes-->
+          <div class="card border">
+            <div class="card-header card-header-blue-sat">
+              <h4 class="card-title">Historico de Representantes</h4>
+            </div>
+            <div class="card-body">
+              <ng-template [ngIf]="historicoRepresentantes.length" [ngIfElse]="no_tiene_historico_representantes">
+                <div class="material-datatables">
+                  <div class="mat-elevation-z8">
+                    <div class="table-responsive">
+                      <table mat-table [dataSource]="dataSourceHistoricoRepresentante" matSort style="width: 100%"
+                        class="table table-striped table-no-bordered table-hover" cellspacing="0">
+
+                        <!-- NIT del representante -->
+                        <ng-container matColumnDef="nit">
+                          <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> NIT del
+                            representante </th>
+                          <td class="text-center" mat-cell *matCellDef="let row"> {{row.nit}} </td>
+                        </ng-container>
+
+                        <!-- Nombre del representante -->
+                        <ng-container matColumnDef="nombre">
+                          <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del
+                            representante </th>
+                          <td class="text-center" mat-cell *matCellDef="let row"> {{row.nombre}} </td>
+                        </ng-container>
+
+                        <!-- Fecha de nombramiento -->
+                        <ng-container matColumnDef="fechaNombramiento">
+                          <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de
+                            nombramiento </th>
+                          <td class="text-center" mat-cell *matCellDef="let row"> {{row.fechaNombramiento |
+                            date:'dd/MM/yyyy':'UTC'}} </td>
+                        </ng-container>
+
+                        <!-- Fecha vigencia -->
+                        <ng-container matColumnDef="fechaVigencia">
+                          <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Fecha vigencia
+                          </th>
+                          <td class="text-center" mat-cell *matCellDef="let row"> {{row.fechaVigencia |
+                            date:'dd/MM/yyyy':'UTC'}} </td>
+                        </ng-container>
+
+                        <!-- Estado -->
+                        <ng-container matColumnDef="estadoDesc">
+                          <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                          <td class="text-center" mat-cell *matCellDef="let row"> {{row.estadoDesc}} </td>
+                        </ng-container>
+
+                        <!-- Fecha desde -->
+                        <ng-container matColumnDef="fechaDesde">
+                          <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Fecha desde
+                          </th>
+                          <td class="text-center" mat-cell *matCellDef="let row"> {{row.fechaDesde |
+                            date:'dd/MM/yyyy':'UTC'}} </td>
+                        </ng-container>
+
+                        <!-- Fecha de Cancelación -->
+                        <ng-container matColumnDef="fechaHasta">
+                          <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de
+                            Cancelación </th>
+                          <td class="text-center" mat-cell *matCellDef="let row"> {{row.fechaHasta |
+                            date:'dd/MM/yyyy':'UTC'}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsHistoricoRepresentante"></tr>
+                        <tr mat-row *matRowDef="let element; columns: displayedColumnsHistoricoRepresentante;"></tr>
+                      </table>
+                    </div>
+                    <mat-paginator #MatPaginator="matPaginator" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template #no_tiene_historico_representantes>
+                <h5>No existen datos de histórico de representantes</h5>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Apoderados -->
+      <mat-tab label="Apoderados" *ngIf="isPersonaNegocio">
+
+        <!--Listado de Apoderados-->
+        <div class="card border">
+          <div class="card-header card-header-blue-sat">
+            <h4 class="card-title">Listado de apoderados</h4>
+          </div>
+          <div class="card-body">
+            <ng-template [ngIf]="Apoderados.length" [ngIfElse]="no_tiene_Apoderados">
+              <div class="table-responsive">
+                <table class="table" mat-table [dataSource]="bandejaApoderado" matSort>
+                  <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>NIT</th>
+                    <td mat-cell class="centrar pequeño" *matCellDef="let detalle"> {{detalle.nitDelRepresentado}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="id1">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                    <td mat-cell class="centrar pequeño" *matCellDef="let detalle"> {{detalle.nombreDelRepresentado}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="id2">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de nombramiento</th>
+                    <td mat-cell class="centrar pequeño" *matCellDef="let detalle"> {{detalle.fechaDeNombramiento |
+                      date:'dd/MM/yyyy':'UTC'}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="id3">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha vencimiento</th>
+                    <td mat-cell class="centrar pequeño" *matCellDef="let detalle"> {{detalle.fechaVencimiento |
+                      date:'dd/MM/yyyy':'UTC'}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="id4">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                    <td mat-cell class="centrar pequeño" *matCellDef="let detalle"> {{detalle.estado}} </td>
+                  </ng-container>
+                  <!--  <thead class="text-center thead-light">
+                    <tr>
+                      <th class="text-center">NIT</th>
+                      <th class="text-center">Nombre</th>
+                      <th class="text-center">Fecha de nombramiento</th>
+                      <th class="text-center">Fecha vencimiento</th>
+                      <th class="text-center">Estado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let detalle of Apoderados">
+                      <td>{{detalle.nitDelRepresentado}}</td>
+                      <td class="text-center">{{detalle.nombreDelRepresentado}}</td>
+                      <td class="text-center">
+                        {{detalle.fechaDeNombramiento | date:'dd/MM/yyyy':'UTC'}}</td>
+                      <td class="text-center">
+                        {{detalle.fechaVencimiento | date:'dd/MM/yyyy':'UTC'}}</td>
+                      <td class="text-center">{{detalle.estado}}</td>
+                    </tr>
+                  </tbody> -->
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+                </table>
+                <div>
+                  <mat-paginator #MatPaginator1="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                  </mat-paginator>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template #no_tiene_Apoderados>
+              <h5>No existen datos de apoderados</h5>
+            </ng-template>
+          </div>
+        </div>
+
+        <!--Listado de Historico de Apoderados-->
+        <div class="card border">
+          <div class="card-header card-header-blue-sat">
+            <h4 class="card-title">Historico de apoderados</h4>
+          </div>
+          <div class="card-body">
+            <ng-template [ngIf]="historicoApoderados.length" [ngIfElse]="no_tiene_historico_apod">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class="text-center thead-light">
+                    <tr>
+                      <th class="ng-star-inserted">NIT</th>
+                      <th class="ng-star-inserted">Nombre</th>
+                      <th class="ng-star-inserted">Fecha de nombramiento </th>
+                      <th class="ng-star-inserted">Fecha de vencimiento</th>
+                      <th class="ng-star-inserted">Estado</th>
+                      <th class="ng-star-inserted">Fecha desde:</th>
+                      <th class="ng-star-inserted">Fecha Hasta:</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let hist of historicoApoderados">
+                      <td class="text-center">{{hist.nit}}</td>
+                      <td>{{hist.nombre}}</td>
+                      <td class="text-center">
+                        {{hist.fechaNombramiento | date:'dd/MM/yyyy':'UTC'}}</td>
+                      <td class="text-center">{{hist.fechaVigencia |
+                        date:'dd/MM/yyyy':'UTC'}}
+                      </td>
+                      <td class="text-center">{{hist.estadoDesc}}</td>
+                      <td class="text-center">{{hist.fechaDesde| date:'dd/MM/yyyy':'UTC'}}
+                      </td>
+                      <td class="text-center">{{hist.fechaHasta| date:'dd/MM/yyyy':'UTC'}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+            <ng-template #no_tiene_historico_apod>
+              <h5>No existen datos de historicos de apoderados</h5>
+            </ng-template>
+          </div>
+        </div>
+
+      </mat-tab>
+
+      <!-- Datos de la embajada -->
+      <mat-tab *ngIf="poseeEmbajada" label="Datos misión diplomática">
+        <div>
+          <!-- CONTADOR ACTIVO -->
+          <div class="card border">
+            <div class="card-header card-header-blue-sat">
+              <h4 class="card-title">Datos misión diplomática</h4>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="datosEmbajadaFormGroup" data-color="blue-sat">
+                <div class="form-row mx-0">
+                  <!-- Tipo diplomático -->
+                  <div class="form-group col-4 col-sm-3 ">
+                    <mat-form-field class="example-full-width">
+                      <label class="sr-only" for="tipoDiplomatico">tipoDiplomatico
+                        diplomático</label>
+                      <input matInput type="text" formControlName="tipoDiplomatico" placeholder="Tipo diplomático">
+                    </mat-form-field>
+                  </div>
+                  <!--Nit del diplomatico-->
+                  <div *ngIf="nitBeneficiario" class="form-group col-4 col-sm-3 ">
+                    <mat-form-field class="example-full-width">
+                      <label class="sr-only" for="nitDiplomatico">NIT diplomático</label>
+                      <input matInput type="text" formControlName="nitDiplomatico" placeholder="NIT del diplomático">
+                    </mat-form-field>
+                  </div>
+                  <!--Nombre del diplomatico-->
+                  <div *ngIf="nitBeneficiario" class="form-group col-8 col-sm-6">
+                    <mat-form-field class="example-full-width">
+                      <label class="sr-only" for="nombreDiplomatico">Nombre
+                        diplomático</label>
+                      <input matInput type="text" formControlName="nombreDiplomatico"
+                        placeholder="Nombre del diplomático">
+                    </mat-form-field>
+                  </div>
+                  <!--NIT de la embajada-->
+                  <div class="form-group col-6 col-sm-3">
+                    <mat-form-field class="example-full-width">
+                      <label class="sr-only" for="nitEmbajada">NIT emabajada</label>
+                      <input matInput type="text" formControlName="nitEmbajada" placeholder="NIT de la embajada">
+                    </mat-form-field>
+                  </div>
+                  <!--Nombre de la embajada-->
+                  <div class="form-group col-6 col-sm-6">
+                    <mat-form-field class="example-full-width">
+                      <label class="sr-only" for="nombreEmbajada">Nombre embajada</label>
+                      <input matInput type="text" formControlName="nombreEmbajada" placeholder="Nombre de la embajada">
+                    </mat-form-field>
+                  </div>
+
+                  <!--Listado de beneficiarios-->
+                  <div *ngIf=" !nitBeneficiario && listaBeneeficiarios.length" class="card border">
+                    <div class="card-header card-header-blue-sat">
+                      <h4 class="card-title">Beneficiarios</h4>
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead class="thead-light">
+                            <tr>
+                              <th class="font-weight-bold">NIT</th>
+                              <th class="font-weight-bold">Nombre</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let detalle of listaBeneeficiarios">
+                              <td>{{detalle.nitBeneficiario}}</td>
+                              <td>{{detalle.nombreBeneficiario}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </mat-tab>
+
+      <!--Afiliaciones-->
+      <mat-tab label="Afiliaciones">
+
+        <ng-template [ngIf]="afiliaciones" [ngIfElse]="no_tiene_afiliaciones">
+          <form [formGroup]="afiliacionesFormGroup">
+            <!-- Impuesto al valor agregado -->
+            <ng-container *ngIf="afiliaciones.iva">
+
+              <!--Datos del IVA-->
+              <div class="card border">
+                <div class="card-header card-header-blue-sat">
+                  <h4 class="card-title">Impuesto al Valor Agregado (IVA)</h4>
+                </div>
+                <div class="card-body">
+
+                  <div class="row">
+                    <!--codigo de impuesto-->
+                    <div class="form-group col-lg-2 col-md-6 col-sm-6 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="codigoImpuesto">Código de
+                          Impuesto</label>
+                        <input matInput type="text" formControlName="codigoImpuesto" placeholder="Código de Impuesto">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Nombre Impuesto-->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6  ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="nombreImpuesto">Nombre del
+                          Impuesto</label>
+                        <input matInput type="text" formControlName="nombreImpuesto" placeholder="Nombre del Impuesto">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Tipo Contribuyente-->
+                    <div class="form-group col-lg-3 col-md-6 col-sm-6 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="contribuyenteTipo">Tipo de
+                          Contribuyente</label>
+                        <input matInput type="text" formControlName="contribuyenteTipo"
+                          placeholder="Tipo de Contribuyente">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Tipo de establecimiento-->
+                    <div class="form-group col-lg-3 col-md-6 col-sm-6 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="clasificacionEstablecimiento">Clasificación del
+                          Establecimiento</label>
+                        <input matInput type="text" formControlName="clasificacionEstablecimiento" placeholder="Clasificación del
+                          Establecimiento">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Régimen-->
+                    <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="regimen">Régimen</label>
+                        <input matInput type="text" formControlName="regimen" placeholder="Régimen">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Periodo impositivo-->
+                    <div class="form-group col-lg-3 col-md-6 col-sm-6 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="periodoImpositivo">Período
+                          Impositivo</label>
+                        <input matInput type="text" formControlName="periodoImpositivo"
+                          placeholder="Período Impositivo">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Estimado de ingresos anuales-->
+                    <div class="form-group col-lg-3 col-md-6 col-sm-6 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="ingresosAnuales">Estimado de
+                          Ingresos Anuales</label>
+                        <input matInput type="text" formControlName="ingresosAnuales"
+                          placeholder="Estimado de ingresos anuales">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Frecuencia de Pago-->
+                    <div *ngIf="isEmpresaOrganizacion" class="form-group col-lg-3 col-md-6 col-sm-6 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="frecuenciaPago">Frecuencia de
+                          Pago</label>
+                        <input matInput type="text" formControlName="frecuenciaPago" placeholder="Frecuencia de Pago">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Frecuencia de Pago-->
+                    <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="formaCalculoIva">Forma de
+                          calculo</label>
+                        <input matInput type="text" formControlName="formaCalculoIva" placeholder="Forma de calculo">
+                      </mat-form-field>
+                    </div>
+                    <!--Fecha desde -->
+                    <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="statusAfiliacionIsr">Fecha
+                          desde</label>
+                        <input matInput type="date" formControlName="fechaDesdeIva" placeholder="Fecha desde">
+                      </mat-form-field>
+                    </div>
+                    <!--Estatus de la afiliacion-->
+                    <div class="form-group col-lg-3 col-md-6 col-sm-6 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="estatusAfiliacion">Estatus de
+                          Afiliacion</label>
+                        <input matInput type="text" formControlName="estatusAfiliacion"
+                          placeholder="Estatus de Afiliacion">
+                      </mat-form-field>
+                    </div>
+                    <!--resolucion de la afiliacion-->
+                    <div [hidden]="!poseeResolucionIva" class="form-group col-sm-9 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="estatusAfiliacion">Resolución
+                          régimen</label>
+                        <input matInput type="text" formControlName="resolucionIva" placeholder="Resolución IVA">
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                  <!-- Obligaciones -->
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title class="font-weight-bold">
+                        Obligaciones
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ng-template matExpansionPanelContent>
+                      <div class="table-responsive">
+                        <table mat-table [dataSource]="dataSourceIVA"  id="obligacionesIVA" matSort>
+                          <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              No.
+                            </th>
+                            <td mat-cell *matCellDef="let item, let id=index">
+                              {{id+1}}
+                            </td>
+                          </ng-container>
+                          <ng-container matColumnDef="FrecuenciaDePago">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Frecuencia de pago
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{item.descripcionPeriodoImpositivo}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="NombreDeObligacion">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Nombre de obligacion
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{item.descripcionNombreObligacion}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="CodigoDeFormulario">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Código de formulario
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{item.descripcionCodFormulario}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="GeneraEtiqueta">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Genera etiqueta
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{item.generaEtiquetaOmiso?'SI':'NO'}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="ObligacionRequerida">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Obligación requerida
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{item.obligacionRequerida?'SI':'NO'}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="Estado">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Estado
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{estadoIVA=='1028'?'INACTIVO':item.descripcionEstado}} </td>
+                          </ng-container>
+                          <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+                        </table>
+                      </div>
+                    </ng-template>
+                  </mat-expansion-panel>
+                  <!-- Historico -->
+                  <div class="form-group row justify-content-end" *ngIf="afiliaciones.iva.historicoAfiliacion?.length">
+                    <button class="btn btn-blue-sat" mat-button
+                      (click)="openDialogHistoricoInpuesto(afiliaciones.iva.historicoAfiliacion,'IVA')">
+                      Historial IVA
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
+            <!--Impuesto Sobre la Renta(ISR)-->
+            <ng-container *ngIf="afiliaciones.isr">
+
+              <div class="card border">
+                <div class="card-header card-header-blue-sat">
+                  <h4 class="card-title">Impuesto Sobre la Renta (ISR)</h4>
+                </div>
+                <div class="card-body">
+
+                  <div class="row">
+                    <!--codigo de impuesto-->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="codigoImpuestoIsr">Código de
+                          Impuesto</label>
+                        <input matInput type="text" formControlName="codigoImpuestoIsr"
+                          placeholder="Código de Impuesto">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Nombre Impuesto-->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="nombreImpuestoIsr">Nombre del
+                          Impuesto</label>
+                        <input matInput type="text" formControlName="nombreImpuestoIsr"
+                          placeholder="Nombre del Impuesto">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Tipo Contribuyente-->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="contribuyenteTipoIsr">Tipo de
+                          Contribuyente</label>
+                        <input matInput type="text" formControlName="contribuyenteTipoIsr"
+                          placeholder="Tipo de Contribuyente">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Tipo de Renta-->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6" [hidden]="tipoContri == '736'">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="rentaTipoIsr">Tipo de Renta</label>
+                        <input matInput type="text" formControlName="rentaTipoIsr" placeholder="Tipo de Renta">
+                      </mat-form-field>
+                    </div>
+                    <!-- Renta imponible-->
+                    <div *ngIf="poseeRentaImponible" class="form-group col-lg-4 col-md-6 col-sm-6">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="regimenTipoRentaIsr">Renta
+                          Imponible</label>
+                        <input matInput type="text" formControlName="rentaImponible" placeholder="Renta Imponible">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Régimen-->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="regimenTipoRentaIsr">Régimen por
+                          tipo de renta</label>
+                        <input matInput type="text" formControlName="regimenTipoRentaIsr"
+                          placeholder="Régimen por tipo de renta">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Forma de Cálculo-->
+                    <div class="form-group col-sm-6 col-md-12 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="formaCalculoIsr">Forma de
+                          Cálculo</label>
+                        <input matInput type="text" formControlName="formaCalculoIsr" placeholder="Forma de Cálculo">
+                      </mat-form-field>
+                    </div>
+
+
+                    <!--Frecuencia de Pago-->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="evaluacionInventariosIsr">Sistema de
+                          Valuación de
+                          Inventarios</label>
+                        <input matInput type="text" formControlName="evaluacionInventariosIsr" placeholder="Sistema de
+                          Valuación de
+                          Inventarios">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Sistema Contable-->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="sistemaContableIsr">Sistema
+                          Contable</label>
+                        <input matInput type="text" formControlName="sistemaContableIsr" placeholder="Sistema Contable">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Estatus de la frecuencia de pago-->
+                    <div *ngIf="isEmpresaOrganizacion" class="form-group col-lg-4 col-md-6 col-sm-6">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="frecuenciaPagoIsr">Frecuencia de
+                          Pago</label>
+                        <input matInput type="text" formControlName="frecuenciaPagoIsr"
+                          placeholder="Frecuencia de Pago">
+                      </mat-form-field>
+                    </div>
+                    <!-- Se elimina vencimiento para el pago de impuesto por atualziacio al CU -->
+                    <!--Fecha desde -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="statusAfiliacionIsr">Fecha
+                          desde</label>
+                        <input matInput type="date" formControlName="fechaDesdeIsr" placeholder="Fecha desde">
+                      </mat-form-field>
+                    </div>
+                    <!--estatus de la afiliacion-->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="statusAfiliacionIsr">Estatus de la
+                          afiliación</label>
+                        <input matInput type="text" formControlName="statusAfiliacionIsr" placeholder="Estatus de la
+                          afiliación">
+                      </mat-form-field>
+                    </div>
+                    <!--resolucion de la afiliacion-->
+                    <div [hidden]="!poseeResolucionIsr" class="form-group col-lg-9 col-md-12 col-sm-12">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="statusAfiliacionIsr">Resolución pago
+                          directo</label>
+                        <input matInput type="text" formControlName="resolucionIsr" placeholder="Resolución ISR">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <!-- Obligaciones -->
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title class="font-weight-bold">
+                        Obligaciones
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ng-template matExpansionPanelContent>
+                      <div class="table-responsive">
+                        <table mat-table [dataSource]="dataSourceISR"  id="obligacionesISR" matSort>
+                          <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              No.
+                            </th>
+                            <td mat-cell *matCellDef="let item, let id=index">
+                              {{id+1}}
+                            </td>
+                          </ng-container>
+                          <ng-container matColumnDef="FrecuenciaDePago">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Frecuencia de pago
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{item.descripcionPeriodoImpositivo}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="NombreDeObligacion">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Nombre de obligacion
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{item.descripcionNombreObligacion}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="CodigoDeFormulario">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Código de formulario
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{item.descripcionCodFormulario}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="GeneraEtiqueta">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Genera etiqueta
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{item.generaEtiquetaOmiso?'SI':'NO'}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="ObligacionRequerida">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Obligación requerida
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{item.obligacionRequerida?'SI':'NO'}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="Estado">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Estado
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{estadoISR=='1028'?'INACTIVO':item.descripcionEstado}} </td>
+                          </ng-container>
+                          <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+                        </table>
+                      </div>
+                    </ng-template>
+                  </mat-expansion-panel>
+                  <!-- Historico -->
+                  <div class="form-group row justify-content-end" *ngIf="afiliaciones.isr.historicoAfiliacion?.length">
+                    <button class="btn btn-blue-sat" mat-button
+                      (click)="openDialogHistoricoInpuesto(afiliaciones.isr.historicoAfiliacion,'ISR')">
+                      Historial ISR
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
+            <!--Impuesto Solidaridad (ISO)-->
+            <ng-container *ngIf="afiliaciones.iso">
+
+              <div class="card border">
+                <div class="card-header card-header-blue-sat">
+                  <h4 class="card-title">Impuesto de Solidaridad (ISO)</h4>
+                </div>
+                <div class="card-body">
+
+                  <div class="row">
+                    <!--Formas de Acreditamiento-->
+                    <div class="form-group col-sm-9">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="formasAcreditamientoIso">Formas de
+                          Acreditamiento</label>
+                        <input matInput type="text" formControlName="formasAcreditamientoIso"
+                          placeholder="Formas de Acreditamiento">
+                      </mat-form-field>
+                    </div>
+                    <!--Fecha desde -->
+                    <div class="form-group col-sm-6 col-md-3 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="statusAfiliacionIsr">Fecha
+                          desde</label>
+                        <input matInput type="date" formControlName="fechaDesdeIso" placeholder="Fecha desde">
+                      </mat-form-field>
+                    </div>
+                    <!--Estatus de la afiliacion-->
+                    <div class="form-group col-sm-3 ">
+                      <mat-form-field class="example-full-width">
+                        <label class="sr-only" for="estatusAfiliacion">Estatus de
+                          Afiliacion</label>
+                        <input matInput type="text" formControlName="estatusAfiliacionIso"
+                          placeholder="Estatus de Afiliacion">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <!-- Obligaciones -->
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title class="font-weight-bold">
+                        Obligaciones
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ng-template matExpansionPanelContent>
+                      <div class="table-responsive">
+                        <table mat-table [dataSource]="dataSourceISO"  id="obligacionesISO" matSort>
+                          <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              No.
+                            </th>
+                            <td mat-cell *matCellDef="let item, let id=index">
+                              {{id+1}}
+                            </td>
+                          </ng-container>
+                          <ng-container matColumnDef="FrecuenciaDePago">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Frecuencia de pago
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{item.descripcionPeriodoImpositivo}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="NombreDeObligacion">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Nombre de obligacion
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{item.descripcionNombreObligacion}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="CodigoDeFormulario">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Código de formulario
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{item.descripcionCodFormulario}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="GeneraEtiqueta">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Genera etiqueta
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{item.generaEtiquetaOmiso?'SI':'NO'}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="ObligacionRequerida">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Obligación requerida
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{item.obligacionRequerida?'SI':'NO'}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="Estado">
+                            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                              Estado
+                            </th>
+                            <td mat-cell *matCellDef="let item"> {{estadoISO=='1028'?'INACTIVO':item.descripcionEstado}} </td>
+                          </ng-container>
+                          <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+                        </table>
+                      </div>
+                    </ng-template>
+                  </mat-expansion-panel>
+                  <!-- Historico -->
+                  <div class="form-group row justify-content-end" *ngIf="afiliaciones.iso.historicoAfiliacion?.length">
+                    <button class="btn btn-blue-sat" mat-button
+                      (click)="openDialogHistoricoInpuesto(afiliaciones.iso.historicoAfiliacion,'ISO')">
+                      Historial ISO
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
+            <!-- ***** otros Impuestos ***** -->
+            <!--Impuesto de Petroleo-->
+            <ng-container *ngIf="afiliaciones.petroleo && afiliaciones.petroleo.length">
+
+              <div class="card border" *ngFor="let impuesto of afiliaciones.petroleo">
+                <div class="card-header card-header-blue-sat">
+                  <h4 class="card-title">{{impuesto.codigoImpuestoDesc}}</h4>
+                </div>
+                <div class="card-body">
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <th class="">Código de Impuesto </th>
+                        <td>{{impuesto.codigoImpuesto}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Nombre de Impuesto </th>
+                        <td class="">{{impuesto.codigoImpuestoDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Tipo de contribuyente </th>
+                        <td class="">{{impuesto.tipoContribuyenteDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Establecimiento </th>
+                        <td class="">{{impuesto.nombreEstablecimiento}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Régimen</th>
+                        <td class="">{{impuesto.codigoRegimenDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Periodo impositivo </th>
+                        <td class="">{{impuesto.periodoImpositivoDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Estatus</th>
+                        <td class="">{{impuesto.estadoDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Fecha desde </th>
+                        <td class="">{{impuesto.fechaDesde | date:'dd/MM/yyyy':'UTC'}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Obligaciones -->
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title class="font-weight-bold">
+                        Obligaciones
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ng-template matExpansionPanelContent>
+                      <div class="material-datatables table-responsive border">
+                        <table id="obligacionesPetroleo" class="table ">
+                          <thead>
+                            <tr>
+                              <th class="">No.</th>
+                              <th class="">Frecuencia de pago</th>
+                              <th class="">Nombre de obligacion</th>
+                              <th class="">Código de formulario</th>
+                              <th class="">Genera etiqueta</th>
+                              <th class="">Obligación requerida</th>
+                              <!-- Pendiente descripcion ya que no trae ningun dato -->
+                              <th class=" ">Estado</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let obl of afiliaciones.petroleo[0].obligaciones; let i = index">
+                              <td>{{ i + 1 }}</td>
+                              <td>{{obl.descripcionPeriodoImpositivo}}</td>
+                              <td>{{obl.descripcionNombreObligacion}}</td>
+                              <td>{{obl.descripcionCodFormulario}}</td>
+                              <td>{{obl.generaEtiquetaOmiso?'SI':'NO'}}</td>
+                              <td>{{obl.obligacionRequerida?'SI':'NO'}}</td>
+                              <td>{{afiliaciones.petroleo[0].estado ==
+                                1028?'INACTIVO':obl.descripcionEstado }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </ng-template>
+                  </mat-expansion-panel>
+
+                  <!-- Historico -->
+                  <div class="form-group row justify-content-end" *ngIf="impuesto.historicoAfiliacion?.length">
+                    <button class="btn btn-blue-sat" mat-button
+                      (click)="openDialogHistoricoInpuesto(impuesto.historicoAfiliacion,impuesto.codigoImpuestoDesc)">
+                      Historial
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <!--Impuesto a la Distribuci{on e Bebidas-->
+            <ng-container *ngIf="afiliaciones.bebidas && afiliaciones.bebidas.length">
+
+              <div class="card border" *ngFor="let impuesto of afiliaciones.bebidas">
+                <div class="card-header card-header-blue-sat">
+                  <h4 class="card-title">{{impuesto.codigoImpuestoDesc}}</h4>
+                </div>
+                <div class="card-body">
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <th class="">Código de Impuesto </th>
+                        <td>{{impuesto.codigoImpuesto}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Nombre de Impuesto </th>
+                        <td class="">{{impuesto.codigoImpuestoDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Tipo de contribuyente </th>
+                        <td class="">{{impuesto.tipoContribuyenteDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Establecimiento </th>
+                        <td class="">{{impuesto.nombreEstablecimiento}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Régimen</th>
+                        <td class="">{{impuesto.codigoRegimenDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Periodo impositivo </th>
+                        <td class="">{{impuesto.periodoImpositivoDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Estatus</th>
+                        <td class="">{{impuesto.estadoDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Fecha desde </th>
+                        <td class="">{{impuesto.fechaDesde | date:'dd/MM/yyyy':'UTC'}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- Obligaciones -->
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title class="font-weight-bold">
+                        Obligaciones
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ng-template matExpansionPanelContent>
+                      <div class="material-datatables table-responsive border">
+                        <table id="obligacionesBebidas" class="table ">
+                          <thead>
+                            <tr>
+                              <th class="">No.</th>
+                              <th class="">Frecuencia de pago</th>
+                              <th class="">Nombre de obligacion</th>
+                              <th class="">Código de formulario</th>
+                              <th class="">Genera etiqueta</th>
+                              <th class="">Obligación requerida</th>
+                              <!-- Pendiente descripcion ya que no trae ningun dato -->
+                              <th class=" ">Estado</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let obl of afiliaciones.bebidas[0].obligaciones; let i = index">
+                              <td>{{ i + 1 }}</td>
+                              <td>{{obl.descripcionPeriodoImpositivo}}</td>
+                              <td>{{obl.descripcionNombreObligacion}}</td>
+                              <td>{{obl.descripcionCodFormulario}}</td>
+                              <td>{{obl.generaEtiquetaOmiso?'SI':'NO'}}</td>
+                              <td>{{obl.obligacionRequerida?'SI':'NO'}}</td>
+                              <td>{{afiliaciones.bebidas[0].estado ==
+                                1028?'INACTIVO':obl.descripcionEstado }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </ng-template>
+                  </mat-expansion-panel>
+                  <!-- Historico -->
+                  <div class="form-group row justify-content-end" *ngIf="impuesto.historicoAfiliacion?.length">
+                    <button class="btn btn-blue-sat" mat-button
+                      (click)="openDialogHistoricoInpuesto(impuesto.historicoAfiliacion,impuesto.codigoImpuestoDesc)">
+                      Historial
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <!--Impuesto de cemento-->
+            <ng-container *ngIf="afiliaciones.cemento && afiliaciones.cemento.length">
+
+              <div class="card border" *ngFor="let impuesto of afiliaciones.cemento">
+                <div class="card-header card-header-blue-sat">
+                  <h4 class="card-title">{{impuesto.codigoImpuestoDesc}}</h4>
+                </div>
+                <div class="card-body">
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <th class="">Código de Impuesto </th>
+                        <td>{{impuesto.codigoImpuesto}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Nombre de Impuesto </th>
+                        <td class="">{{impuesto.codigoImpuestoDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Tipo de contribuyente </th>
+                        <td class="">{{impuesto.tipoContribuyenteDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Establecimiento </th>
+                        <td class="">{{impuesto.nombreEstablecimiento}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Régimen</th>
+                        <td class="">{{impuesto.codigoRegimenDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Periodo impositivo </th>
+                        <td class="">{{impuesto.periodoImpositivoDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Estatus</th>
+                        <td class="">{{impuesto.estadoDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Fecha desde </th>
+                        <td class="">{{impuesto.fechaDesde | date:'dd/MM/yyyy':'UTC'}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- Obligaciones -->
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title class="font-weight-bold">
+                        Obligaciones
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ng-template matExpansionPanelContent>
+                      <div class="material-datatables table-responsive border">
+                        <table id="obligacionesCemento" class="table ">
+                          <thead>
+                            <tr>
+                              <th class="">No.</th>
+                              <th class="">Frecuencia de pago</th>
+                              <th class="">Nombre de obligacion</th>
+                              <th class="">Código de formulario</th>
+                              <th class="">Genera etiqueta</th>
+                              <th class="">Obligación requerida</th>
+                              <!-- Pendiente descripcion ya que no trae ningun dato -->
+                              <th class=" ">Estado</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let obl of afiliaciones.cemento[0].obligaciones; let i = index">
+                              <td>{{ i + 1 }}</td>
+                              <td>{{obl.descripcionPeriodoImpositivo}}</td>
+                              <td>{{obl.descripcionNombreObligacion}}</td>
+                              <td>{{obl.descripcionCodFormulario}}</td>
+                              <td>{{obl.generaEtiquetaOmiso?'SI':'NO'}}</td>
+                              <td>{{obl.obligacionRequerida?'SI':'NO'}}</td>
+                              <td>{{afiliaciones.cemento[0].estado ==
+                                1028?'INACTIVO':obl.descripcionEstado }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </ng-template>
+                  </mat-expansion-panel>
+                  <!-- Historico -->
+                  <div class="form-group row justify-content-end" *ngIf="impuesto.historicoAfiliacion?.length">
+                    <button class="btn btn-blue-sat" mat-button
+                      (click)="openDialogHistoricoInpuesto(impuesto.historicoAfiliacion,impuesto.codigoImpuestoDesc)">
+                      Historial
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <!--Impuesto de tabaco-->
+            <ng-container *ngIf="afiliaciones.tabaco && afiliaciones.tabaco.length">
+
+              <div class="card border" *ngFor="let impuesto of afiliaciones.tabaco">
+                <div class="card-header card-header-blue-sat">
+                  <h4 class="card-title">{{impuesto.codigoImpuestoDesc}}</h4>
+                </div>
+                <div class="card-body">
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <th class="">Código de Impuesto </th>
+                        <td>{{impuesto.codigoImpuesto}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Nombre de Impuesto </th>
+                        <td class="">{{impuesto.codigoImpuestoDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Tipo de contribuyente </th>
+                        <td class="">{{impuesto.tipoContribuyenteDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Establecimiento </th>
+                        <td class="">{{impuesto.nombreEstablecimiento}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Régimen</th>
+                        <td class="">{{impuesto.codigoRegimenDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Periodo impositivo </th>
+                        <td class="">{{impuesto.periodoImpositivoDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Estatus</th>
+                        <td class="">{{impuesto.estadoDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Fecha desde </th>
+                        <td class="">{{impuesto.fechaDesde | date:'dd/MM/yyyy':'UTC'}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- Obligaciones -->
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title class="font-weight-bold">
+                        Obligaciones
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ng-template matExpansionPanelContent>
+                      <div class="material-datatables table-responsive border">
+                        <table id="obligacionesTabaco" class="table ">
+                          <thead>
+                            <tr>
+                              <th class="">No.</th>
+                              <th class="">Frecuencia de pago</th>
+                              <th class="">Nombre de obligacion</th>
+                              <th class="">Código de formulario</th>
+                              <th class="">Genera etiqueta</th>
+                              <th class="">Obligación requerida</th>
+                              <!-- Pendiente descripcion ya que no trae ningun dato -->
+                              <th class=" ">Estado</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let obl of afiliaciones.tabaco[0].obligaciones; let i = index">
+                              <td>{{ i + 1 }}</td>
+                              <td>{{obl.descripcionPeriodoImpositivo}}</td>
+                              <td>{{obl.descripcionNombreObligacion}}</td>
+                              <td>{{obl.descripcionCodFormulario}}</td>
+                              <td>{{obl.generaEtiquetaOmiso?'SI':'NO'}}</td>
+                              <td>{{obl.obligacionRequerida?'SI':'NO'}}</td>
+                              <td>{{afiliaciones.tabaco[0].estado ==
+                                1028?'INACTIVO':obl.descripcionEstado }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </ng-template>
+                  </mat-expansion-panel>
+                  <!-- Historico -->
+                  <div class="form-group row justify-content-end" *ngIf="impuesto.historicoAfiliacion?.length">
+                    <button class="btn btn-blue-sat" mat-button
+                      (click)="openDialogHistoricoInpuesto(impuesto.historicoAfiliacion,impuesto.codigoImpuestoDesc)">
+                      Historial
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <!--Impuesto de cable-->
+            <ng-container *ngIf="afiliaciones.cable && afiliaciones.cable.length">
+
+              <div class="card border" *ngFor="let impuesto of afiliaciones.cable">
+                <div class="card-header card-header-blue-sat">
+                  <h4 class="card-title">{{impuesto.codigoImpuestoDesc}}</h4>
+                </div>
+                <div class="card-body">
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <th class="">Código de Impuesto </th>
+                        <td>{{impuesto.codigoImpuesto}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Nombre de Impuesto </th>
+                        <td class="">{{impuesto.codigoImpuestoDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Tipo de contribuyente </th>
+                        <td class="">{{impuesto.tipoContribuyenteDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Establecimiento </th>
+                        <td class="">{{impuesto.nombreEstablecimiento}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Régimen</th>
+                        <td class="">{{impuesto.codigoRegimenDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Periodo impositivo </th>
+                        <td class="">{{impuesto.periodoImpositivoDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Estatus</th>
+                        <td class="">{{impuesto.estadoDesc}}</td>
+                      </tr>
+                      <tr>
+                        <th class="">Fecha desde </th>
+                        <td class="">{{impuesto.fechaDesde | date:'dd/MM/yyyy':'UTC'}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- Obligaciones -->
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title class="font-weight-bold">
+                        Obligaciones
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ng-template matExpansionPanelContent>
+                      <div class="material-datatables table-responsive border">
+                        <table id="obligacionesCable" class="table ">
+                          <thead>
+                            <tr>
+                              <th class="">No.</th>
+                              <th class="">Frecuencia de pago</th>
+                              <th class="">Nombre de obligacion</th>
+                              <th class="">Código de formulario</th>
+                              <th class="">Genera etiqueta</th>
+                              <th class="">Obligación requerida</th>
+                              <!-- Pendiente descripcion ya que no trae ningun dato -->
+                              <th class=" ">Estado</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let obl of afiliaciones.cable[0].obligaciones; let i = index">
+                              <td>{{ i + 1 }}</td>
+                              <td>{{obl.descripcionPeriodoImpositivo}}</td>
+                              <td>{{obl.descripcionNombreObligacion}}</td>
+                              <td>{{obl.descripcionCodFormulario}}</td>
+                              <td>{{obl.generaEtiquetaOmiso?'SI':'NO'}}</td>
+                              <td>{{obl.obligacionRequerida?'SI':'NO'}}</td>
+                              <td>{{afiliaciones.cable[0].estado ==
+                                1028?'INACTIVO':obl.descripcionEstado }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </ng-template>
+                  </mat-expansion-panel>
+                  <!-- Historico -->
+                  <div class="form-group row justify-content-end" *ngIf="impuesto.historicoAfiliacion?.length">
+                    <button class="btn btn-blue-sat" mat-button
+                      (click)="openDialogHistoricoInpuesto(impuesto.historicoAfiliacion,impuesto.codigoImpuestoDesc)">
+                      Historial
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </form>
+        </ng-template>
+        <ng-template #no_tiene_afiliaciones>
+          <div class="card">
+            <div class="card-header  card-header-blue-sat">
+              <h5 class="card-title text-center">Este contribuyente no tiene una afiliación</h5>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <!--Características  Especiales-->
+      <mat-tab label="Características especiales">
+        <ng-template [ngIf]="CaracteristicasEspeciales?.length" [ngIfElse]="no_tiene_caracteristicas">
+          <div class="card border">
+            <div class="card-header card-header-blue-sat">
+              <h4 class="card-title">Características Especiales</h4>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table">
+
+                  <thead class="text-center thead-light headerText">
+                    <tr>
+                      <th class="headerText">Característica</th>
+                      <th class="headerText">Estado</th>
+                      <th class="headerText">Fecha Desde</th>
+                      <th class="headerText">Fecha Hasta</th>
+                      <th class="headerText" *ngIf="esContadorPublicoAuditor">Profesión</th>
+                      <th class="headerText" *ngIf="esContadorPublicoAuditor">Forma Prestación de Servicios</th>
+                      <th class="headerText" *ngIf="esEmisorDictamen">Fecha de Certificación del Tribunal de Honor
+                      </th>
+                      <th class="headerText" *ngIf="esEmisorDictamen">NIT Notario que Emite Declaración Jurada</th>
+                      <th class="headerText" *ngIf="esEmisorDictamen">Fecha de la Declaración Jurada</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let caracteristica of CaracteristicasEspeciales" class="text-center">
+                      <td class="py-0 text-uppercase">
+                        {{caracteristica.nombreCaracteristica}}</td>
+                      <td class="py-0 text-uppercase">{{caracteristica.nombreEstado}}</td>
+                      <td class="py-0 text-uppercase">{{caracteristica.fechaDesde | date:'dd/MM/yyyy':'UTC'}}</td>
+                      <td class="py-0 text-uppercase">{{caracteristica.fechaHasta | date:'dd/MM/yyyy':'UTC'}}</td>
+                      <td class="py-0 text-uppercase" *ngIf="esContadorPublicoAuditor">
+                        {{caracteristica.tipoContador != null?(caracteristica.tipoContador == 'P'?'PERITO CONTADOR':'CONTADOR PÚBLICO Y AUDITOR'):null}}
+                      </td>
+                      <td class="py-0 text-uppercase" *ngIf="esContadorPublicoAuditor">
+                        {{caracteristica.tipoServicio != null?(caracteristica.tipoServicio ==
+                        864?'INDEPENDIENTE':'DEPENDIENTE'):null}}</td>
+                      <td class="py-0 text-uppercase" *ngIf="esEmisorDictamen">
+                        {{caracteristica.fechaTribunalHonor | date:'dd/MM/yyyy':'UTC'}}
+                      </td>
+                      <td class="py-0 text-uppercase" *ngIf="esEmisorDictamen">
+                        {{caracteristica.nitNotarioDeclaJurada}}</td>
+                      <td class="py-0 text-uppercase" *ngIf="esEmisorDictamen">
+                        {{caracteristica.fechaDeclaJurada | date:'dd/MM/yyyy':'UTC'}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="card border" *ngIf="esEmisorDictamen">
+            <div class="card-header card-header-blue-sat">
+              <h4 class="card-title">Entidad Jurídica</h4>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table">
+
+                  <thead class="text-center thead-light">
+                    <tr>
+                      <th class="py-0 headerText">NIT</th>
+                      <th class="py-0 headerText">Nombre o Razón Social</th>
+                      <th class="py-0 headerText">Domicilio Fiscal</th>
+                      <th class="py-0 headerText">Tipo de Servicio</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="text-center" *ngFor="let entidad of EntidadJuridica">
+                      <td class="py-0 text-uppercase">{{entidad.nitJuridico}}</td>
+                      <td class="py-0 text-uppercase">{{entidad.nombreORazonSocial}}</td>
+                      <td class="py-0 text-uppercase">{{entidad.direccion}}</td>
+                      <td class="py-0 text-uppercase">{{entidad.descripcionTipoServicio}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </ng-template>
+        <ng-template #no_tiene_caracteristicas>
+          <div class="card">
+            <div class="card-header  card-header-blue-sat">
+              <h5 class="card-title text-center">Este contribuyente no cuenta con características
+                especiales</h5>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <!--Socios Accionistas-->
+      <!-- Se elimina la sección de soccios por actualización en CU -->
+      <mat-tab label="Socios accionistas" *ngIf="false">
+
+        <ng-template matTabContent>
+          <mat-accordion>
+            <!--Socio Accionista domiciliado-->
+            <mat-expansion-panel [disabled]="listaDomiciliados.length == 0">
+              <mat-expansion-panel-header>
+                <mat-panel-title class="font-weight-bold">
+                  Socios o accionistas domiciliados
+                </mat-panel-title>
+                <mat-panel-description *ngIf="listaDomiciliados.length == 0">
+                  inexistentes {{listaDomiciliados.length}}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <ng-template matExpansionPanelContent>
+                <div class="material-datatables table-responsive border">
+                  <table id="socioAccDomiciliado" class="table ">
+                    <thead>
+                      <tr>
+                        <th class="">NIT</th>
+                        <th class="">Nombre o razón social</th>
+                        <th class="">Cantidad de acciones</th>
+                        <th class="">Porcentaje de participación</th>
+                        <th class=" ">Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let socio of listaDomiciliados">
+
+                        <td>{{socio.nitSocio}}</td>
+                        <td>{{socio.nombreSocio}}</td>
+                        <td>{{socio.cantidadAcciones}}
+                        </td>
+                        <td>
+                          {{socio.porcentajeParticipacion}} %</td>
+                        <td>
+                          {{socio.status == '1020'?'ACTIVO':'INACTIVO'}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </mat-expansion-panel>
+
+            <!--Socio Accionista no domiciliado-->
+            <mat-expansion-panel [disabled]="listaNoDomiciliados.length == 0">
+              <mat-expansion-panel-header>
+                <mat-panel-title class="font-weight-bold">
+                  Socio ó Accionista no domiciliado
+                </mat-panel-title>
+                <mat-panel-description *ngIf="listaNoDomiciliados.length == 0">
+                  inexistentes
+                  inexistentes
+                  inexistentes
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <!--Informacion -->
+              <ng-template matExpansionPanelContent>
+                <div class="material-datatables table-responsive border">
+                  <table id="socioAccDomiciliado" class="table ">
+                    <thead>
+                      <tr>
+                        <th>País de origen</th>
+                        <th>Identificación</th>
+                        <th>Número identificación</th>
+                        <th>Nombre o razón social</th>
+                        <th>Cantidad de acciones</th>
+                        <th>Porcentaje de participación</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let socio of listaNoDomiciliados">
+                        <td>{{socio.paisOrigenDesc}}</td>
+                        <td>{{socio.tipoDocumentoDesc}}</td>
+                        <td>{{socio.numeroId}}</td>
+                        <td>{{socio.nombreSocio}}</td>
+                        <td>{{socio.cantidadAcciones}}</td>
+                        <td>{{socio.porcentajeParticipacion}} %</td>
+                        <td>
+                          {{socio.status == '1020'?'ACTIVO':'INACTIVO'}}
+                        </td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </mat-expansion-panel>
+            <!--Partes relacionadas en el Extranjero -->
+            <mat-expansion-panel [disabled]="listaPartRelacionExtranjero.length == 0">
+              <mat-expansion-panel-header>
+                <mat-panel-title class="font-weight-bold">
+                  Partes relacionadas en el extranjero
+                </mat-panel-title>
+                <mat-panel-description *ngIf="listaPartRelacionExtranjero.length == 0">
+                  inexistentes
+                  inexistentes
+                  inexistentes
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <ng-template matExpansionPanelContent>
+                <div class="material-datatables table-responsive border">
+                  <table id="socioAccDomiciliado" class="table ">
+                    <thead>
+                      <tr>
+                        <th>País de origen</th>
+                        <th>Identificación</th>
+                        <th>Número identificación</th>
+                        <th>Nombre o razón social</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let socio of listaPartRelacionExtranjero">
+                        <td>{{socio.paisOrigenDesc}}</td>
+                        <td>{{socio.tipoDocumentoDesc}}</td>
+                        <td>{{socio.numeroId}}</td>
+                        <td>{{socio.nombreSocio}}</td>
+                        <td>
+                          {{socio.status == '1020'?'ACTIVO':'INACTIVO'}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </mat-expansion-panel>
+            <!--Detalle de empresas que conforman el Grupo Corporativo-->
+            <mat-expansion-panel [disabled]="listaGrupoCorporativo.length == 0">
+              <mat-expansion-panel-header>
+                <mat-panel-title class="font-weight-bold">
+                  Detalle de empresas que conforman el Grupo Corporativo
+                </mat-panel-title>
+                <mat-panel-description *ngIf="listaGrupoCorporativo.length == 0">
+                  inexistentes
+                  inexistentes
+                  inexistentes
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <ng-template matExpansionPanelContent>
+                <div class="material-datatables table-responsive border">
+                  <table id="socioAccDomiciliado" class="table ">
+                    <thead>
+                      <tr>
+                        <th>Nit de empresa del grupo</th>
+                        <th>Nombre o razón social</th>
+                        <th>Domicilio fiscal</th>
+                        <th>Nit del representante legal</th>
+                        <th>Nombre de representante legal</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let socio of listaGrupoCorporativo">
+                        <td>{{socio.nitSocio}}</td>
+                        <td>{{socio.nombreSocio}}</td>
+                        <td>{{socio.ubicacionFiscal}}</td>
+                        <td>{{socio.nitRepresentante}}</td>
+                        <td>{{socio.nombreRepresentante}}</td>
+                        <td>
+                          {{socio.status == '1020'?'ACTIVO':'INACTIVO'}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

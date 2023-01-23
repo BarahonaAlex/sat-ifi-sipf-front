@@ -1,0 +1,84 @@
+<br>
+<mat-form-field appearance="standard" *ngIf="data.showFilter">
+  <mat-label>Filtro</mat-label>
+  <input matInput (keyup)="applyFilter($event)" #input>
+</mat-form-field>
+
+<div class="result-count">
+  <span class="title">Resultados de búsqueda </span>
+  <span class="count">{{dataSource.data.length}}</span>
+</div>
+
+<table mat-table [dataSource]="dataSource" matSort>
+  <ng-container [matColumnDef]="colum.id" *ngFor="let colum of data.header;">
+
+    <div [ngSwitch]="colum.id">
+
+      <div *ngSwitchCase="'checkbox'">
+        <th mat-header-cell *matHeaderCellDef>
+
+          <mat-checkbox (change)="colum.child?.onheaderEvent!($event)"></mat-checkbox>
+
+
+        </th>
+      </div>
+
+      <div *ngSwitchDefault>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{colum.nameColum}}</th>
+      </div>
+
+    </div>
+
+    <div *ngIf="!colum.actions">
+      <td mat-cell #dataElement *matCellDef="let element;">
+        <div [ngSwitch]="colum.child?.type!">
+          <div *ngSwitchCase="'linkedColumn'"><button mat-button
+              (click)="colum.child?.onClick([colum.id, element])">{{transformData(element[colum.id])}}</button></div>
+          <div *ngSwitchCase="'link'"><button mat-button
+              (click)="colum.child?.onClick(element)">{{transformData(element[colum.id])}}</button></div>
+          <div *ngSwitchDefault>{{transformData(element[colum.id])}}</div>
+          <div *ngSwitchCase="'check'">
+            <mat-checkbox (change)="colum.child?.onClick([$event,element])"></mat-checkbox>
+          </div>
+        </div>
+      </td>
+    </div>
+
+    <div *ngIf="colum.actions">
+      <td mat-cell *matCellDef="let element; let i = index">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+          <mat-icon>more_horiz</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <div *ngFor="let btn of colum.actions">
+            <div [ngSwitch]="btn.type!">
+              <div *ngSwitchDefault>
+                <button mat-menu-item [title]="btn.btnName" class="iconos" (click)="btn.onClick(element);"
+                  [disabled]="btn.disabledWhen ? btn.disabledWhen(element) : false"
+                  [hidden]="btn.hiddenWhen ? btn.hiddenWhen(element) : false">
+                  <mat-icon class="iconos">{{btn.btnIcon}}</mat-icon>
+                  <span>{{btn.btnName}}</span>
+                </button>
+              </div>
+              <div *ngSwitchCase="'index'">
+                <button mat-menu-item [title]="btn.btnName" class="iconos" (click)="btn.onClick([element, i]);"
+                  [disabled]="btn.disabledWhen ? btn.disabledWhen(element) : false"
+                  [hidden]="btn.hiddenWhen ? btn.hiddenWhen(element) : false">
+                  <mat-icon class="iconos">{{btn.btnIcon}}</mat-icon>
+                  <span>{{btn.btnName}}</span>
+                </button>
+              </div>
+            </div>
+
+
+          </div>
+        </mat-menu>
+      </td>
+    </div>
+
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row  *matRowDef="let row; columns: displayedColumns;" [class.refused]="row.idEstado == '16'"></tr><!-- @enterExitLeft -->
+</table>
+<h3 *ngIf="dataSource.data.length == 0" class="text-center m-3">{{noDataMsg}}</h3>
+<mat-paginator [pageSizeOptions]="data.noColum" showFirstLastButtons></mat-paginator>

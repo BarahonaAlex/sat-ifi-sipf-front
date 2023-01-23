@@ -1,0 +1,73 @@
+<head>
+  Desasignacion de Casos
+</head>
+
+<body>
+  <div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+    <h1 class="main-title">Desasignacion de Insumos</h1>
+  </div>
+  <body-container>
+    <div class="container cuerpo mat-elevation-z2">
+      <br>
+      <h2 class="title">Listado de Supervisores</h2>
+      <table mat-table [dataSource]="supervisoresDataSource">
+
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="Nombre">
+          <th mat-header-cell class="titulo2 border-table" *matHeaderCellDef> Nombre </th>
+          <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombre}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="Nit">
+          <th mat-header-cell class="titulo2 border-table" *matHeaderCellDef>Nit </th>
+          <td mat-cell class="centrar" *matCellDef="let element"> {{element.nit}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Estado">
+          <th mat-header-cell class="titulo2 border-table" *matHeaderCellDef>Estado </th>
+          <td mat-cell class="centrar" *matCellDef="let element"> {{element.estado}} </td>
+        </ng-container>
+
+        <!-- Weight cantidad -->
+        <button mat-button type="button">
+          <mat-icon>arrow_back</mat-icon>
+          Regresar
+        </button>
+
+        <ng-container matColumnDef="boton">
+          <th mat-header-cell class="titulo2 border-table" *matHeaderCellDef> Accion </th>
+          <td mat-cell class="centrar" *matCellDef="let element">
+
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+
+              <button mat-menu-item title="Asignar" (click)="verDetalle()">
+                <mat-icon class="iconos">edit</mat-icon>
+                <span>Seleccionar</span>
+              </button>
+
+            </mat-menu>
+
+          </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+
+      </table>
+      <br>
+    </div>
+    <div>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </body-container>
+</body>

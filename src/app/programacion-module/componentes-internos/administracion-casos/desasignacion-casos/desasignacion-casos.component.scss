@@ -1,0 +1,59 @@
+/* .main-title {
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) var(--unnamed-font-size-32)/var(--unnamed-line-spacing-43) var(--unnamed-font-family-roboto);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--unnamed-color-19324b);
+  text-align: left;
+  font: normal normal bold 32px/43px Roboto;
+  letter-spacing: 0px;
+  color: #19324B;
+  text-transform: uppercase;
+  opacity: 1;
+} */
+
+.main-title-two {
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) var(--unnamed-font-size-32)/var(--unnamed-line-spacing-43) var(--unnamed-font-family-roboto);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--unnamed-color-19324b);
+  text-align: left;
+  font: normal normal 16px/18px Roboto;
+  letter-spacing: 0px;
+  color: #19324B;
+  text-transform: uppercase;
+  opacity: 1;
+}
+.example-full-width {
+  width: 100%;
+}
+.btnCenter{
+text-align: center;
+justify-content: center;
+}
+.number{
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.txtTable{
+  text-align: center;
+}
+.right{
+  float: right;
+}
+.center{
+  text-align: center;
+}
+.txtLabel{
+  background-color: #19324B;
+  color: #ffff;
+  text-align: center;
+  justify-content: center;
+}
+.derecha{
+  float: right;
+}
+
+.centrar{
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+}

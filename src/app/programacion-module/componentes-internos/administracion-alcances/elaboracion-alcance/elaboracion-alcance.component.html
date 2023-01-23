@@ -1,0 +1,151 @@
+<!--vista elaboracion alcance-->
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">Elaboración de Alcances</mat-card-title>
+  <mat-card>
+    <!--Seccion uno, indica los datos del contribuyente-->
+    <section id="SectionOne" class="container">
+      <form [formGroup]="contribuyenteform">
+        <!--primer input -->
+        <div class="RowOne">
+          <div class="ColumnSectionOne">
+            <mat-form-field class="example-full-width input_size">
+              <mat-label>Numero de NIT</mat-label>
+              <input matInput autocomplete="off" formControlName="nit" readonly="true">
+            </mat-form-field>
+          </div>
+          <!--segundo input -->
+          <div class="ColumnSectionOne">
+            <mat-form-field class="example-full-width input_size">
+              <mat-label>Nombre de Contribuyente</mat-label>
+              <input matInput autocomplete="off" formControlName="contribuyente" readonly="true">
+            </mat-form-field>
+          </div>
+          <!--tercer input -->
+          <div class="ColumnSectionOne">
+            <mat-form-field class="example-full-width input_size">
+              <mat-label>Periodos de Alcance</mat-label>
+              <input matInput autocomplete="off" formControlName="periodo" readonly="true">
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+      <br>
+    </section>
+    <!--Apartado donde se muestra el combo para agregar una nueva sección-->
+    <mat-form-field class="dropdown_margen ">
+      <mat-label color="primary">Agregar Seccion</mat-label>
+      <mat-select>
+        <mat-option value="one" class="fill" (click)="openFormGeneral()">Datos generales</mat-option>
+        <mat-option value="two" class="fill" (click)="openFormComplement()">Datos complementarios para programas
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!--Apartado donde se muestra los botones para navegar en la interfaz-->
+    <div class="seccionBtns">
+      <button mat-button type="button" class="btn-container mt-3 mb-2 margenbtn" color="primary"
+        [routerLink]="['elaboracion/alcance/:tipo/:id']">
+        <mat-icon class="iconos">visibility</mat-icon>
+        Ver alcance
+      </button>
+      <button mat-button type="button" class="btn-container mt-3 mb-2" color="primary" (click)="openAgregarPrograma()">
+        <mat-icon class="iconos">playlist_add</mat-icon>
+        Agregar al programa
+      </button>
+      <button mat-button type="button" class="btn-container mt-3 mb-2" color="primary" (click)="openDesasociar()">
+        <mat-icon class="iconos">highlight_off</mat-icon>
+        Desasociar
+      </button>
+
+    </div>
+
+
+    
+    <!--Sección dos, se muestera la tabla donde apareceran las secciones agregadas.-->
+    <section id="SectionTwo">
+      <div class="fluid-container">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <!-- Seccion -->
+          <ng-container matColumnDef="Nseccion">
+            <th mat-header-cell *matHeaderCellDef class="header-table">
+              Sección
+            </th>
+            <!--la sentencia *element.Seccion* es llamada desde el documento typescript -->
+            <td mat-cell *matCellDef="let element" class="header-table" #Picker> {{element.Nseccion}} </td>
+          </ng-container>
+          <!-- DesSeccion -->
+          <ng-container matColumnDef="Dseccion">
+            <th mat-header-cell *matHeaderCellDef class="header-table">
+              Descripcion de la Sección
+            </th>
+            <!--la sentencia *element.Seccion* es llamada desde el documento typescript -->
+            <td mat-cell *matCellDef="let element" class="txtTdTable"> {{element.Dseccion}} </td>
+          </ng-container>
+          <!-- SCSupervisor -->
+          <ng-container matColumnDef="comentario">
+            <th mat-header-cell *matHeaderCellDef class="header-table">
+              Solicitud de Cambios de Supervisor
+            </th>
+            <!--la sentencia *element.Seccion* es llamada desde el documento typescript -->
+            <td mat-cell *matCellDef="let element" class="txtTdTable"> 
+              <div [innerHTML]="element.comentario"></div>
+            </td>
+          </ng-container>
+          <!-- SCJefe -->
+          <ng-container matColumnDef="SCJefe">
+            <th mat-header-cell *matHeaderCellDef class="header-table">
+              Solicitud de Cambios de Jefe
+            </th>
+            <!--la sentencia *element.Seccion* es llamada desde el documento typescript -->
+            <td mat-cell *matCellDef="let element" class="txtTdTable"> 
+              <div [innerHTML]="element.SCJefe"></div>
+            </td>
+          </ng-container>
+          <!--Estado-->
+          <ng-container matColumnDef="Estado">
+            <th mat-header-cell *matHeaderCellDef class="header-table">
+              Estado
+            </th>
+            <!--la sentencia *element.Seccion* es llamada desde el documento typescript -->
+            <td mat-cell *matCellDef="let element" class="header-table"> {{element.Estado}} </td>
+          </ng-container>
+          <!--Acciones-->
+          <ng-container matColumnDef="Acciones">
+            <div class="">  
+              <th mat-header-cell *matHeaderCellDef class="header-table">
+                Acciones
+              </th>
+
+              <td mat-cell *matCellDef="let element" class="txtTdTable margenMenu centrar" width="">
+
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                  <mat-icon>more_horiz</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" class="menuTamaño">
+                  <div class="btns">
+                    <button mat-menu-item title="Modificar" class="iconos"
+                      (click)="openModificar(element)">
+                      <mat-icon class="iconos">edit</mat-icon>
+                      <span>Modificar</span>
+                    </button>
+                    <!--la sentencia *openDialog* es llamada desde el docuemtno de typsescript-->
+                    <button mat-menu-item title="Eliminar" class="iconos" (click)="openEliminar(element)">
+                      <mat-icon class="iconos">delete</mat-icon>
+                      <span>Eliminar</span>
+                    </button>
+                    <!--la sentencia *element.Seccion* es llamada desde el documento typescript -->
+                  </div>
+                </mat-menu>
+                {{element.Acciones}}
+              </td>
+
+            </div>
+          </ng-container>
+          <!--la sentencia *displayedColumns* es llamada del documento typescript-->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+
+    </section>
+  </mat-card>
+</div>

@@ -1,0 +1,9 @@
+.sat {
+  position: absolute;
+  width: 30%;
+  height: 30%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: invert(12%) sepia(100%) saturate(3690%) hue-rotate(192deg) brightness(87%) contrast(87%);
+}

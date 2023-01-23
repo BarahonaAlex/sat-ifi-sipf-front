@@ -1,0 +1,83 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+
+    <mat-card-title class="main-title">{{showVisor ? 'Bandeja Jefe de Unidad' : 'Revisión de Alcance'}}</mat-card-title>
+
+    <br>
+    <div *ngIf="showVisor">
+        <mat-card>
+            <div>
+                <mat-radio-group aria-label="Select an option">
+                    <mat-radio-button value="1" (click)="getPresence()">Presencia</mat-radio-button>
+                    <mat-radio-button value="2" (click)="getCabinet()">Gabinete</mat-radio-button>
+                    <mat-radio-button value="3" (click)="getPoint()">Puntos Fijos</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <br>
+            <!-- Tabla 2 resumen de automovil -->
+            <div class="table-responsive">
+                <table mat-table [dataSource]="bandejaJefDepartamento" matSort>
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Identificador de Alcance</th>
+                        <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.idAlcance}} </td>
+                    </ng-container>
+
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="tipo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de Alcance</th>
+                        <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.tipo}} </td>
+                    </ng-container>
+
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="estado">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                        <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.estado}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                        <td mat-cell class="centrar" *matCellDef="let element">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                                <mat-icon>more_horiz</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item type="button" title="Reasignar" color="primary" (click)="getVisor(element)">
+                                    <mat-icon class="iconos">visibility</mat-icon>
+                                    <span>Revisión de Alcance</span>
+                                </button>
+                            </mat-menu>
+                        </td>
+
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                </table>
+
+                <div>
+                    <mat-paginator #MatPaginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                        aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+
+        <div *ngIf="!showVisor">
+        <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="regresar()">
+            <mat-icon>arrow_back</mat-icon>
+            Regresar
+        </button>
+        <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="Approve()">
+            <mat-icon>done</mat-icon>
+            Aprobar
+        </button>
+        <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="warn" (click)="actionRevision()" >
+            <mat-icon>edit</mat-icon>
+            Corrección de Alcance
+        </button>
+        <mat-card>
+            <app-visor [nodeId]="node.id" ></app-visor>
+        </mat-card>
+    </div>
+</div>

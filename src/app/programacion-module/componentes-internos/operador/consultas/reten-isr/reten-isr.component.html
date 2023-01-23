@@ -1,0 +1,290 @@
+<ng-container *ngIf="showSearch">
+  <br>
+  <form [formGroup]="searchFormGroup" class="row">
+    <mat-form-field class="col-sm-6" appearance="standard">
+      <mat-label>Tipo de Consulta</mat-label>
+      <mat-select #retencion formControlName="tipoConsulta">
+        <mat-option *ngFor="let retencion of retenciones" [value]="retencion.codigo">{{retencion.nombre}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-6" appearance="standard">
+      <mat-label>Tipo de Retención</mat-label>
+      <mat-select #tipoRetencion formControlName="tipoRetencion">
+        <mat-option *ngFor="let tipoR of tipoReten" [value]="tipoR.codigo">{{tipoR.nombre}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-6" appearance="standard">
+      <mat-label>Ingrese NIT</mat-label>
+      <input matInput formControlName="nitAgenteSujeto" readonly>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-6" appearance="standard">
+      <mat-label>Nombre/Razon Social</mat-label>
+      <input matInput formControlName="nombreAgenteSujeto" readonly>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-6" appearance="standard">
+      <mat-label>Año de retención</mat-label>
+      <mat-select formControlName="periodoAno">
+        <mat-option *ngFor="let year of years" [value]="year">{{year}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-6" appearance="standard">
+      <mat-label>Mes retención</mat-label>
+      <mat-select #mesRetencion formControlName="mes">
+        <mat-option *ngFor="let mes of meses" [value]="mes.codigo">{{mes.nombre}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field><br>
+
+    <mat-form-field class="col-sm-6" appearance="standard">
+      <mat-label>Estado</mat-label>
+      <mat-select #estadoRetencion formControlName="estadoRetencion">
+        <mat-option *ngFor="let estadoR of estado" [value]="estadoR.codigo">{{estadoR.nombre}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-6" appearance="standard">
+      <mat-label>NIT Retenedor</mat-label>
+      <input matInput formControlName="nitRetenedor">
+    </mat-form-field>
+    <!-- <mat-divider></mat-divider> -->
+    <div style="text-align: center;">
+      <button mat-button type="button" color="primary" class="btn-container mt-2 ms-auto" (click)="consultar()"
+        [disabled]="searchFormGroup.invalid">
+        <mat-icon>search</mat-icon>
+        Buscar
+      </button>
+    </div>
+    <!-- <mat-divider class="mt-2"></mat-divider> -->
+  </form>
+</ng-container>
+
+<ng-container *ngIf="showTableRc">
+  <div class="row d-flex justify-content-center">
+    <button mat-button type="button" color="primary" class="btn-container" (click)="exportAsXLSXRC()">
+      <mat-icon>file_download</mat-icon>
+      Exportar todo los registros
+    </button>
+    <div class="col-sm-12">
+      <form>
+        <div class="row">
+          <table mat-table [dataSource]="dataSource" matSort>
+
+            <ng-container matColumnDef="noConstancia">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> No. Constancia
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.numero_FORMULARIO}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nitAgenteRetenedor">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> NIT Agente Retenedor
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.nit_SUJETO_R}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nombreRazonSocial">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Nombre o Razon Social
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.nombreSujeto}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="serieDocumento">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Codigo Formulario
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.codigo_FORMULARIO}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="numeroDocumento">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Numero Formulario
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.numero_FORMULARIO}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fechaRetencion">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Fecha Retencion
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.fecha_RETENCION}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="conceptoRetencion">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Concepto Retencion
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.descripcion}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="baseImponible">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Base Imponible
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.base}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="retencion">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Retencion
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.retencion}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="imprimir">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Imprimir
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                <button class="centrar" mat-menu-item type="button" title="Reasignar" color="primary"
+                  (click)="getConstanciaIsr(element.numero_FORMULARIO)">
+                  <mat-icon class="iconos">print</mat-icon>
+                  <span>Imprimir</span>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <div>
+            <mat-paginator #MatPaginator1="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+              aria-label="Select page of periodic elements">
+            </mat-paginator>
+          </div>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container class="mt-4" *ngIf="showTableOs">
+  <div class="row d-flex justify-content-center">
+    <button mat-button type="button" color="primary" class="btn-container" (click)="exportAsXLSXOS()">
+      <mat-icon>file_download</mat-icon>
+      Exportar todo los registros
+    </button>
+    <div class="col-sm-12">
+      <form>
+        <div class="row">
+          <table mat-table [dataSource]="dataSourceOs" matSort>
+
+            <ng-container matColumnDef="noConstancia">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> No. Constancia
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.numero_FORMULARIO}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nitAgenteRetenedor">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> NIT Agente Retenedor
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.nit_AGENTE_R}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nombreRazonSocial">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Nombre o Razon Social
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.nombre_PROVEEDOR}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="serieDocumento">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Serie Documento
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.serie_DOCUMENTO}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="numeroDocumento">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Numero Documento
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.numero_DOCUMENTO}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fechaRetencion">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Fecha Retencion
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.fecha_DOCUMENTO}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="conceptoRetencion">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Concepto Retencion
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.concepto}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="baseImponible">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Base Imponible
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.base}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="retencion">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Retencion
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                {{element.retencion}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="imprimir">
+              <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Imprimir
+              </th>
+              <td mat-cell class="centrar" *matCellDef="let element">
+                <button clas="centrar" mat-menu-item type="button" title="Reasignar" color="primary"
+                  (click)="getConstanciaIsr(element.numero_FORMULARIO)">
+                  <mat-icon class="iconos">print</mat-icon>
+                  <span>Imprimir</span>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsOs"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsOs;"></tr>
+          </table>
+          <div>
+            <mat-paginator #MatPaginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+              aria-label="Select page of periodic elements">
+            </mat-paginator>
+          </div>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+</ng-container>

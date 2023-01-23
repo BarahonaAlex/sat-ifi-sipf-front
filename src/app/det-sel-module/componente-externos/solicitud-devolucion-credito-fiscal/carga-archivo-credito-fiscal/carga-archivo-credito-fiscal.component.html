@@ -1,0 +1,57 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <div class="d-flex h-100">
+    <button mat-icon-button [routerLink]="['/det-sel/solicitud/formulario/credito/fiscal']">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <mat-card-title class="justify-content-center align-self-center mt-2 ms-2">
+      Carga de Archivos
+    </mat-card-title>
+  </div><br><br>
+  <mat-card>
+    <p style="text-align: center;"><b>ANEXO AL FORMULARIO SOLICITUD DE DEVOLUCIÓN DE CRÉDITO FISCAL RÉGIMEN GENERAL</b>
+    </p>
+    <span></span>
+    <br><br>
+    <form [formGroup]="generalFormGroup">
+      <div class="row col-sm-12" formArrayName="arrayGeneral" *ngFor="let correlativos of meses; let i = index">
+        <div [formGroupName]="i" class="row col-sm-12">
+          <div class="col-sm-4">
+            <p style="text-align: center;" class="prueba">Período Impositivo</p>
+            <div style="text-align: center;"><br>
+              <span>{{getMonth(correlativos)}}</span>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <p style="text-align: center;" class="prueba">Crédito Fiscal</p>
+            <upload-file #archivo [label]="'Credito Fiscal'" [accept]="['csv']"
+              [id]="'creditoFiscal'" [folder]="folder" [saveOnLoad]="false" [formControlName]="'creditoFiscal'"
+              (onStateChange)="file($event)" *ngIf="!check.checked">
+            </upload-file>
+            <p>
+              <mat-checkbox [checked]="false" style="margin-right: 15px;" (change)="$event ? validarDeclaracion(correlativos, 1, $event) : null"
+                [formControl]="checkCreditoFiscal" #check>Sin movimientos</mat-checkbox>
+            </p>
+          </div>
+          <div class="col-sm-4">
+            <p style="text-align: center;" class="prueba">Ventas, Exportaciones y Debito Fiscal</p>
+            <upload-file #archivo [label]="'Venta Fiscal'" [accept]="['csv']" 
+              [id]="'ventaFiscal'" [folder]="folder" [saveOnLoad]="false" [formControlName]="'ventaFiscal'"
+              (onStateChange)="file($event)" *ngIf="!check2.checked">
+            </upload-file>
+            <p>
+              <mat-checkbox [checked]="false" style="margin-right: 15px;" (change)="$event ? validarDeclaracion(correlativos, 2,  $event) : null"
+                [formControl]="checkVentaFiscal" #check2>Sin movimientos</mat-checkbox>
+            </p>
+          </div>
+          <br><br><br><br><br><br>
+        </div>
+      </div>
+      <div style="text-align:end">
+        <button mat-button type="button" color="primary" class="btn-container mt-3" (click)="guardarArchivo()" [disabled]="checkedBoolean">
+          <mat-icon>save</mat-icon>
+          Guardar
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

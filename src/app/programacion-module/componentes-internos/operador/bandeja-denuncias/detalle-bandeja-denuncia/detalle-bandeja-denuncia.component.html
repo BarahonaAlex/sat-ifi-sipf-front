@@ -1,0 +1,276 @@
+<div *ngIf="gestionarDenuncia == 1">
+  <!--   -----------------------Encabezado del detalle de una denuncia---------------------- -->
+  <div class="row">
+    <div class="col">
+      <mat-card-title class="justify-content-center align-self-center mt-2">
+        Detalle de Denuncia <b>{{data.correlativo}}</b>
+      </mat-card-title>
+      <p>Aqui podra visualizar los <b>detalles de la denuncia</b> seleccionada.</p><br>
+      <!--       <div class="result-count">
+        <span class="title">Región: </span>
+        <span class="count">{{nombreRegion}}</span>
+      </div> -->
+    </div>
+    <div class="col">
+    </div>
+  </div>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <!--   -----------------------Sección de Detalle de Denuncia---------------------- -->
+  <mat-horizontal-stepper #stepper linear>
+    <mat-step [stepControl]="generalFormGroup">
+      <ng-template matStepLabel>Detalle de Denuncia</ng-template><br>
+      <mat-card class="witdh">
+      <div style="text-aling: center;">
+        <mat-radio-group [(ngModel)]="valor">
+          <mat-radio-button value="1">Aplica</mat-radio-button>
+          <mat-radio-button value="2">No aplica</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </mat-card>
+      <br>
+      <div class="row">
+        <div class="col">
+          <form [formGroup]="generalFormGroup">
+            <mat-form-field appearance="standard" class="col-sm-12">
+              <mat-label>Motivo de denuncia</mat-label>
+              <input matInput autocomplete="off" formControlName="motivoDenuncia" readonly="true">
+            </mat-form-field>
+          </form>
+          <form [formGroup]="generalFormGroup">
+            <mat-form-field appearance="standard" class="col-sm-12">
+              <mat-label>Estado de denuncia</mat-label>
+              <input matInput autocomplete="off" formControlName="estadoDenuncia" readonly="true">
+            </mat-form-field>
+          </form>
+          <form [formGroup]="generalFormGroup">
+            <mat-form-field appearance="standard" class="col-sm-12">
+              <mat-label>Forma de pago</mat-label>
+              <input matInput autocomplete="off" formControlName="formaPago" readonly="true">
+            </mat-form-field>
+          </form>
+        </div>
+        <div class="col">
+          <form [formGroup]="generalFormGroup">
+            <mat-form-field appearance="standard" class="col-sm-12">
+              <mat-label>Fecha de pago</mat-label>
+              <input matInput autocomplete="off" formControlName="fechaPago" readonly="true">
+            </mat-form-field>
+          </form>
+          <form [formGroup]="generalFormGroup">
+            <mat-form-field appearance="standard" class="col-sm-12">
+              <mat-label>Valor</mat-label>
+              <input matInput autocomplete="off" formControlName="valorDenuncia" readonly="true">
+            </mat-form-field>
+          </form>
+          <form [formGroup]="generalFormGroup">
+            <div *ngIf="!mostrar">
+              <mat-form-field appearance="standard" class="col-sm-12">
+                <mat-label>Departamento</mat-label>
+                <input matInput autocomplete="off" formControlName="departamento" readonly="true">
+              </mat-form-field>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <span>Puede seleccionar una <b>región</b>:</span>
+          <form [formGroup]="generalFormGroup">
+            <mat-form-field appearance="standard" class="col-sm-12">
+              <mat-label>Regiones</mat-label>
+              <mat-select (valueChange)="getRegion($event)" formControlName="region">
+                <mat-option *ngFor="let gerencias of gerencias" [value]="gerencias.codigo">{{gerencias.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+        <div class="col-sm-6">
+          <span>Puede seleccionar un proceso de <b>Programación Masiva</b>:</span>
+          <form [formGroup]="generalFormGroup">
+            <div class="col-sm-12">
+              <mat-form-field appearance="standard" class="col-sm-12">
+                <mat-label>Procesos Masivos</mat-label>
+                <mat-select (valueChange)="getSelectProcess($event)" formControlName="tipo">
+                  <mat-option *ngFor="let tipoProcesos of tipos" [value]="tipoProcesos.codigo">{{tipoProcesos.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field><br>
+            </div>
+          </form>
+        </div>
+      </div>
+      <hr>
+      <div class="d-flex pt-2">
+        <div class="ms-auto">
+          <button mat-button type="button" color="warn" class="btn-container mt-3" (click)="cancel()">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+          </button>
+
+          <button mat-button type="button" color="primary" class="btn-container mt-3"
+            [disabled]="generalFormGroup.invalid" matStepperNext *ngIf="valor == 1">
+            <mat-icon>arrow_forward</mat-icon>
+            Siguiente
+          </button>
+
+          <button mat-button type="button" color="primary" class="btn-container mt-3 right"
+            (click)="guardarDenunciaNAP()" *ngIf="valor == 2">
+            <mat-icon>save</mat-icon>
+            Guardar
+          </button>
+        </div>
+      </div>
+    </mat-step>
+    <!--  Psiscion 2 de mat-steper -->
+    <!--    <mat-step [stepControl]="generalFormGroup">
+      <ng-template matStepLabel>Detalle de Denunciante</ng-template><br>
+      <span>Aqui podra ver la <b>información</b> del denunciante.</span>
+      <table mat-table [dataSource]="detailComplaints" class="table-responsive">
+        <ng-container matColumnDef="nitDenunciante">
+          <th mat-header-cell *matHeaderCellDef class="center"> Nit Denunciante </th>
+          <td mat-cell *matCellDef="let element" class="center"> {{element.nitDenunciante}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombreDenunciante">
+          <th mat-header-cell *matHeaderCellDef class="center"> Nombre Denunciante </th>
+          <td mat-cell *matCellDef="let element" class="center"> {{element.nombreDenunciante}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef class="center"> Email </th>
+          <td mat-cell *matCellDef="let element" class="center"> {{element.email}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="telDenunciante">
+          <th mat-header-cell *matHeaderCellDef class="center"> Telefono </th>
+          <td mat-cell *matCellDef="let element" class="center"> {{element.telDenunciante}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="getDetailComplaints"></tr>
+        <tr mat-row *matRowDef="let row; columns: getDetailComplaints;"></tr>
+      </table>
+      <div class="d-flex mt-1 pt-3">
+        <div class="ms-auto">
+          <button mat-button type="button" color="warn" class="btn-container me-2" matStepperPrevious>
+            <mat-icon>arrow_back</mat-icon>
+            Atras
+          </button>
+          <button mat-button type="button" color="primary" class="btn-container mt-3" matStepperNext
+            (click)="getCatalogRegion()">
+            <mat-icon>arrow_forward</mat-icon>
+            Siguiente
+          </button>
+        </div>
+      </div>
+    </mat-step> -->
+    <!-- Parte 3 del denunciado -->
+    <div *ngIf="!mostrar">
+      <mat-step [stepControl]="generalFormGroup">
+        <ng-template matStepLabel>Detalle de Denunciado</ng-template><br>
+        <form [formGroup]="generalFormGroup">
+          <div class="row">
+            <mat-form-field appearance="standard" class="col-sm-6">
+              <mat-label>Nombre del Establecimiento</mat-label>
+              <input matInput autocomplete="off" formControlName="nombreEstablecimiento" readonly="true">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" class="col-sm-6">
+              <mat-label>Dirección del Establecimiento</mat-label>
+              <input matInput autocomplete="off" formControlName="direecionEstablecimiento" readonly="true">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" class="col-sm-6">
+              <mat-label>Departamento</mat-label>
+              <input matInput autocomplete="off" formControlName="departamento" readonly="true">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" class="col-sm-6">
+              <mat-label>Municipio</mat-label>
+              <input matInput autocomplete="off" formControlName="municipio" readonly="true">
+            </mat-form-field>
+          </div>
+        </form><br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <mat-divider>
+        </mat-divider>
+        <div class="d-flex mt-1 pt-3">
+          <div class="ms-auto">
+            <button mat-button type="button" color="warn" class="btn-container me-2" matStepperPrevious>
+              <mat-icon>arrow_back</mat-icon>
+              Atras
+            </button>
+            <button mat-button type="button" color="warn" class="btn-container mt-3" (click)="cancel()">
+              <mat-icon>cancel</mat-icon>
+              Cancelar
+            </button>
+            <button mat-button type="button" color="primary" class="btn-container mt-3" matStepperNext
+              (click)="guardarDenuncia()">
+              <mat-icon>save</mat-icon>
+              Guardar
+            </button>
+          </div>
+        </div>
+      </mat-step>
+    </div>
+    <!-- mat esteper dos -->
+    <div *ngIf="mostrar">
+      <mat-step [stepControl]="generalFormGroup">
+        <ng-template matStepLabel>Detalle de Denunciado</ng-template><br>
+        <form [formGroup]="generalFormGroup">
+          <div class="row">
+            <mat-form-field appearance="standard" class="col-sm-6">
+              <mat-label>Nit</mat-label>
+              <input matInput autocomplete="off" formControlName="NIT" readonly="true">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" class="col-sm-6">
+              <mat-label>Nombre</mat-label>
+              <input matInput autocomplete="off" formControlName="nombre" readonly="true">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" class="col-sm-6">
+              <mat-label>Telefono</mat-label>
+              <input matInput autocomplete="off" formControlName="telefono" readonly="true">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" class="col-sm-6">
+              <mat-label>Direccion</mat-label>
+              <input matInput autocomplete="off" formControlName="direDenunciado" readonly="true">
+            </mat-form-field>
+          </div>
+        </form><br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <mat-divider>
+        </mat-divider>
+        <div class="d-flex mt-1 pt-3">
+          <div class="ms-auto">
+            <button mat-button type="button" color="warn" class="btn-container me-2" matStepperPrevious>
+              <mat-icon>arrow_back</mat-icon>
+              Atras
+            </button>
+            <button mat-button type="button" color="primary" class="btn-container mt-3" matStepperNext
+              (click)="guardarDenuncia()">
+              <mat-icon>save</mat-icon>
+              Guardar
+            </button>
+          </div>
+        </div>
+      </mat-step>
+    </div>
+  </mat-horizontal-stepper>
+</div>

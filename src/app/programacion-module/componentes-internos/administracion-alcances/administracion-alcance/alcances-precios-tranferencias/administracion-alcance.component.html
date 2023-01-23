@@ -1,0 +1,52 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">Administracion Alcances</mat-card-title>
+   <div class="row ">
+    <div class="col-sm">
+      <mat-card class="parent">
+        <div cdkDropList (cdkDropListDropped)="drop($event)" >
+          <div class="example-box" *ngFor="let movie of principal"  (click)="Seleccionar(movie)" cdkDrag>
+            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+            {{movie}}
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-sm" >
+      <mat-card class="parent" *ngIf="vAantecedentes==true">
+        <div cdkDropList (cdkDropListDropped)="drop($event)">
+          <div class="example-box" *ngFor="let movie of antecedentes" (click)="Seleccionar(movie)"  cdkDrag>
+            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+            {{movie}}
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-sm">
+      <mat-card class="parent"  *ngIf="vInformacionContribuyente==true">
+        <div cdkDropList (cdkDropListDropped)="drop($event)">
+          <div class="example-box" *ngFor="let movie of informacionContribuyente" (click)="Seleccionar(movie)"  cdkDrag>
+            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+            {{movie}}
+          </div>
+        </div>
+      </mat-card>
+      
+    </div>
+    <div class="col-sm" >
+      <mat-card class="parent" *ngIf="viInformacionEstudio==true">
+      <div cdkDropList (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let movie of informacionEstudio" cdkDrag>
+          <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+          {{movie}}
+        </div>
+      </div>
+      <div>
+        <button mat-button type="button" color="primary" class="btn-container mt-3" (click)="GenerarAlcance()"  >
+        <mat-icon>save</mat-icon>
+       Generar Documento
+      </button>
+      </div>
+    </mat-card>
+    </div>
+  </div>
+</div>

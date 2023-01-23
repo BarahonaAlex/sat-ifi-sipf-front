@@ -1,0 +1,36 @@
+<div class="row d-flex">
+    <div>
+        <form [formGroup]="generalFormGroup">
+            <div class="centrar">
+                <mat-form-field appearance="standard"
+                    class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4">
+                    <mat-label>Fecha:</mat-label>
+                    <input matInput [matDatepicker]="dp" [formControl]="date" [min]="minDate" [max]="currentDate">
+                    <mat-hint>Mes/Año</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                    <mat-datepicker #dp startView="multi-year" (monthSelected)="selectedMonth($event, dp)"
+                        panelClass="DatePicker">
+                    </mat-datepicker>
+                </mat-form-field>
+                <mat-radio-group formControlName="btnRadio" class="btn-container me-2 mt-3">
+                    <mat-radio-button value="1">DUA</mat-radio-button>
+                    <mat-radio-button value="2">DUCA</mat-radio-button>
+                </mat-radio-group>
+                <button mat-button (click)="findByMonth()" class="btn-container me-2 mt-3" color="primary">
+                    <mat-icon>search</mat-icon>
+                    Buscar
+                </button>
+                <!-- en este boton es donde se creara el excel con toda la informacion que traen las ducas o duas -->
+                <button *ngIf="showDownload" mat-button class="btn-container me-2 mt-3" color="primary"
+                    (click)="downloadExcel()">
+                    <mat-icon>file_download</mat-icon>
+                    Generar Reporte
+                </button>
+            </div><br>
+        </form>
+    </div>
+    <div *ngIf="showTable">
+        <app-tabla-dinamica *ngIf="data" #table [dataTable]="data"></app-tabla-dinamica>
+    </div>
+
+</div>

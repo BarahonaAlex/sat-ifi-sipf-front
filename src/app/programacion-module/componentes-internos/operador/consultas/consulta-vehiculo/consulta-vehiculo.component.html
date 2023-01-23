@@ -1,0 +1,205 @@
+<ng-container>
+    <div class="row">
+        <div class="col">
+            <p><b>PA:</b> Propetiario Actual</p>
+            <p><b>HP:</b> Propetario Anterior</p>
+            <br>
+            <p><b>Gerencia:</b> C</p>
+        </div>
+        <div class="col">
+            <p class="right"><b>Actividades Economicas:</b> Actividades de la administración publica en general
+            </p>
+        </div>
+    </div>
+</ng-container>
+
+<!-- Tabla 1 de resumen de automovil  -->
+<div class="row align-items-center justify-content-center">
+    <div class="col-sm-4">
+        <table mat-table [dataSource]="resumenAutomovil" matSort>
+            <!-- Position Column -->
+            <ng-container matColumnDef="anio">
+                <th mat-header-cell *matHeaderCellDef class="header-table">AÑO</th>
+                <td mat-cell class="centrar" *matCellDef="let element"> {{element.anio}} </td>
+            </ng-container>
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="hp">
+                <th mat-header-cell *matHeaderCellDef class="header-table">HP</th>
+                <td mat-cell class="centrar" *matCellDef="let element"> {{element.hp}} </td>
+            </ng-container>
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="pa">
+                <th mat-header-cell *matHeaderCellDef class="header-table">PA</th>
+                <td mat-cell class="centrar" *matCellDef="let element"> {{element.pa}} </td>
+            </ng-container>
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="total">
+                <th mat-header-cell *matHeaderCellDef class="header-table">TOTAL</th>
+                <td mat-cell class="centrar" *matCellDef="let element"> {{element.total}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+        </table>
+        <div class="row">
+            <div class="col">
+                <br>
+                <p class="resumen"><b>RESUMEN:</b></p>
+            </div>
+            <div class="col">
+                <mat-form-field class="example-form-field input centrar" appearance="standard">
+                    <mat-label>HP TOTAL</mat-label>
+                    <b><input matInput type="text" [(ngModel)]="hpTotal" class="centrar" readonly></b>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field class="example-form-field input centrar" appearance="standard">
+                    <mat-label>PA TOTAL</mat-label>
+                    <b><input matInput type="text" [(ngModel)]="apTotal" class="centrar" readonly></b>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field class="example-form-field input centrar" appearance="standard">
+                    <mat-label>TOTAL </mat-label>
+                    <b><input matInput type="text" [(ngModel)]="total" class="centrar" readonly></b>
+                </mat-form-field>
+            </div>
+        </div>
+        <br>
+        <div>
+            <mat-paginator #MatPaginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </div>
+    </div>
+</div>
+<div>
+    <mat-form-field appearance="standard">
+        <mat-label>Filtro por Año</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="2000" #input autocomplete="off">
+    </mat-form-field>
+</div>
+
+<!-- Tabla 2 resumen de automovil -->
+<div class="table-responsive">
+    <table mat-table [dataSource]="resumenAutomovilCompleto" matSort>
+        <!-- Position Column -->
+        <ng-container matColumnDef="nit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>NIT</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.nit}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="pa">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ULTIMO PROPIETARIO</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.ultimo_propietario}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="anio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AÑO</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.anio}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE CONTRIBUYENTE</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.nombre}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="prefijoPA">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>PREFIJO PLACA</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.prefijoPlaca}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="placa">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>PLACA</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.placa}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>DESCRIPCION</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.descripcion}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="estatus">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTATUS</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.estatus}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="exento">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>EXENTO</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.exento}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="fechaTraspaso">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA TRASPASO</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.fechaTraspado}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="modelo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>MODELO</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.modelo}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="marca">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>MARCA</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.marca}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="color">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>COLOR</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.color}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="combustible">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>COMBUSTIBLE</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.combustible}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="poliza">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>POLIZA</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.poliza}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="fechaPoliza">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA POLIZA</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.fechaPoliza}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="motor">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>MOTOR</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.motor}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="chasis">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>CHASIS</th>
+            <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.chasis}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+    </table>
+    <div>
+        <mat-paginator #MatPaginator1="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+            aria-label="Select page of periodic elements">
+        </mat-paginator>
+    </div>
+</div>

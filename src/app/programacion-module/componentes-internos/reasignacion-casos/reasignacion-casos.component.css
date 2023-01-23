@@ -1,0 +1,83 @@
+.titulo2 {
+    text-align: center;
+    display: flex !important;
+    height: 48px;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    border-radius: 0px;
+    background: #1369a0;
+    color: white;
+  }
+
+  .centrar{
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+  }
+
+  .header-table {
+    background-color: #1369a0;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 0px;
+    border: none;
+  }
+
+  .start {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+
+  table {
+    text-align: justify;
+    margin: auto;
+    width: 100%;
+  }
+  
+  td {
+    text-align: left;
+  }
+  
+  .end {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+
+  .botonesAccion {
+    height: 30px;
+    width: 34px;
+    margin-left: 5px;
+  }
+  
+  .botones {
+    color: white;
+    background-color: #1369a0;
+  }
+  
+  .tamaño-file {
+    width: 20px;
+  }
+
+  .btn-add {
+    margin: 20px 20px 16px 16px;
+  }
+  
+  .main-title {
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) var(--unnamed-font-size-32)/var(--unnamed-line-spacing-43) var(--unnamed-font-family-roboto);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    color: var(--unnamed-color-19324b);
+    text-align: left;
+    font: normal normal bold 32px/43px Roboto;
+    letter-spacing: 0px;
+    color: #19324B;
+    text-transform: uppercase;
+    opacity: 1;
+  }
+  
+  .cuerpo{
+    background: #F7F7F7 0% 0% no-repeat padding-box;
+  border-radius: 20px;
+  opacity: 1;
+  }

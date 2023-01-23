@@ -1,0 +1,78 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+    <mat-card-title class="main-title" >Bandeja de Crédito Fiscal</mat-card-title>
+    <div class="row mt-2" >
+      <div class="col-sm py-3 ps-2 pe-3">
+        <mat-card class="parent">
+          <div class="result-count">
+            <span class="title">Resultados de búsqueda </span>
+            <span class="count">{{dataSource.data.length}}</span>
+          </div>
+          <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource" matSort>
+              <ng-container matColumnDef="noSolicitud">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Número <br> Solicitud 
+                </th>
+                <td mat-cell *matCellDef="let item"> {{item.idSolicitud}} </td>
+              </ng-container>
+              <ng-container matColumnDef="noFormulario">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Número <br> Formulario 
+                </th>
+                <td mat-cell *matCellDef="let item"> {{item.numeroFormulario}} </td>
+              </ng-container>
+              <ng-container matColumnDef="nit">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  NIT Contribuyente
+                </th>
+                <td mat-cell *matCellDef="let item"> {{item.nitContribuyente}}</td>
+              </ng-container>
+              <ng-container matColumnDef="contribuyente">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Nombre Contribuyente
+                </th>
+                <td mat-cell *matCellDef="let item"> {{item.nombreContribuyente}}</td>
+              </ng-container>
+              <ng-container matColumnDef="recaudo">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Monto Recaudo
+                </th>
+                <td mat-cell *matCellDef="let item"> {{item.total}}</td>
+              </ng-container>
+              <ng-container matColumnDef="multa">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Multa
+                </th>
+                <td mat-cell *matCellDef="let item"> {{item.multa}}</td>
+              </ng-container>
+              <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Estado
+                </th>
+                <td mat-cell *matCellDef="let item"> {{item.estado}} </td>
+              </ng-container>
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                <td mat-cell *matCellDef="let item">
+                  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                    <mat-icon>more_horiz</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item title="Muestra de manera detalla la información de la solicitud." (click)="showAnalityc(item.idSolicitud)">
+                      <mat-icon class="iconos">query_stats</mat-icon>
+                    <span>Análisis de Crédito Fiscal</span>
+                  </button>
+                  </mat-menu>
+                </td>
+              </ng-container>
+  
+              <tr mat-header-row *matHeaderRowDef="columns"></tr>
+              <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+            </table>
+            <h3 *ngIf="dataSource.data.length == 0" class="text-center m-3">No se encontraron solicitudes asigandas.</h3>
+            <mat-paginator #MatPaginator="matPaginator" [pageSizeOptions]="[5,10,15]" showFirstLastButtons></mat-paginator>
+          </div>
+        </mat-card>
+      </div>    
+    </div>
+  </div>

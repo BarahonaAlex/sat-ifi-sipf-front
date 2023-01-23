@@ -1,0 +1,101 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+
+    <mat-card-title class="main-title">{{showVisor ? 'Bandeja de Casos' : 'Revisión de Alcance'}} </mat-card-title>
+    <div *ngIf="!showVisor">
+        <mat-card>
+          <label>Operador Encargado: <b>{{userEncargado}}</b></label>
+          <br>
+          <label>Autorizado por: <b>{{userRevisado}}</b> </label>
+        </mat-card>
+      </div>
+    <br>
+    <div *ngIf="showVisor">
+        <mat-card>
+            <!-- Tabla 2 resumen de automovil -->
+            <div class="table-responsive">
+                <table mat-table [dataSource]="bandejacasos" matSort>
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Identificador de caso</th>
+                        <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.idCaso}} </td>
+                    </ng-container>
+
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="nit">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>NIT</th>
+                        <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.nitContribuyente}} </td>
+                    </ng-container>
+
+                     <!-- Position Column -->
+                     <ng-container matColumnDef="nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre del Contribuyente</th>
+                        <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.nombreContribuyente}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="monto">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Monto a Recaudar</th>
+                        <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.montoRecaudado}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="impuesto">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Impuesto</th>
+                        <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.nombreImpuesto}} </td>
+                    </ng-container>
+
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="estado">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                        <td mat-cell class="centrar pequeño" *matCellDef="let element"> {{element.nombreEstadoAlcance}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                        <td mat-cell class="centrar" *matCellDef="let element">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                                <mat-icon>more_horiz</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item type="button" title="Reasignar" color="primary" (click)="hola(element)">
+                                    <mat-icon class="iconos">visibility</mat-icon>
+                                    <span>Revision de Alcance</span>
+                                </button>
+                            </mat-menu>
+                        </td>
+
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                </table>
+
+                <div>
+                    <mat-paginator #MatPaginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                        aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+
+    <div *ngIf="!showVisor">
+        <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="regresar()">
+            <mat-icon>arrow_back</mat-icon>
+            Regresar
+        </button>
+        <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="actionRevision(1)">
+            <mat-icon>done</mat-icon>
+            Autorizar
+        </button>
+        <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="basic" (click)="actionRevision(2)">
+            <mat-icon>edit</mat-icon>
+            Solicitar Corrección
+        </button>
+        <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="warn" (click)="actionRevision(3)">
+            <mat-icon>cancel</mat-icon>
+            Rechazar
+        </button>
+        <mat-card>
+            <app-visor [nodeId]="node!.id" [arregloPropiedades]="arrayProperties"></app-visor>
+        </mat-card>
+    </div>
+</div>

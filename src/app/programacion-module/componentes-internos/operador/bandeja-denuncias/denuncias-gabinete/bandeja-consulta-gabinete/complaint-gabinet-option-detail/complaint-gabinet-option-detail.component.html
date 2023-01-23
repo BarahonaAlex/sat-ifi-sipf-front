@@ -1,0 +1,55 @@
+<button mat-button id="analitycs_modal_button" class="btn-container mt-3 mat-raised-button" color="primary"
+  (click)="selectOption('analitycs_modal')">
+  <mat-icon id="tax-icon">search</mat-icon>
+  Consulta
+</button>
+<button mat-button id="findings_modal_button" class="btn-container mt-3" color="primary"
+  (click)="selectOption('findings_modal')">
+  <mat-icon id="tax-icon">legend_toggle</mat-icon>
+  Hallazgo
+</button>
+<div id="option_container_modal" class="col py-3 ps-2 pe-3 tab-group-modal">
+  <div id="analitycs_modal" class="selected-modal">
+    <span [ngSwitch]="type">
+      <p *ngSwitchCase="'RTU'">
+        <app-consulta-rtu [datosContribuyente]="taxPayer"></app-consulta-rtu>
+      </p>
+      <p *ngSwitchCase="'AL'">
+        <app-asiste-libros [dataTaxPayer]="taxPayer.data.attributes"></app-asiste-libros>
+      </p>
+      <p *ngSwitchCase="'CVH'">
+        <app-consulta-vehiculo [nit]="taxPayer.data.id"></app-consulta-vehiculo>
+      </p>
+      <p *ngSwitchCase="'CP'">
+        <app-convenio-pago [nit]="taxPayer.data.id"></app-convenio-pago>
+      </p>
+      <p *ngSwitchCase="'RIVA'">
+        <app-reten-iva [nit]="taxPayer.data.id"></app-reten-iva>
+      </p>
+      <p *ngSwitchCase="'RISR'">
+        <app-reten-isr [datosContribuyente]="taxPayer.data.attributes"></app-reten-isr>
+      </p>
+      <p *ngSwitchCase="'HAUD'">
+        <app-historico-auditorias [nit]="taxPayer.data.id"></app-historico-auditorias>
+      </p>
+      <p *ngSwitchCase="'FEL'">
+        <app-consulta-fel [nit]="taxPayer.data.id"></app-consulta-fel>
+      </p>
+      <!-- <p *ngSwitchCase="'DC'">
+        <app-declaracion-consolidado [nit]="taxPayer.data.id" [taxPayerCase]="taxPayerCase"></app-declaracion-consolidado>
+      </p> -->
+      <p *ngSwitchCase="'DD'">
+        <app-consulta-duas-ducas [nit]="taxPayer.data.id"></app-consulta-duas-ducas>
+      </p>
+      <!-- <p *ngSwitchCase="'EFA'">
+        <app-consulta-efa [dataTaxPayer]="taxPayer.data.attributes" [taxPayerCase]="taxPayerCase"></app-consulta-efa>
+      </p> -->
+      <p *ngSwitchDefault>
+        Tipo de componente no soportado
+      </p>
+    </span>
+  </div>
+  <div id="findings_modal">
+    <app-findings-gabinet-complaint [correlativo]="correlativo"></app-findings-gabinet-complaint>
+  </div>
+</div>

@@ -1,0 +1,84 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">Grupos de Trabajo</mat-card-title>
+  <button mat-button class="btn-container mt-3" (click)="createTeam()" color="primary" *ngIf="viewing">
+    <mat-icon>add</mat-icon>
+    Crear Grupo de Trabajo
+  </button>
+  <mat-card class="mt-4">
+    <div class="flex-row mb-2" *ngIf="viewing">
+      <mat-form-field appearance="standard" class="col-12 col-sm-12 col-md-12 col-lg-4 me-0 me-sm-0 me-md-2 me-lg-3">
+        <mat-label>Filtro</mat-label>
+        <input matInput (keyup)="searchFilter($event)">
+      </mat-form-field>
+      <mat-checkbox #deleted color="primary" class="ms-auto" (change)="getTeamworks(deleted.checked)">
+        Incluir los eliminados
+      </mat-checkbox>
+
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="#">
+          <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>No.</th>
+          <td mat-cell *matCellDef="let item">
+            {{item.name}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+            No. Equipo
+          </th>
+          <td mat-cell *matCellDef="let item"> {{item.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+            Nombre Equipo
+          </th>
+          <td mat-cell *matCellDef="let item"> {{item.nombre}} </td>
+        </ng-container>
+        <ng-container matColumnDef="unidadAdministrativa">
+          <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+            Unidad Administrativa
+          </th>
+          <td mat-cell *matCellDef="let item"> {{item.unidadAdministrativa}} </td>
+        </ng-container>
+        <ng-container matColumnDef="superiorInmediato">
+          <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+            Jefe Inmediato
+          </th>
+          <td mat-cell *matCellDef="let item"> {{item.superiorInmediato}} </td>
+        </ng-container>
+        <ng-container matColumnDef="integrantes">
+          <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+            Integrantes
+          </th>
+          <td mat-cell *matCellDef="let item"> {{item.integrantes}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+          <td mat-cell *matCellDef="let item">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item title="Cambiar Nombre" class="iconos" (click)="updateTeam(item.id)">
+                <mat-icon class="iconos">edit</mat-icon>
+                <span>Editar grupo</span>
+              </button>
+              <button mat-menu-item *ngIf="item.idEstado != 164" title="Eliminar" class="iconos" (click)="deleteTeam(item)">
+                <mat-icon class="iconos">delete</mat-icon>
+                <span>Eliminar grupo</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row class="sobra-tabla" *matRowDef="let row; columns: columns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5,10,15]" showFirstLastButtons></mat-paginator>
+    </div>
+    <app-grupo-detalle *ngIf="!viewing" (onCancel)="cancel()" (onSave)="save($event)" (onUpdate)="update($event)"
+      [group]="group">
+    </app-grupo-detalle>
+  </mat-card>
+</div>

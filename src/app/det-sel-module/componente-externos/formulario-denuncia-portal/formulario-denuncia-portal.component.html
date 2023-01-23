@@ -1,0 +1,335 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">Cedula de denuncia </mat-card-title>
+
+  <div>
+    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" *ngIf="showVisor"
+      (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Regresar
+    </button>
+  </div>
+  <div class="full-wrapper button-wrapper" *ngIf="!showVisor">
+
+
+    <div class="controlers-wrapper">
+      <mat-card style="text-align: center;">
+        <mat-horizontal-stepper labelPosition="bottom" #stepper linear>
+          <mat-step>
+            <ng-template matStepLabel>Datos del Denunciante</ng-template>
+
+            <form [formGroup]="complainantFormGroup">
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>NIT</mat-label>
+                <input matInput autocomplete="off" formControlName="idTaxPayer" (blur)="blurFindComplainant()" />
+              </mat-form-field>
+              <p></p>
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Nombre o denominación social</mat-label>
+                <input matInput autocomplete="off" formControlName="nameTaxPayer" [readonly]="disabledComplaint" />
+              </mat-form-field>
+              <p></p>
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Teléfono</mat-label>
+                <input matInput type="number" autocomplete="off" formControlName="telephone" placeholder="Ej. 2222 2222" />
+              </mat-form-field>
+              <p></p>
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Correo electronico</mat-label>
+                <input matInput autocomplete="off" formControlName="emailTaxPayer"
+                  placeholder="Ej. contribuyente@ejemplo.com" />
+              </mat-form-field>
+              <p></p>
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Concepto de la denuncia</mat-label>
+                <mat-select formControlName="argumentTaxPayer" (selectionChange)="changeArgument()">
+                  <mat-option *ngFor="let type of typeList" [value]="type.codigo">
+                    {{type.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <p></p>
+              <mat-form-field appearance="standard" class="col-sm-6"
+                *ngIf="subTypeListBySelectedFather && subTypeListBySelectedFather.length>0">
+                <mat-label>Sub concepto de la denuncia</mat-label>
+                <mat-select formControlName="subArgumentTaxPayer">
+                  <mat-option *ngFor="let type of subTypeListBySelectedFather" [value]="type.codigo">
+                    {{type.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </form>
+
+
+            <div style="text-align: right;">
+              <button mat-button type="button" color="primary" (click)="goDenounced()" class="btn-container mt-3">
+                <mat-icon>arrow_forward</mat-icon>
+                Siguiente
+              </button>
+            </div>
+
+
+
+          </mat-step>
+
+          <mat-step>
+            <ng-template matStepLabel>Datos del Contribuyente Denunciado</ng-template>
+
+            <form [formGroup]="denouncedFormGroup">
+              <mat-form-field appearance="standard" class="col-sm-6" *ngIf="showFraud || showNoBilling">
+                <mat-label>NIT</mat-label>
+                <input matInput autocomplete="off" formControlName="idTaxPayer" (blur)="blurFindDenounced()" />
+              </mat-form-field>
+              <p></p>
+              <mat-form-field appearance="standard" class="col-sm-6" *ngIf="showFraud || showNoBilling">
+                <mat-label>Nombre o denominación social</mat-label>
+                <input matInput autocomplete="off" formControlName="nameTaxPayer" [readonly]="disabledDenounced" />
+              </mat-form-field>
+              <p></p>
+
+
+              <p></p>
+              <mat-form-field appearance="standard" class="col-sm-6" *ngIf="showNoBilling || showNoRegistered">
+                <mat-label>Nombre del Establecimiento</mat-label>
+                <input matInput autocomplete="off" formControlName="establishmentName" />
+              </mat-form-field>
+              <p></p>
+
+
+              <mat-form-field appearance="standard" class="col-sm-6" *ngIf="showNoBilling || showNoRegistered">
+                <mat-label>Dirección del Establecimiento </mat-label>
+                <input matInput autocomplete="off" formControlName="establishementAddress" />
+              </mat-form-field>
+              <p></p>
+
+              <mat-form-field appearance="standard" class="col-sm-6" *ngIf="showNoBilling || showNoRegistered">
+                <mat-label>Departamento</mat-label>
+                <mat-select formControlName="department" (selectionChange)="changeDepartment()">
+                  <mat-option *ngFor="let item of typeGeograficalDepartment" [value]="item.codigo">
+                    {{item.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <p></p>
+
+              <mat-form-field appearance="standard" class="col-sm-6" *ngIf="showNoBilling || showNoRegistered">
+                <mat-label>Municipio</mat-label>
+                <mat-select formControlName="municipality">
+                  <mat-option *ngFor="let municipality of typeGeograficalMunicipalitySelected"
+                    [value]="municipality.codigo">
+                    {{municipality.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <p></p>
+
+
+
+
+              <mat-form-field appearance="standard" class="col-sm-6" *ngIf="showNoBilling || showNoRegistered">
+                <mat-label>Zona</mat-label>
+                <mat-select formControlName="zone">
+                  <mat-option *ngFor="let zone of typeGeograficalZone" [value]="zone.codigo">
+                    {{zone.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <p></p>
+
+
+
+
+
+              <mat-form-field appearance="standard" class="col-sm-6" *ngIf="showNoBilling">
+                <mat-label>Grupo habitacional</mat-label>
+                <mat-select formControlName="housing">
+                  <mat-option *ngFor="let housing of typeGeograficalHousing" [value]="housing.codigo">
+                    {{housing.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <p></p>
+
+
+
+
+              <mat-form-field appearance="standard" class="col-sm-6" *ngIf="showNoBilling">
+                <mat-label>Nombre de Colonia</mat-label>
+
+
+                <input matInput autocomplete="off" formControlName="suburb" />
+
+              </mat-form-field>
+
+              <p></p>
+
+
+
+              <mat-form-field appearance="standard" class="col-sm-6" *ngIf="showNoBilling">
+                <mat-label>Vialidad</mat-label>
+                <mat-select formControlName="way">
+                  <mat-option *ngFor="let way of typeGeograficalWay" [value]="way.codigo">
+                    {{way.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+
+
+
+
+
+
+              <p></p>
+              <mat-form-field appearance="standard" class="col-sm-6" *ngIf="showFraud">
+                <mat-label>Teléfono</mat-label>
+                <input type="number" matInput autocomplete="off" formControlName="telephone" [readonly]="disabledDenounced" />
+              </mat-form-field>
+              <p></p>
+              <mat-form-field appearance="standard" class="col-sm-6" *ngIf="showFraud">
+                <mat-label>Dirección fiscal</mat-label>
+                <input matInput autocomplete="off" formControlName="fiscalAddres"  [readonly]="disabledDenounced"/>
+              </mat-form-field>
+
+
+              <p></p>
+
+
+              <mat-form-field appearance="standard" class="col-sm-6" *ngIf="showNoBilling || showNoRegistered">
+                <mat-label>Región</mat-label>
+                <mat-select formControlName="regionTaxPayer" [disabled]="true">
+                  <mat-option *ngFor="let region of regionList" [value]="region.codigo">
+                    {{region.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+            </form>
+            <div style="text-align: right;">
+              <button mat-button type="button" color="warn" class="btn-container mt-3" (click)="goBackInformer()">
+                <mat-icon>arrow_back</mat-icon>
+                Anterior
+              </button>
+
+              <button mat-button type="button" color="primary" class="btn-container mt-3"
+                (click)="goDenouncementDetail()">
+                <mat-icon>arrow_forward</mat-icon>
+                Siguiente
+              </button>
+
+            </div>
+
+
+          </mat-step>
+
+          <mat-step>
+
+            <ng-template matStepLabel>Detalle de la denuncia</ng-template>
+
+            <form [formGroup]="detailFormGroup">
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Forma de pago</mat-label>
+                <mat-select formControlName="paymentMethod" (selectionChange)="changePaymentMethod()">
+                  <mat-option *ngFor="let payMethod of paymentMethodList" [value]="payMethod.codigo">
+                    {{payMethod.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <p></p>
+              <div class="contenedorDos">
+                <upload-file #payment class="upLoaderDos" [filename]="'Forma de pago'" *ngIf="showPaymentDocumentation"
+                  [label]="'Documentación de la Forma de Pago'" [accept]="['xlsx', 'xls' , 'doc', 'pdf']"
+                  [id]="'paymentDocumentation'" [saveOnLoad]="false" [formControlName]="'paymentDocumentation'"
+                  (onStateChange)="stateChangePayment($event)">
+                </upload-file>
+              </div>
+
+
+
+              <p></p>
+
+
+
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Fecha de compra </mat-label>
+                <input matInput [matDatepicker]="buyDate" formControlName="purchaseDate">
+                <mat-datepicker-toggle matSuffix [for]="buyDate">
+                  <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #buyDate></mat-datepicker>
+              </mat-form-field>
+
+
+              <p></p>
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Producto o servicio</mat-label>
+                <input matInput autocomplete="off" formControlName="product" />
+              </mat-form-field>
+              <p></p>
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Valor de la compra o servicio</mat-label>
+                <input type="number" min="0" matInput autocomplete="off" formControlName="productValue" />
+              </mat-form-field>
+              <p></p>
+              <mat-form-field appearance="standard" class="col-sm-6">
+                <mat-label>Observaciones</mat-label>
+                <input matInput autocomplete="off" formControlName="comment" />
+              </mat-form-field>
+              <p></p>
+
+
+              <div class="contenedor">
+                <upload-file #archivo class="upLoader" [filename]="'Archivo de insumos'" [label]="'Archivo de Respaldo'"
+                  *ngIf="showEvidenceFileUploader" [accept]="['xlsx', 'xls' , 'doc', 'pdf']" [id]="'cargaArchivo'"
+                  [saveOnLoad]="false" [folder]="folder" [formControlName]="'cargaArchivo'"
+                  (onStateChange)="stateChange($event)">
+                </upload-file>
+              </div>
+
+
+              <p></p>
+              <div style="text-align: left;">
+                <app-tabla-dinamica #table *ngIf="data" [dataTable]="data"
+                  [noDataMsg]="'No se han cargado archivos de soporte.'">
+                </app-tabla-dinamica>
+              </div>
+
+
+              <div style="text-align: right;">
+                <button mat-button type="button" color="warn" class="btn-container mt-3" (click)="goBackDenounced()">
+                  <mat-icon>arrow_back</mat-icon>
+                  Anterior
+                </button>
+
+                <button mat-button type="button" color="primary" class="btn-container mt-3" (click)="goSave()">
+                  <mat-icon>save</mat-icon>
+                  Guardar
+                </button>
+
+              </div>
+            </form>
+
+          </mat-step>
+        </mat-horizontal-stepper>
+      </mat-card>
+    </div>
+  </div>
+
+  <div *ngIf="showVisor">
+
+    <mat-card>
+
+      <app-visor [arregloPropiedades]="arrayProperties" [document]="documento"></app-visor>
+
+    </mat-card>
+
+  </div>
+
+</div>

@@ -1,0 +1,234 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+    <mat-card-title class="main-title">Plantilla de Documento</mat-card-title><br>
+    
+    <mat-card class="mt-4" *ngIf="showTable">
+      
+  <!--<div class="ms-auto">
+          <button mat-button type="button" color="primary" 
+            class="" (click)="nuevo()">
+            <mat-icon>add</mat-icon>
+            Crear Plantilla
+          </button>
+    
+      </div> -->
+  
+      <div class="row d-flex justify-content-center">
+        
+        <div class="col-sm-12">
+          <form>
+            <div class="row">
+              <table mat-table [dataSource]="dataSource" matSort>
+  
+                <ng-container matColumnDef="documento" >
+                  <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Documento
+                  </th>
+                  <td mat-cell class="centrar" *matCellDef="let element">
+                    {{element.nombre}}
+                  </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="fecha" >
+                  <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Fecha Modificación
+                  </th>
+                  <td mat-cell class="centrar" *matCellDef="let element">
+                    {{ element.fechaModifica | date:'dd/MM/yyyy' }}
+                  </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="acciones">
+                  <th mat-header-cell *matHeaderCellDef class="header-table">Acciones</th>
+                  <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                      <mat-icon>more_horiz</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item title="Cambiar Nombre"  class="iconos"
+                            (click)="modificar(element)">
+                            <mat-icon class="iconos">edit</mat-icon>
+                            <span>Modificar plantilla</span>
+                          </button>
+                     
+    
+                    </mat-menu>
+                  </td>
+                </ng-container>
+                         
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              <div>
+                <mat-paginator #MatPaginator1="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                        aria-label="Select page of periodic elements">
+                    </mat-paginator>
+              </div>
+  
+            </div>
+  
+          </form>
+        </div>
+      </div>
+    </mat-card>
+  
+  
+    <mat-card *ngIf="editor">
+          <button (click)="editar()">editar</button>
+          <ng-container >
+              <section>
+        
+                <div class="row">
+                    
+                    <div class="col-3">
+                        
+                        <div class="row">
+                        <form [formGroup]="searchFormGroup">
+                         
+  
+                        </form>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="col-9" >
+  
+                      <mat-tab-group #tabGroup (selectedTabChange)="handleTabChange($event)"  (animationDone)="chargeTab()">
+                        <mat-tab label="ENCABEZADO">
+                          <div class="row">
+                          <editor #editorHeader  [init]="options" outputFormat="html" [initialValue]="header" *ngIf="activeTabIndex===0" (onChange)="validateTextH()"
+                          class="mt-2">
+                          </editor></div>
+                        </mat-tab>
+                      
+                        <mat-tab label="PIE DE PAGINA">
+                          <div class="row">
+                            <editor #editorFooter  [init]="options" outputFormat="html" [initialValue]="footer" *ngIf="activeTabIndex===1" (onChange)="validateTextF()"
+                             class="mt-2">
+                          </editor></div>
+                        </mat-tab>
+                      </mat-tab-group>
+                      
+                    </div>
+                    
+                    
+                </div>
+              
+                <mat-divider></mat-divider>
+                <div class="d-flex mt-1 pt-3">
+                  <ng-container>
+                    <div class="ms-auto">
+          
+                      
+                      <button mat-button type="button" color="primary" class="btn-container mt-3" >
+                        <mat-icon>save</mat-icon>
+                        Guardar
+                      </button>
+                    </div>
+                  </ng-container>
+                </div>
+            </section>
+           
+          </ng-container>
+  
+    </mat-card>
+  
+    <div *ngIf="showNew">
+      <mat-card class="mt-4">
+  
+  
+        <div class="row d-flex justify-content-center">
+          <div class="col-sm-12">
+            <form [formGroup]="generalFormGroup">
+  
+              <div class="row">
+  
+                <mat-form-field appearance="standard" class="col-sm-4">
+                  <mat-label>Nombre de plantilla</mat-label>
+                  <input matInput formControlName="nombre" readonly>
+                </mat-form-field>
+  
+                <mat-form-field appearance="standard" class="col-sm-4" hidden>
+                  <input matInput formControlName="catalogos" hidden>
+                </mat-form-field>
+  
+                <mat-form-field appearance="standard" class="col-sm-4" hidden>
+                  <input matInput formControlName="encabezado" hidden>
+                </mat-form-field>
+                  <mat-form-field appearance="standard" class="col-sm-4" hidden>
+                    <input matInput formControlName="piePagina" hidden>
+                  </mat-form-field>
+                
+  
+               
+              </div>
+  
+              
+            </form>
+          </div>
+        </div>
+  
+        <ng-container >
+          <section>
+    
+            <div class="row">
+                
+                <div class="col-3">
+                    
+                    <div class="row">
+                    <form [formGroup]="searchFormGroup">
+  
+                      <mat-dynamic-form  [structure]="formStructure" *ngIf="formStructure"></mat-dynamic-form>
+  
+  
+                    </form>
+                    </div>
+                </div>
+                
+                
+                <div class="col-9" >
+  
+               
+                  <mat-tab-group #tabGroup (selectedTabChange)="handleTabChange($event)"  (animationDone)="chargeTabEdit()">
+                    <mat-tab label="ENCABEZADO">
+                      <div class="row">
+                      <editor #editorHeader  [init]="options" outputFormat="html" [initialValue]="header" *ngIf="activeTabIndex===0" (onKeyUp)="validateTextH()" (onChange)="validateTextH()"
+                      class="mt-2">
+                      </editor></div>
+                    </mat-tab>
+                  
+                    <mat-tab label="PIE DE PAGINA">
+                      <div class="row">
+                        <editor #editorFooter  [init]="options" outputFormat="html" [initialValue]="footer" *ngIf="activeTabIndex===1" (onKeyUp)="validateTextF()" (onChange)="validateTextF()"
+                         class="mt-2">
+                      </editor></div>
+                    </mat-tab>
+                  </mat-tab-group>
+                  
+                </div>
+                
+                
+            </div>
+          
+        </section>
+       
+      </ng-container>
+  
+        <mat-divider></mat-divider>
+        <div class="d-flex mt-1 pt-3">
+          <div class="ms-auto">
+            <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" (click)="cancel()">
+              <mat-icon>clear</mat-icon>
+              Cancelar
+            </button>
+  
+  
+            <button mat-button type="button" color="primary" *ngIf="showNew" class="btn-container mt-3" (click)="actualizar()" >
+              <mat-icon>save</mat-icon>
+              Guardar
+            </button>
+  
+          </div>
+        </div>
+  
+      </mat-card>
+    </div>
+  </div>
+  

@@ -1,0 +1,59 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">Bandeja de Solicitudes</mat-card-title>
+  &nbsp;&nbsp;
+  <button mat-button id="alcances_button" class="btn-container mt-3" color="primary" (click)="newSolicitud()">
+    <mat-icon id="tax-icon">add</mat-icon>
+    Nueva Solicitud
+  </button>
+  <br><br>
+  
+  <mat-card class="parent">
+    <div class="result-count">
+      <span class="title">Resultados de búsqueda </span>
+      <span class="count">{{lenghtTableSolicitudes}}</span>
+    </div>
+    <table mat-table [dataSource]="Solicitud">
+      <ng-container matColumnDef="idSolicitud">
+        <th mat-header-cell *matHeaderCellDef> NO de Solicitud </th>
+        <td mat-cell *matCellDef="let element"> {{element.idSolicitud}} </td>
+      </ng-container>
+      <ng-container matColumnDef="numeroFormulario">
+        <th mat-header-cell *matHeaderCellDef> No. de Documento SAT </th>
+        <td mat-cell *matCellDef="let element"> {{element.numeroFormulario}} </td>
+      </ng-container>
+      <ng-container matColumnDef="pinicio">
+        <th mat-header-cell *matHeaderCellDef> Período de Inicio </th>
+        <td mat-cell *matCellDef="let element"> {{element.pinicio | date:'dd/MM/yyyy'}} </td>
+      </ng-container>
+      <ng-container matColumnDef="pfin">
+        <th mat-header-cell *matHeaderCellDef> Período de Fin </th>
+        <td mat-cell *matCellDef="let element"> {{element.pfin | date:'dd/MM/yyyy'}} </td>
+      </ng-container>
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef> Estado</th>
+        <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+      </ng-container>
+      <ng-container matColumnDef="Accion">
+        <th mat-header-cell *matHeaderCellDef> Acción </th>
+        <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones" *ngIf="element.idestado == 1070">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" >
+            <button mat-menu-item title="Cambiar Nombre" class="iconos"
+              (click)="loadFile(element.pinicio, element.pfin, element.nit, element.idSolicitud, element.numero)">
+              <mat-icon class="iconos">arrow_upward</mat-icon>
+              <span>Carga de Libros</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="BandejaSolicitud"></tr>
+      <tr mat-row *matRowDef="let row; columns: BandejaSolicitud;"></tr>
+    </table>
+    <mat-paginator #MatPaginator="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+  </mat-card><!-- &nbsp;&nbsp; -->
+</div>

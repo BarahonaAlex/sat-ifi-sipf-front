@@ -1,0 +1,248 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+    <mat-card-title class="main-title">Consulta Importaciones - Exportaciones</mat-card-title><br>
+<mat-card>
+    <mat-tab-group>
+        <mat-tab label="Consulta 360">
+        </mat-tab>
+
+
+
+        <mat-tab label="Consulta SIVEPA">
+            <ng-container ></ng-container>
+            <ng-container >
+                <div class="table-responsive">
+                  <ng-container #FIRST_SECTION ><br>
+                    <mat-card-subtitle>Puede consultar las <b>importaciones y exportaciones</b> de un contribuyente:
+                    </mat-card-subtitle><br>
+                    <div class="row center">
+                    <div class="col">
+                      <form action="" [formGroup]="consultaSIVEPAform">
+                      <mat-form-field class="col-sm-9" [formGroup]="consultaSIVEPAform">
+                        <mat-label>NIT a consultar</mat-label>
+                        <input matInput autocomplete="off" formControlName="nit"  [(ngModel)]="nit" readonly="true">
+                      </mat-form-field>
+                    </form>
+                    </div>
+                    <div class="col">
+                      <form action="" [formGroup]="consultaSIVEPAform">
+                        <mat-form-field color="primary" appearance="standard" class="col-sm-9" [formGroup]="consultaSIVEPAform">
+                          <mat-label>Fecha Inicio</mat-label>
+                          <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio">
+                          <mat-hint>yyyy/mm/dd</mat-hint>
+                          <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+                          <mat-datepicker #fechaInicio color="primary"></mat-datepicker>
+                        </mat-form-field>
+                      </form>
+                    </div>
+                    <div class="col">
+                      <form action="" [formGroup]="consultaSIVEPAform">
+                        <mat-form-field color="primary" appearance="standard" class="col-sm-9" [formGroup]="consultaSIVEPAform">
+                          <mat-label>Fecha Fin</mat-label>
+                          <input  matInput [matDatepicker]="fechaFin" formControlName="fechaFin">
+                          <mat-hint>mm/dd/yyyy</mat-hint>
+                          <mat-datepicker-toggle matSuffix [for]="fechaFin" ></mat-datepicker-toggle>
+                          <mat-datepicker #fechaFin ></mat-datepicker>
+                        </mat-form-field>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="centerButton">
+                    <button mat-button type="button" color="primary" class="btn-container mt-3" (click)="getImportacion()">
+                      <mat-icon>search</mat-icon>
+                      Consultar
+                    </button>
+                  </div>
+                  </ng-container><hr>
+
+
+                  <ng-container *ngIf="tableConsulta">
+                    <mat-card-subtitle class="center">INFORMACION DEL CONTRIBUYENTE
+                    </mat-card-subtitle>
+                    <div>
+                      <button mat-button type="button" color="primary" class="btn-container" (click)="exportAsXLSX()">
+                        <mat-icon>file_download</mat-icon>
+                        Exportar todo los registros
+                      </button>
+                      <button mat-button type="button" color="primary" class="btn-container" (click)="getImportacionDetalle()">
+                        <mat-icon>preview</mat-icon>
+                        Ver detalle de consulta
+                      </button>
+                    </div>
+                    <table mat-table [dataSource]="consultaSIVEPA">
+                      <!-- Position Column -->
+                      <ng-container matColumnDef="descripcion">
+                        <th mat-header-cell *matHeaderCellDef> Descripcion </th>
+                        <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+                      </ng-container>
+            
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="identificador_DECLARACION">
+                        <th mat-header-cell *matHeaderCellDef> Identificador Declaracion </th>
+                        <td mat-cell *matCellDef="let element"> {{element.identificador_DECLARACION}} </td>
+                      </ng-container>
+            
+                      <!-- Weight Column -->
+                      <ng-container matColumnDef="fecha_DECLARACION">
+                        <th mat-header-cell *matHeaderCellDef> Fecha Declaracion </th>
+                        <td mat-cell *matCellDef="let element"> {{element.fecha_DECLARACION}} </td>
+                      </ng-container>
+            
+                      <!-- Weight Column -->
+                      <ng-container matColumnDef="nit_CONTRIBUYENTE">
+                        <th mat-header-cell *matHeaderCellDef> NIT de Contribuyente </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nit_CONTRIBUYENTE}} </td>
+                      </ng-container>
+            
+                      <!-- Weight Column -->
+                      <ng-container matColumnDef="aduana">
+                        <th mat-header-cell *matHeaderCellDef> Aduana</th>
+                        <td mat-cell *matCellDef="let element"> {{element.aduana}} </td>
+                      </ng-container>
+            
+                      <!-- Weight Column -->
+                      <ng-container matColumnDef="regimen">
+                        <th mat-header-cell *matHeaderCellDef> Regimen </th>
+                        <td mat-cell *matCellDef="let element"> {{element.regimen}} </td>
+                      </ng-container>
+            
+                      <!-- Symbol Column -->
+                      <ng-container matColumnDef="valor_CIF">
+                        <th mat-header-cell *matHeaderCellDef> Valor CIF </th>
+                        <td mat-cell *matCellDef="let element"> {{element.valor_CIF}} </td>
+                      </ng-container>
+            
+                      <!-- Weight Column -->
+                      <ng-container matColumnDef="valor_DAI">
+                        <th mat-header-cell *matHeaderCellDef> Valor DAI </th>
+                        <td mat-cell *matCellDef="let element"> {{element.valor_DAI}} </td>
+                      </ng-container>
+            
+                      <!-- Weight Column -->
+                      <ng-container matColumnDef="correlativo_ENC">
+                        <th mat-header-cell *matHeaderCellDef> Correlativo CIF </th>
+                        <td mat-cell *matCellDef="let element"> {{element.correlativo_ENC}} </td>
+                      </ng-container>
+            
+                      <tr mat-header-row *matHeaderRowDef="consultaSIVEPAcolumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: consultaSIVEPAcolumns;"></tr>
+                    </table>
+                    <mat-paginator #MatPaginator1="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                    </mat-paginator>
+                  </ng-container>
+
+                  
+
+                <ng-container *ngIf="detalleSivepa && !tableConsulta">
+                  <button mat-button type="button" color="primary" class="btn-container" (click)="exportAsXLSXTwo()">
+                    <mat-icon>file_download</mat-icon>
+                    Exportar todo los registros
+                  </button>
+                  <button mat-button type="button" color="primary" class="btn-container" (click)="regresar()">
+                    <mat-icon>keyboard_return</mat-icon>
+                    Regresar
+                  </button>
+                  <table mat-table [dataSource]="consultaSIVEPAdetalle">
+
+                    <ng-container matColumnDef="identificador_DECLARACION">
+                      <th mat-header-cell *matHeaderCellDef> ID Decalaracion </th>
+                      <td mat-cell *matCellDef="let element"> {{element.identificador_DECLARACION}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fecha_DECLARACION">
+                      <th mat-header-cell *matHeaderCellDef> Fecha Declaración </th>
+                      <td mat-cell *matCellDef="let element"> {{element.fecha_DECLARACION}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="consignatraoi_EXPORTADOR">
+                      <th mat-header-cell *matHeaderCellDef> Consignatario </th>
+                      <td mat-cell *matCellDef="let element"> {{element.consignatraoi_EXPORTADOR}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="proveedor_DESTINATARIO">
+                      <th mat-header-cell *matHeaderCellDef> Proveedor </th>
+                      <td mat-cell *matCellDef="let element"> {{element.proveedor_DESTINATARIO}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="aduana">
+                      <th mat-header-cell *matHeaderCellDef> Aduana </th>
+                      <td mat-cell *matCellDef="let element"> {{element.aduana}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="regimne">
+                      <th mat-header-cell *matHeaderCellDef> Regimen </th>
+                      <td mat-cell *matCellDef="let element"> {{element.regimne}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="tipo_CAMBIO_DOLRA">
+                      <th mat-header-cell *matHeaderCellDef> Tipo Cambio Dolar </th>
+                      <td mat-cell *matCellDef="let element"> {{element.tipo_CAMBIO_DOLRA}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="peso_DECLARACION">
+                      <th mat-header-cell *matHeaderCellDef> Peso Declaración</th>
+                      <td mat-cell *matCellDef="let element"> {{element.peso_DECLARACION}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="valor_FOB">
+                      <th mat-header-cell *matHeaderCellDef> Valor FOB </th>
+                      <td mat-cell *matCellDef="let element"> {{element.valor_FOB}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="resultado_SELECTIVO">
+                      <th mat-header-cell *matHeaderCellDef> Selectivo </th>
+                      <td mat-cell *matCellDef="let element"> {{element.resultado_SELECTIVO}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="inciso_ARRENCELARIO">
+                      <th mat-header-cell *matHeaderCellDef> Fraccion Arancelaria</th>
+                      <td mat-cell *matCellDef="let element"> {{element.inciso_ARRENCELARIO}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="descripcion">
+                      <th mat-header-cell *matHeaderCellDef> Descripcion Fracción</th>
+                      <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="pais_ORIGNE">
+                      <th mat-header-cell *matHeaderCellDef> Pais Origen </th>
+                      <td mat-cell *matCellDef="let element"> {{element.pais_ORIGNE}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cantidad_FRACCION">
+                      <th mat-header-cell *matHeaderCellDef> Cantidad Fracción </th>
+                      <td mat-cell *matCellDef="let element"> {{element.cantidad_FRACCION}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="codigo_UNIDAD_MEDIDA">
+                      <th mat-header-cell *matHeaderCellDef> Unidad Medida </th>
+                      <td mat-cell *matCellDef="let element"> {{element.codigo_UNIDAD_MEDIDA}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="tasa_DAI">
+                      <th mat-header-cell *matHeaderCellDef> Tasa DAI </th>
+                      <td mat-cell *matCellDef="let element"> {{element.tasa_DAI}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="vaolr_DAI">
+                      <th mat-header-cell *matHeaderCellDef> Valor DAI </th>
+                      <td mat-cell *matCellDef="let element"> {{element.vaolr_DAI}} </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="valro_CIF">
+                      <th mat-header-cell *matHeaderCellDef> valor_CIF</th>
+                      <td mat-cell *matCellDef="let element"> {{element.valro_CIF}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="consultaSIVEPAdetalleColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: consultaSIVEPAdetalleColumns;"></tr>
+                  </table>
+                  <mat-paginator #MatPaginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                  </mat-paginator>
+                </ng-container>
+                  </div>
+            </ng-container>
+        </mat-tab>
+    </mat-tab-group>
+</mat-card>

@@ -1,0 +1,96 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <div *ngIf="showVisor">
+    <mat-card-title class="main-title">Bandeja de Solicitudes</mat-card-title>
+    &nbsp;&nbsp;
+    <button mat-button type="button" class="btn-container " color="primary" (click)="regresar()" *ngIf="showFormBool">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Regresar</span>
+    </button>
+    <button *ngIf="showFormBool" mat-button type="button" class="btn-container " color="primary" title="Asignar"
+      (click)="asignar()">
+      <mat-icon class="iconos">edit</mat-icon>
+      <span>Asignar</span>
+    </button>
+    <app-new-solicitud-credito-fiscal [isRevision]="true" [idSolicitud]="idSolicitudDetalle" #formulario
+      *ngIf="showFormBool && idSolicitudDetalle"></app-new-solicitud-credito-fiscal>
+    <mat-card class="parent" *ngIf="!showFormBool">
+      <div class="result-count">
+        <span class="title">Resultados de búsqueda </span>
+        <span class="count">{{lenghtTableSolicitudes}}</span>
+      </div>
+      <div class="table-responsive">
+        <table mat-table [dataSource]="Solicitud">
+          <ng-container matColumnDef="idSolicitud">
+            <th mat-header-cell *matHeaderCellDef> No. de Solicitud </th>
+            <td mat-cell *matCellDef="let element"> {{element.idSolicitud}} </td>
+          </ng-container>
+          <ng-container matColumnDef="numeroFormulario">
+            <th mat-header-cell *matHeaderCellDef> No. de Documento SAT </th>
+            <td mat-cell *matCellDef="let element"> {{element.numeroFormulario}} </td>
+          </ng-container>
+          <ng-container matColumnDef="nitContribuyente">
+            <th mat-header-cell *matHeaderCellDef> NIT Contribuyente </th>
+            <td mat-cell *matCellDef="let element"> {{element.nit}} </td>
+          </ng-container>
+          <ng-container matColumnDef="pinicio">
+            <th mat-header-cell *matHeaderCellDef> Período de Inicio </th>
+            <td mat-cell *matCellDef="let element"> {{element.pinicio | date:'dd/MM/yyyy'}} </td>
+          </ng-container>
+          <ng-container matColumnDef="pfin">
+            <th mat-header-cell *matHeaderCellDef> Período de Fin </th>
+            <td mat-cell *matCellDef="let element"> {{element.pfin | date:'dd/MM/yyyy'}} </td>
+          </ng-container>
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef> Estado</th>
+            <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Accion">
+            <th mat-header-cell *matHeaderCellDef> Acción </th>
+            <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item title="Se podra visualizar el detalle de la Cédula" class="iconos" *ngIf="element.idestado !== 965"
+                  (click)="showDetail(element.idSolicitud, element.nit)">
+                  <mat-icon class="iconos">visibility</mat-icon>
+                  <span>Ver Detalle</span>
+                </button>
+                <button mat-menu-item title="Se podra visualizar el rechazo de la Cédula" class="iconos" (click)="click(element.idSolicitud)">
+                  <mat-icon class="iconos">query_stats</mat-icon>
+                  <span>Ver Rechazo</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="BandejaSolicitud"></tr>
+          <tr mat-row *matRowDef="let row; columns: BandejaSolicitud;"></tr>
+        </table>
+        <mat-paginator #MatPaginator="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+          aria-label="Select page of periodic elements">
+        </mat-paginator>
+      </div>
+      
+    </mat-card>&nbsp;&nbsp;
+  </div>
+
+  <div *ngIf="!showVisor">
+    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="regresar()">
+      <mat-icon>arrow_back</mat-icon>
+      Regresar
+    </button>
+    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="sendEmailAccept()">
+      <mat-icon>done</mat-icon>
+      Aprobar Rechazo
+    </button>
+    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="warn" (click)="sendEmailRejected()">
+      <mat-icon>close</mat-icon>
+      Denegar Rechazo
+    </button>
+    <br><br>
+    <mat-card>
+      <app-visor [nodeId]="node!.id" [arregloPropiedades]="arrayProperties"></app-visor>
+    </mat-card>
+  </div>
+</div>

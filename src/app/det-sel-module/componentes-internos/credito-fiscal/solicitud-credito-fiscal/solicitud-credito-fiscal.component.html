@@ -1,0 +1,134 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+
+    <mat-card-title class="mt-2 main-title">BANDEJA DEL CONTRIBUYENTE</mat-card-title>
+
+    <ng-container  *ngIf="showRequestTaxpayer">
+        <mat-card class="mt-4">
+            <div class="row d-flex justify-content-center">
+                <button mat-button type="button" color="primary" class="btn-container" (click)="nuevaSolicitud()">
+                    <mat-icon>add</mat-icon>
+                    Nueva Solicitud
+                </button>
+                <div class="col-sm-12">
+                    <form>
+                        <div class="row">
+                            <table mat-table matSort>
+
+                                <ng-container matColumnDef="noSolicitud">
+                                    <th mat-header-cell *matHeaderCellDef class="header-table centrar"> No. Solicitud
+                                    </th>
+                                    <td mat-cell class="centrar" *matCellDef="let element">
+
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="estadoSolicitud">
+                                    <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Estado
+                                    </th>
+                                    <td mat-cell class="centrar" *matCellDef="let element">
+
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="fechaSolicitud">
+                                    <th mat-header-cell *matHeaderCellDef class="header-table centrar"> Fecha de
+                                        Solicitud
+                                    </th>
+                                    <td mat-cell class="centrar" *matCellDef="let element">
+
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnsTaxpayer"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsTaxpayer;"></tr>
+                            </table>
+
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </mat-card>
+    </ng-container>
+
+    <ng-container  *ngIf="showNewRequest">
+        <mat-card class="mt-4">
+                <mat-horizontal-stepper labelPosition="bottom" #stepper linear>
+                  <mat-step>
+                    <ng-template matStepLabel>Datos del contribuyente</ng-template>
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-sm-12">
+                        <form [formGroup]="contribuyenteFormGroup">
+            
+                            <div  class="row p-0">
+            
+                              <mat-form-field appearance="standard" class="col-sm-6">
+                                <mat-label >NIT</mat-label>
+                                <input matInput formControlName="nitContribuyente" autocomplete="off" onpaste="return false">
+                              </mat-form-field>
+            
+                              <mat-form-field appearance="standard" class="col-sm-6">
+                                <mat-label >Nombre</mat-label>
+                                <input matInput formControlName="nombreContribuyente" >
+                              </mat-form-field>
+
+                              <mat-form-field appearance="standard" class="col-sm-6">
+                                <mat-label >DPI</mat-label>
+                                <input matInput formControlName="dpiContribuyente" autocomplete="off" onpaste="return false">
+                              </mat-form-field>
+            
+                              <mat-form-field appearance="standard" class="col-sm-6">
+                                <mat-label >Pasaporte</mat-label>
+                                <input matInput formControlName="pasaporteContribuyente" >
+                              </mat-form-field>
+
+                              <mat-form-field appearance="standard" class="col-sm-6">
+                                <mat-label >Domicilio</mat-label>
+                                <input matInput formControlName="domicilioContribuyente" autocomplete="off" onpaste="return false">
+                              </mat-form-field>
+            
+                              <div class="col-sm-6">
+                                <mat-slide-toggle color="primary">Utilizar otra direccion para recibir correspondencia</mat-slide-toggle>
+                              </div>
+
+                              <mat-form-field appearance="standard" class="col-sm-6">
+                                <mat-label >Correo electronico</mat-label>
+                                <input matInput formControlName="correoContribuyente" >
+                              </mat-form-field>
+
+                              <div appearance="standard" class="col-sm-6">
+                                <mat-slide-toggle  color="primary">Desea utilizar otra direccion de correo electronico</mat-slide-toggle>
+                              </div>
+
+          
+                            </div>
+            
+                       
+                        </form>
+                      </div>
+                    </div>
+                      <mat-divider></mat-divider>
+                        <div class="d-flex mt-1 pt-3">
+                            <div class="ms-auto">
+                                <button mat-button type="button" color="warn" class="btn-container me-2 mt-3"
+                                    (click)="cancelarNueva()">
+                                    <mat-icon>clear</mat-icon>
+                                    Cancelar
+                                </button>
+                                <button mat-button type="button" color="primary" class="btn-container mt-3" matStepperNext>
+                                    <mat-icon>arrow_forward</mat-icon>
+                                    Siguiente
+                                </button>
+                            </div>
+                        </div>
+                  </mat-step>
+                  
+                  <mat-step>
+
+                  </mat-step>
+                </mat-horizontal-stepper>
+              </mat-card>
+              </ng-container>
+
+</div>

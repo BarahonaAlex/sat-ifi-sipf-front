@@ -1,0 +1,296 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+    <!-- *ngIf="autorizado && cargado" -->
+    <mat-card-title class="main-title">Ingreso de Solicitudes Externas</mat-card-title>
+  
+    <mat-card class="mt-4">
+      <mat-horizontal-stepper labelPosition="bottom" #stepper linear>
+        <mat-step [stepControl]="generalFormGroup">
+          <ng-template matStepLabel>Entidad solicitante</ng-template>
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-12">
+              <button mat-button type="button" class="btn-container" color="primary"
+                (click)="agregarCorrelativoConsumidos()">
+                <mat-icon>add</mat-icon>
+                Agregar Contribuyente
+              </button>
+              <form [formGroup]="generalFormGroup">
+                 <div formArrayName="arrayGeneral"
+                  *ngFor="let correlativos of arraycontribuyentes.controls; let i = index">
+  
+                  <div [formGroupName]="i" class="row p-0">
+  
+                    <mat-form-field appearance="standard" class="col-sm-6">
+                      <mat-label [attr.for]="'correlativos' + i">NIT</mat-label>
+                      <input matInput formControlName="nit" [attr.id]="'correlativos' + i"
+                        (change)="obtenercontribuyente($event, i)" autocomplete="off" onpaste="return false">
+                    </mat-form-field>
+  
+                    <mat-form-field appearance="standard" class="col-sm-6">
+                      <mat-label [attr.for]="'correlativos' + i">Nombre</mat-label>
+                      <input matInput formControlName="nombre" [attr.id]="'correlativos' + i">
+                    </mat-form-field>
+  
+                    <mat-form-field appearance="standard" class="col-sm-6">
+                      <mat-label [attr.for]="'correlativos' + i">Domicilio Fiscal</mat-label>
+                      <input matInput formControlName="domicilio" [attr.id]="'correlativos' + i">
+                    </mat-form-field>
+  
+                    <mat-form-field appearance="standard" class="col-sm-6">
+                      <mat-label [attr.for]="'correlativos' + i">Clasificación</mat-label>
+                      <input matInput formControlName="clasificacion" [attr.id]="'correlativos' + i">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" class="col-sm-6">
+                        <mat-label [attr.for]="'correlativos' + i">Gerencia</mat-label>
+                        <input matInput formControlName="gerencia" [attr.id]="'correlativos' + i">
+                      </mat-form-field>
+
+                      <mat-form-field appearance="standard" class="col-sm-6">
+                        <mat-label [attr.for]="'correlativos' + i">Municipio</mat-label>
+                        <input matInput formControlName="municipio" [attr.id]="'correlativos' + i">
+                      </mat-form-field>
+
+                      <mat-form-field appearance="standard" class="col-sm-6">
+                        <mat-label  [attr.for]="'correlativos' + i">Zona</mat-label>
+                        <mat-select #entidad formControlName="zona">
+                          <mat-option *ngFor="let item of zonas" [value]="item.codigo" [attr.id]="'correlativos' + i">{{item.nombre}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                    <mat-form-field appearance="standard" class="col-sm-6">
+                      <mat-label [attr.for]="'correlativos' + i">Fecha desde</mat-label>
+                      <input #fechaIncidente matInput [matDatepicker]="fechaInicio" formControlName="fechaDesde" readonly
+                        (dateChange)="fechaDesdeChange()" [attr.id]="'correlativos' + i">
+                      <mat-datepicker-toggle matSuffix [for]="fechaInicio">
+                        <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #fechaInicio></mat-datepicker>
+                    </mat-form-field>
+  
+                    <mat-form-field appearance="standard" class="col-sm-6">
+                      <mat-label [attr.for]="'correlativos' + i">Fecha hasta</mat-label>
+                      <input #fechaIncidente matInput [matDatepicker]="fechaFin" [min]="minDate"
+                        formControlName="fechaHasta" [attr.id]="'correlativos' + i" readonly>
+                      <mat-datepicker-toggle matSuffix [for]="fechaFin">
+                        <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #fechaFin></mat-datepicker>
+                    </mat-form-field>
+  
+                    <div class="d-flex pt-2">
+                      <div class="ms-auto">
+                        <button mat-button type="button" color="warn" class="btn-container mb-4"
+                          (click)="eliminarContribuyente(i)">
+                          <span class="material-icons">
+                            delete
+                          </span>
+                          Quitar Contribuyente
+                        </button>
+                        <mat-divider></mat-divider>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <div *ngIf="mostrar" class="row">
+  
+                  <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Entidad Solicitante</mat-label>
+                    <mat-select #entidad formControlName="entidad" (selectionChange)="otros($event.value)">
+                      <mat-option *ngFor="let item of entidades" [value]="item.codigo">{{item.nombre}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+  
+                  <!-- <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Jefe de Unidad</mat-label>
+                    <mat-select formControlName="jefeUnidad">
+                      <mat-option *ngFor="let estado of jefeUnidad" [value]="estado.nit">
+                        {{estado.nombres}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field> -->
+  
+                  <upload-file #archivo class="col-sm-6" [filename]="'Archivo de insumos'" [label]="'Archivo de Respaldo'"
+                    [accept]="['xlsx', 'xls' , 'doc', 'pdf']" [id]="'cargaArchivo'" [folder]="folder" [saveOnLoad]="false"
+                    [formControlName]="'cargaArchivo'" (onStateChange)="stateChange($event)">
+                  </upload-file>
+  
+                  <mat-form-field appearance="standard" class="col-sm-6" *ngIf="entidad.value == 4">
+                    <mat-label>Detalle</mat-label>
+                    <input matInput formControlName="otros">
+                  </mat-form-field>
+  
+                </div>
+              </form>
+            </div>
+          </div>
+  
+          <mat-divider></mat-divider>
+          <div class="d-flex mt-1 pt-3">
+            <div class="ms-auto">
+              <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" (click)="cancelar()">
+                <mat-icon>clear</mat-icon>
+                Cancelar
+              </button>
+              <button mat-button type="button" color="primary" class="btn-container mt-3" matStepperNext
+                [disabled]="generalFormGroup.invalid">
+                <mat-icon>arrow_forward</mat-icon>
+                Siguiente
+              </button>
+            </div>
+          </div>
+        </mat-step>
+        <!-- Paso 2 Tipo de Solicitud -->
+        <!--       <mat-step [stepControl]="tipoFormGroup" #tipoStep>
+          <ng-template matStepLabel>Tipo de solicitud</ng-template>
+          <form [formGroup]="tipoFormGroup">
+            <div class="row d-flex justify-content-center">
+              <div class="row d-flex justify-content-center">
+                <div class="col-md-4">
+                  <mat-form-field appearance="standard">
+                    <mat-label>Tipo de Solicitud</mat-label>
+                    <mat-select #tipo formControlName="tipoSolicitud" (valueChange)="tipoSolicitud(tipo.value, tipoStep)">
+                      <mat-option *ngFor="let item of tiposSolicitud" [value]="item.codigo">
+                        {{ item.nombre }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="row" *ngIf="tipo.value == 1">
+                  <mat-form-field appearance="standard" class="col-sm-12">
+                    <mat-label>Nombre de la cuenta a ser auditada</mat-label>
+                    <input matInput formControlName="nombreCuenta">
+                  </mat-form-field>
+                </div>
+                <div class="row" *ngIf="tipo.value == 2">
+                  <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>NIT del cliente</mat-label>
+                    <input #nit matInput formControlName="nit" (change)="buscarCliente(nit.value)">
+                  </mat-form-field>
+                  <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="nombre">
+                  </mat-form-field>
+                  <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Número de factura</mat-label>
+                    <input matInput formControlName="numeroFactura">
+                  </mat-form-field>
+                  <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Fecha de la factura</mat-label>
+                    <input #fechaIncidente matInput [matDatepicker]="fechaInicio" formControlName="fechaFactura" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="fechaInicio">
+                      <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #fechaInicio></mat-datepicker>
+                  </mat-form-field>
+                  <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Serie de la factura</mat-label>
+                    <input matInput formControlName="serie">
+                  </mat-form-field>
+                  <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Monto de la factura</mat-label>
+                    <input matInput formControlName="monto">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </form>
+          <mat-divider></mat-divider>
+          <div class="d-flex mt-1 pt-3">
+            <div class="ms-auto">
+              <button mat-button type="button" color="primary" class="btn-container me-2" matStepperPrevious>
+                <mat-icon>arrow_back</mat-icon>
+                Atras
+              </button>
+              <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" (click)="cancelar()">
+                <mat-icon>clear</mat-icon>
+                Cancelar
+              </button>
+              <button mat-button type="button" color="primary" class="btn-container mt-3" matStepperNext
+                [disabled]="tipoFormGroup.invalid">
+                <mat-icon>arrow_forward</mat-icon>
+                Siguiente
+              </button>
+            </div> 
+          </div>
+        </mat-step> -->
+        <!-- Paso 3 Periodo de revisión -->
+        <mat-step [stepControl]="periodoFormGroup">
+          <ng-template matStepLabel>Contacto y plazo</ng-template>
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-8">
+              <form [formGroup]="periodoFormGroup">
+                <div class="row">
+
+                  <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Fecha solicitud</mat-label>
+                    <input matInput [matDatepicker]="fechaSolicitud" formControlName="fechaSolicitud" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="fechaSolicitud">
+                      <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #fechaSolicitud></mat-datepicker>
+                  </mat-form-field>
+                  <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Fecha del documento</mat-label>
+                    <input matInput [matDatepicker]="fechaDocumento" formControlName="fechaDocumento" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="fechaDocumento">
+                      <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #fechaDocumento></mat-datepicker>
+                  </mat-form-field>
+                  <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Número de documento</mat-label>
+                    <input matInput formControlName="numeroDocumento">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Plazo para entrega</mat-label>
+                    <input matInput [matDatepicker]="plazoEntrega" formControlName="plazoEntrega" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="plazoEntrega">
+                      <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #plazoEntrega></mat-datepicker>
+                  </mat-form-field>
+
+                  
+                  <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Nombre del contacto</mat-label>
+                    <input matInput formControlName="nombreContacto">
+                  </mat-form-field>
+                  <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Correo electrónico</mat-label>
+                    <input matInput formControlName="correo">
+                  </mat-form-field>
+                  <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Teléfono del contacto</mat-label>
+                    <input matInput formControlName="telContacto">
+                  </mat-form-field>
+                </div>
+              </form>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="d-flex mt-1 pt-3">
+            <div class="ms-auto">
+              <button mat-button type="button" color="primary" class="btn-container me-2" matStepperPrevious>
+                <mat-icon>arrow_back</mat-icon>
+                Atras
+              </button>
+              <button mat-button color="warn" type="button" class="btn-container me-2 mt-3" (click)="cancelar()">
+                <mat-icon>clear</mat-icon>
+                Cancelar
+              </button>
+              <button mat-button type="button" color="primary" class="btn-container mt-3"
+                [disabled]="periodoFormGroup.invalid" (click)="guardarSolicitud()">
+                <mat-icon>save</mat-icon>
+                Guardar
+              </button>
+            </div>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </mat-card>
+  </div>

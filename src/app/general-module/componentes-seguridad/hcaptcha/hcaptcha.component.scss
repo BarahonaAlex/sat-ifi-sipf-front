@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'Gotham Bold Italic';
+    src: url('./../../../../assets/fonts/gotham/GothamBoldItalic.ttf');
+}
+
+@font-face {
+    font-family: 'Gotham Medium';
+    src: url('./../../../../assets/fonts/gotham/GothamBook.ttf');
+}
+
+.caption {
+    font-size: 1.2rem;
+    text-align: left;
+    letter-spacing: 0px;
+    color: #14649B;
+    font-weight: 500;
+    margin-top: 14px;
+    font-family: 'Gotham Medium', sans-serif;
+
+    span {
+        font-family: 'Gotham Bold Italic', sans-serif;
+    }
+}

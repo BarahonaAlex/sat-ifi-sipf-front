@@ -1,0 +1,141 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">
+    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary"
+      [routerLink]="['/det-sel/cartera/insumos/dte']">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    Bandeja de Casos 
+  </mat-card-title>
+
+
+  <button *ngIf="showPublish && inputStatus == constantes.ESTADO_INSUMO_PENDIENTE_PUBLICAR" mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="info" (click)="publish()">
+    <mat-icon>done_all</mat-icon>
+    Publicar 
+  </button>
+
+  <button *ngIf="showDelete" mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="warn" (click)="delete()">
+    <mat-icon>delete_forever</mat-icon>
+    Eliminar
+  </button>
+
+  <div *ngIf="showVisor">
+    <mat-card class="parent">
+      <div class="result-count">
+        <span class="title">Resultados de búsqueda </span>
+        <span class="count">{{dataSource.data.length}}</span>
+        &nbsp;
+        <mat-checkbox #sinDoc color="primary" class="ms-auto" (change)="CasosSinDocumentos(sinDoc.checked)">
+          Casos sin Documentar
+        </mat-checkbox>
+      </div>
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="caso">
+            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+              Identificador <br> Caso
+            </th>
+            <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.idCaso}} </td>
+          </ng-container>
+          <ng-container matColumnDef="nit">
+            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+              NIT
+            </th>
+            <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}">
+              {{item.nitContribuyente}} </td>
+          </ng-container>
+          <ng-container matColumnDef="contribuyente">
+            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+              Contribuyente
+            </th>
+            <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}">
+              {{item.nombreContribuyente}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="casoNombre">
+            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+              Insumo
+            </th>
+            <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.nombreInsumo}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="gerencia">
+            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+              Gerencia
+            </th>
+            <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.nombreGerencia}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="depto">
+            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+              Departamento
+            </th>
+            <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}">
+              {{item.nombreDepartamento}} </td>
+          </ng-container>
+          <ng-container matColumnDef="impuesto">
+            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+              Impuestos
+            </th>
+            <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.nombreImpuesto}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+              Estado Caso
+            </th>
+            <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}"> {{item.nombreEstado}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="inicio">
+            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+              Periodo Inicio
+            </th>
+            <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}">
+              {{item.periodoRevisionInicio  | date:'dd/MM/yyyy'}} </td>
+          </ng-container>
+          <ng-container matColumnDef="fin">
+            <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+              Periodo Fin
+            </th>
+            <td mat-cell *matCellDef="let item" [ngStyle]="{'color': getColor(item.idEstado)}">
+              {{item.periodoRevisionFin  | date:'dd/MM/yyyy'}} </td>
+          </ng-container>
+          <!--acciones-->
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+            <td mat-cell *matCellDef="let item ; let id=index">
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item title="Muestra el detalle del caso." (click)=" verDetalle(item)">
+                  <mat-icon class="iconos">visibility</mat-icon>
+                  <span>Ver Detalle</span>
+                </button>
+                <button mat-menu-item title="Agrega Documentos Respaldo" (click)="AdjuntarArchivo(item)"
+                  *ngIf="item.idEstado == constantes.ESTADO_CASO_PENDIENTE_DOCUMENTAR">
+                  <mat-icon class="iconos">upload_file</mat-icon>
+                  <span>Adjuntar Documentos de Respaldo</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columns"></tr>
+          <tr mat-row class="sobra-tabla" *matRowDef="let row; columns: columns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5,10,15]" showFirstLastButtons></mat-paginator>
+      </div>
+    </mat-card>
+  </div>
+
+  <div *ngIf="!showVisor">
+    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="regresar()">
+      <mat-icon>arrow_back</mat-icon>
+      Regresar
+    </button>
+    <mat-card>
+      <app-visor [nodeId]="nodeId" [arregloPropiedades]="arrayProperties"></app-visor>
+    </mat-card>
+  </div>
+</div>

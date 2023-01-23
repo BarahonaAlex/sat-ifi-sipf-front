@@ -1,0 +1,579 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">Elaboracion de Presencias Fiscales</mat-card-title>
+
+  <button mat-icon-button [routerLink]="['/programacion/operador/cartera/presencias']">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <mat-card>
+    <mat-horizontal-stepper labelPosition="bottom" #stepper linear>
+      <mat-step>
+      
+          <ng-template matStepLabel>{{tituloTempleate}}</ng-template>
+          <mat-form-field>
+            <mat-label>Seleccione un </mat-label>
+            <mat-select disabled="{{vOtro}}" [(ngModel)]="depaSelect">
+              <mat-option [value]="imp" (click)="CargarMunicipio(imp.codigo)" *ngFor="let imp of catalogoDepartamento">
+                {{imp.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp; &nbsp;
+          <mat-form-field>
+            <mat-label>Seleccione un </mat-label>
+            <mat-select disabled="{{vOtro}}"  [(ngModel)]="muniSelect">
+              <mat-option [value]="imp" *ngFor="let imp of catalogosDepHijo">
+                {{imp.nombre}}
+              </mat-option>
+            </mat-select>
+
+          </mat-form-field>
+          <button mat-button disabled="{{vOtro}}" class="btn-container" color="primary" (click)="AgregarLugar()">
+            <mat-icon>add</mat-icon>Agregar
+          </button>
+          <div>
+            <table mat-table [dataSource]="dataSourceLugares" matSort class="p-0">
+              <ng-container matColumnDef="Departamento">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Departamento
+                </th>
+                <td mat-cell *matCellDef="let item"> {{item.departamento}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Municipio">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Municipio
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  {{item.municipio}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="acciones" >
+                <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                <td mat-cell *matCellDef="let item ; let id=index">
+                  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones" *ngIf="estado==177 ||estado==181">
+                    <mat-icon>more_horiz</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item title="Eliminar Item" (click)=" EliminarLugar(item)">
+                      <mat-icon class="iconos">delete</mat-icon>
+                      <span>Eliminar</span>
+                    </button>
+                  </mat-menu>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnsLugares"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnsLugares;"></tr>
+
+            </table>
+            <mat-paginator #MatLugares="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+            </mat-paginator>
+          </div>
+          <form [formGroup]="detalleGroup" autocomplete="off">
+            <mat-form-field class="w-100">
+              <input matInput [matDatepicker]="pedirodoDel" placeholder="Seleccione Periodo del"
+                formControlName="pedirodoDel">
+              <mat-datepicker-toggle matSuffix [for]="pedirodoDel">
+                <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #pedirodoDel></mat-datepicker>
+            </mat-form-field>
+            &nbsp; &nbsp;
+            <mat-form-field class="w-100">
+              <input matInput [matDatepicker]="pedirodoAl" placeholder="Seleccione Periodo al"
+                formControlName="pedirodoAl">
+              <mat-datepicker-toggle matSuffix [for]="pedirodoAl">
+                <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #pedirodoAl></mat-datepicker>
+            </mat-form-field>
+            &nbsp; &nbsp;
+            <br>
+            
+            <mat-form-field class="w-100">
+              <mat-label>Seleccione un Programa </mat-label>
+              <mat-select formControlName="programa">
+                <mat-option [value]="imp.idPrograma" *ngFor="let imp of programa" (click)="Cambios()">
+                  {{imp.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <mat-label>Gerencia </mat-label>
+              <mat-select formControlName="gerencia">
+                <mat-option [value]="imp.codigo" *ngFor="let imp of catalogosGerencia" (click)="Cambios()">
+                  {{imp.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <mat-label>Meta</mat-label>
+              <input matInput type="number"  formControlName="meta" placeholder="Meta">
+            </mat-form-field>
+
+            <mat-form-field class="ms-2">
+              <input matInput placeholder="Seleccione Fecha de Ejecucíon" [matDatepicker]="fechaEjecucion"
+                formControlName="ejecucion">
+              <mat-datepicker-toggle matSuffix [for]="fechaEjecucion">
+                <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #fechaEjecucion></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field  class="ms-2">
+              <mat-label>Días</mat-label>
+              <input matInput  placeholder="Nombre Insumo" formControlName="dias"  (keypress)="soloNumeros($event)">
+            </mat-form-field>
+            <mat-form-field class="ms-2">
+              <mat-label>Hora de Inicio</mat-label>
+              <input matInput type="time"  placeholder="00:00" formControlName="horaInicio">
+            </mat-form-field>
+            <mat-form-field class="ms-2">
+              <mat-label>Hora de Fin</mat-label>
+              <input matInput type="time"  placeholder="00:00" formControlName="horaFin">
+            </mat-form-field>
+            <mat-form-field class="ms-2">
+              <mat-label>Lugares </mat-label>
+              <mat-select formControlName="lugarEjecucion">
+                <mat-option [value]="imp" *ngFor="let imp of catalogoLugar">
+                  {{imp}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field >
+            <button mat-button class="btn-container" class="ms-2" disabled="{{vOtro}}" color="primary" (click)="AgregarLugarEjecucion()">
+              <mat-icon>add</mat-icon>Agregar
+            </button>
+          </form>
+          
+          <table mat-table [dataSource]="dataSource3" matSort class="p-0">
+            <ng-container matColumnDef="fecha">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Fecha
+              </th>
+              <td mat-cell *matCellDef="let item"> {{item.fecha | date:'dd/MM/yyyy'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="dias">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Días
+              </th>
+              <td mat-cell *matCellDef="let item">
+                {{item.dias}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="horarioInicio">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Horario de <br>Inicio
+              </th>
+              <td mat-cell *matCellDef="let item"> {{item.horarioInicio}} </td>
+            </ng-container>
+            <ng-container matColumnDef="horarioFin">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Horario de Finalizacion
+              </th>
+              <td mat-cell *matCellDef="let item"> {{item.horarioFin}} </td>
+            </ng-container>
+            <ng-container matColumnDef="lugar">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Lugar a <br>trabajar
+              </th>
+              <td mat-cell *matCellDef="let item"> {{item.lugar}} </td>
+            </ng-container>
+            <ng-container matColumnDef="acciones" >
+              <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+              <td mat-cell *matCellDef="let item ; let id=index">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones" *ngIf="estado==177 ||estado==181">
+                  <mat-icon>more_horiz</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item title="Eliminar Item" (click)=" EliminarLugarEjecucion(item)">
+                    <mat-icon class="iconos">delete</mat-icon>
+                    <span>Eliminar</span>
+                  </button>
+                </mat-menu>
+              </td>
+            </ng-container>
+            <mat-paginator #MatLugar="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            <tr mat-header-row *matHeaderRowDef="columns3"></tr>
+            <tr mat-row *matRowDef="let row; columns: columns3;"></tr>
+          </table>
+          <div style="text-align:end">
+            <button mat-button type="button" color="primary" class="btn-container mt-3"
+              *ngIf="estado==177 || estado ==181" (click)="displayValue()">
+              <mat-icon>arrow_forward</mat-icon>
+              Siguiente
+            </button>
+            <button mat-button type="button" color="primary" class="btn-container mt-3"
+              *ngIf="estado==18 || estado ==19" (click)="verAlcance()">
+              <mat-icon>arrow_forward</mat-icon>
+              Ver Alcance
+            </button>
+          </div>
+      
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Alcances</ng-template>
+        <div class="parent" *ngIf="!showVisor">
+          <div *ngIf="estado==181">
+            <mat-card>
+              <p>
+                <strong>Comentario de Rechazo</strong>
+                <br>
+                <div [innerHTML]="vComentario"></div>
+            </mat-card>
+          </div>
+        <br><br>
+          <mat-accordion> 
+            <div cdkDropList (cdkDropListDropped)="drop($event)">
+              <mat-expansion-panel *ngFor="let itemPrincipal of principal" cdkDrag>
+                <mat-expansion-panel-header (click)="Seleccionar(itemPrincipal.nombre)">
+                  <mat-panel-title>
+                    <mat-checkbox #chekSelect [(ngModel)]="itemPrincipal.completed" color="primary">
+
+                    </mat-checkbox>
+                    &nbsp;&nbsp;
+                    {{itemPrincipal.nombre}}
+                    &nbsp;&nbsp;
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="table-responsive" *ngIf="itemPrincipal.nombre=='ANTECEDENTES'">
+                  <div style="text-align:end">
+                    <button mat-button color="primary" class="btn-container" (click)="loadAntecedentes()">
+                      <mat-icon>refresh</mat-icon>Recargar
+                    </button>
+                  </div>
+                  <table mat-table [dataSource]="dataSourceAntecedentes" matSort>
+                    <ng-container matColumnDef="caso">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        {{itemPrincipal.nombre}}
+                      </th>
+                      <td mat-cell *matCellDef="let item">
+                        <div [innerHTML]="item"></div>
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acciones">
+                      <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                      <td mat-cell *matCellDef="let item ; let id=index">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                          <mat-icon>more_horiz</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                          <button mat-menu-item title="Eliminar Item" (click)=" Eliminar(item)">
+                            <mat-icon class="iconos">delete</mat-icon>
+                            <span>Eliminar</span>
+                          </button>
+                          <button mat-menu-item title="Editar Item" (click)=" Editar(item)">
+                            <mat-icon class="iconos">edit</mat-icon>
+                            <span>Editar</span>
+                          </button>
+                        </mat-menu>
+                      </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                    <tr mat-row class="sobra-tabla" *matRowDef="let row; columns: columns;"></tr>
+                  </table>
+                  <mat-paginator #MatAntecedentes="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                  </mat-paginator>
+                </div>
+                <div class="table-responsive" *ngIf="itemPrincipal.nombre=='OBJETIVOS GENERAL'">
+                  <div style="text-align:end">
+                    <button mat-button color="primary" class="btn-container" (click)="loadObgeneral()">
+                      <mat-icon>refresh</mat-icon>Recargar
+                    </button>
+                  </div>
+                  <table mat-table [dataSource]="dataSourceObGeneral" matSort>
+                    <ng-container matColumnDef="caso">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        {{itemPrincipal.nombre}}
+                      </th>
+                      <td mat-cell *matCellDef="let item">
+                        <div [innerHTML]="item"></div>
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="acciones">
+                      <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                      <td mat-cell *matCellDef="let item ; let id=index">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                          <mat-icon>more_horiz</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                          <button mat-menu-item title="Eliminar Item" (click)=" Eliminar(item)">
+                            <mat-icon class="iconos">delete</mat-icon>
+                            <span>Eliminar</span>
+                          </button>
+                          <button mat-menu-item title="Editar Item" (click)=" Editar(item)">
+                            <mat-icon class="iconos">edit</mat-icon>
+                            <span>Editar</span>
+                          </button>
+                        </mat-menu>
+                      </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                    <tr mat-row class="sobra-tabla" *matRowDef="let row; columns: columns;"></tr>
+                  </table>
+                  <mat-paginator #MatObGeneral="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                  </mat-paginator>
+                </div>
+                <div class="table-responsive" *ngIf="itemPrincipal.nombre=='OBJETIVOS ESPECÍFICOS'">
+                  <mat-form-field>
+                    <mat-label>Seleccione un </mat-label>
+                    <mat-select (selectionChange)="changeObjectives()" required="true" [(ngModel)]="selectStr" >
+                      <mat-option [value]="imp.descripcion" *ngFor="let imp of catalogosEspecificos">
+                        {{imp.nombre}}
+                      </mat-option>
+                      <mat-option [value]="0" (click)="Otro()">otros</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div style="text-align:end">
+                    <button mat-button class="btn-container" color="primary" (click)="agregar()">
+                      <mat-icon>add</mat-icon>Agregar
+                    </button>
+                  </div>
+
+                  <table mat-table [dataSource]="dataSourceObEspecifico" matSort>
+                    <ng-container matColumnDef="caso">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        {{itemPrincipal.nombre}}
+                      </th>
+                      <td mat-cell *matCellDef="let item">
+                        <div [innerHTML]="item"></div>
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="acciones">
+                      <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                      <td mat-cell *matCellDef="let item ; let id=index">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                          <mat-icon>more_horiz</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                          <button mat-menu-item title="Eliminar Item" (click)=" Eliminar(item)">
+                            <mat-icon class="iconos">delete</mat-icon>
+                            <span>Eliminar</span>
+                          </button>
+                          <button mat-menu-item title="Editar Item" (click)=" Editar(item)">
+                            <mat-icon class="iconos">edit</mat-icon>
+                            <span>Editar</span>
+                          </button>
+                        </mat-menu>
+                      </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                    <tr mat-row class="sobra-tabla" *matRowDef="let row; columns: columns;"></tr>
+                  </table>
+                  <mat-paginator #MatObEspecifico="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                  </mat-paginator>
+                </div>
+                <div *ngIf="itemPrincipal.nombre=='META'">
+                  <div style="text-align:end">
+                    <button mat-button color="primary" class="btn-container" (click)="Meta()">
+                      <mat-icon>refresh</mat-icon>Recargar
+                    </button>
+                  </div>
+                  <div class="table-responsive">
+                    <table mat-table [dataSource]="dataSource" matSort>
+                      <ng-container matColumnDef="caso">
+                        <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                          {{itemPrincipal.nombre}}
+                        </th>
+                        <td mat-cell *matCellDef="let item">
+                          <div [innerHTML]="item"></div>
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                        <td mat-cell *matCellDef="let item ; let id=index">
+                          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                            <mat-icon>more_horiz</mat-icon>
+                          </button>
+                          <mat-menu #menu="matMenu">
+                            <button mat-menu-item title="Eliminar Item" (click)=" Eliminar(item)">
+                              <mat-icon class="iconos">delete</mat-icon>
+                              <span>Eliminar</span>
+                            </button>
+                            <button mat-menu-item title="Editar Item" (click)=" Editar(item)">
+                              <mat-icon class="iconos">edit</mat-icon>
+                              <span>Editar</span>
+                            </button>
+                          </mat-menu>
+                        </td>
+                      </ng-container>
+                      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                      <tr mat-row class="sobra-tabla" *matRowDef="let row; columns: columns;"></tr>
+                    </table>
+                    <mat-paginator #MatMeta="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                    </mat-paginator>
+                  </div>
+                  <mat-divider></mat-divider>
+                  <br>
+                  <br>
+                  <table mat-table [dataSource]="dataSource2" matSort class="p-0">
+                    <ng-container matColumnDef="gerencia">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        Gerencia Regional
+                      </th>
+                      <td mat-cell *matCellDef="let item"> {{item.nombre}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="meta">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        Meta
+                      </th>
+                      <td mat-cell *matCellDef="let item">
+                        {{item.codigo}}
+                      </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="columns2"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columns2;"></tr>
+                  </table>
+                  <mat-paginator #MatItem="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                  </mat-paginator>
+                  <table mat-table [dataSource]="dataSource3" matSort class="p-0">
+                    <ng-container matColumnDef="fecha">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        Fecha
+                      </th>
+                      <td mat-cell *matCellDef="let item"> {{item.fecha | date:'dd/MM/yyyy'}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="dias">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        Días
+                      </th>
+                      <td mat-cell *matCellDef="let item">
+                        {{item.dias}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="horarioInicio">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        Horario de <br>Inicio
+                      </th>
+                      <td mat-cell *matCellDef="let item"> {{item.horarioInicio}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="horarioFin">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        Horario de Finalizacion
+                      </th>
+                      <td mat-cell *matCellDef="let item"> {{item.horarioFin}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="lugar">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        Lugar a <br>trabajar
+                      </th>
+                      <td mat-cell *matCellDef="let item"> {{item.lugar}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="acciones" >
+                      <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                      <td mat-cell *matCellDef="let item ; let id=index">
+                      </td>
+                    </ng-container>
+                    <mat-paginator #MatLugar="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                    <tr mat-header-row *matHeaderRowDef="columns3"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columns3;"></tr>
+                  </table>
+                </div>
+                <div *ngIf="itemPrincipal.nombre=='PROCEDIMIENTOS'">
+                  <form action="" [formGroup]="processSelectProcess">
+                  <mat-form-field>
+                    <mat-label>Seleccione un </mat-label>
+                    <mat-select required="true" [(ngModel)]="select" formControlName="proceso">
+                      <mat-option [value]="imp" (click)="CargarHijo()" *ngFor="let imp of catalogosPadre">
+                        {{imp.nombre}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  &nbsp; &nbsp;
+                  <mat-form-field>
+                    <mat-label>Seleccione un </mat-label>
+                    <mat-select required="true" [(ngModel)]="selectHijo" formControlName="select">
+                      <mat-option [value]="imp" *ngFor="let imp of catalogosHijo">
+                        {{imp.nombre}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  </form>
+                  <div style="text-align:end">
+                    <button mat-button class="btn-container" color="primary" (click)="agregarProcedimiento()">
+                      <mat-icon>add</mat-icon>Agregar
+                    </button>
+                  </div>
+                  <table mat-table [dataSource]="dataSource4" matSort class="p-0">
+                    <ng-container matColumnDef="Nombre">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        Nombre
+                      </th>
+                      <td mat-cell *matCellDef="let item"> {{item.nombre}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Descripcion">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        Descripción
+                      </th>
+                      <td mat-cell *matCellDef="let item">
+                        {{item.descripcion}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="acciones">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                      </th>
+                      <td mat-cell *matCellDef="let item">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" title="Muestra el detalle del caso.">
+                          <mat-icon>more_horiz</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                          <button mat-menu-item title="Muestra el detalle del caso." (click)=" Eliminar(item)">
+                            <mat-icon class="iconos">delete</mat-icon>
+                            <span>Eliminar</span>
+                          </button>
+                        </mat-menu>
+                      </td>
+
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="columns4"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columns4;"></tr>
+
+                  </table>
+                  <mat-paginator #MatProcedimientos="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                  </mat-paginator>
+                </div>
+              </mat-expansion-panel>
+            </div>
+          </mat-accordion>
+         <!--  <div style="text-align:end">
+            <button mat-button type="button" color="primary" class="btn-container me-2" matStepperPrevious>
+              <mat-icon>arrow_back</mat-icon>
+              Atras
+            </button>
+            <button mat-button color="primary" class="btn-container" (click)="GenerarAlcance()">
+              <mat-icon>description</mat-icon>Generar Alcance
+            </button>
+          </div> -->
+        </div>
+        <div *ngIf="showVisor">
+          <mat-card>
+            <app-visor [isScope]="true" [nodeId]="nodeId" [arregloPropiedades]="arrayProperties" [document]="documento"></app-visor>
+          </mat-card>
+          <div style="text-align:end" *ngIf="estado==177 || estado==181">
+            <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="warn" (click)="regresar()">
+              <mat-icon>clear</mat-icon>
+              Cancelar
+            </button>
+            <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary"
+              (click)="GuardarArchivo()">
+              <mat-icon>save</mat-icon>
+              Guardar
+            </button>
+          </div>
+        </div>
+        <div class="d-flex mt-1 pt-3" *ngIf="!showVisor">
+          <div class="ms-auto">
+            <button mat-button type="button" color="warn" class="btn-container me-2" matStepperPrevious>
+              <mat-icon>arrow_back</mat-icon>
+              Atras
+            </button>
+            <button mat-button color="primary" class="btn-container" (click)="GenerarAlcance()">
+              <mat-icon>description</mat-icon>Generar Alcance
+            </button>
+          </div>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card>
+</div>

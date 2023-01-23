@@ -1,0 +1,144 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+    <mat-card-title class="mt-2 main-title">Plan Anual de Fiscalización</mat-card-title>
+    <br>
+    <mat-card>
+        <div class="centrar">
+            <form [formGroup]="generalFormGroup">
+                <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4"
+                    appearance="standard">
+                    <mat-label>Indicador de Acertividad</mat-label>
+                    <input matInput placeholder="Indicador" formControlName="indicador">
+                </mat-form-field>
+                <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4"
+                    appearance="standard">
+                    <mat-label>Año</mat-label>
+                    <input matInput placeholder="2022" formControlName="anio">
+                </mat-form-field>
+            </form>
+        </div>
+        <br>
+        <div class="centrar">
+            <button mat-button type="button" class="btn-container" color="primary" (click)="addPlan()">
+                <mat-icon>add</mat-icon>
+                Agregar Mes
+            </button>
+        </div>
+        <br>
+        <div *ngIf="mostrarMes">
+            <div class="table-responsive">
+                <form [formGroup]="planForm">
+                    <table>
+                        <tr>
+                            <th scope="row">Gerencia</th>
+                            <th>Selectivo</th>
+                            <th>Masivo</th>
+                            <th>COMEX</th>
+                            <th>Fiscalidad Internacional</th>
+                        </tr>
+                        <tr>
+                            <th>Gerencial Regional Central</th>
+                            <td><input formControlName="meta"></td>
+                            <td><input formControlName="meta"></td>
+                            <td><input formControlName="meta"></td>
+                            <td><input formControlName="meta"></td>
+                        </tr>
+                        <tr>
+                            <th>Gerencia Regional Sur</th>
+                            <td><input></td>
+                            <td><input></td>
+                            <td><input></td>
+                            <td><input></td>
+                        </tr>
+                        <tr>
+                            <th>Gerencia Regional NorOriente</th>
+                            <td><input></td>
+                            <td><input></td>
+                            <td><input></td>
+                            <td><input></td>
+                        </tr>
+                        <tr>
+                            <th>Gerencia Regional Occidente</th>
+                            <td><input></td>
+                            <td><input></td>
+                            <td><input></td>
+                            <td><input></td>
+                        </tr>
+                        <tr>
+                            <th>Gerencia Especiales Grandes</th>
+                            <td><input></td>
+                            <td><input></td>
+                            <td><input></td>
+                            <td><input></td>
+                        </tr>
+                        <tr>
+                            <th>Gerencia Especiales Medianos</th>
+                            <td><input></td>
+                            <td><input></td>
+                            <td><input></td>
+                            <td><input></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="d-flex mt-1 pt-3">
+            <div class="ms-auto">
+                <button mat-button color="warn" type="button" class="btn-container me-2 mt-3">
+                    <mat-icon>clear</mat-icon>
+                    Cancelar
+                </button>
+                <button mat-button type="button" color="primary" class="btn-container mt-3"
+                    [disabled]="generalFormGroup.invalid"
+                    (click)="createPlan()">
+                    <mat-icon>save</mat-icon>
+                    Guardar
+                </button>
+            </div>
+        </div>
+        <!-- <div class="centrar">
+            <form [formGroup]="generalFormGroup">
+                <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4"
+                    appearance="standard">
+                    <mat-label>Indicador de Acertividad</mat-label>
+                    <input matInput placeholder="Indicador" formControlName="indicador">
+                </mat-form-field>
+                <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4"
+                    appearance="standard">
+                    <mat-label>Año</mat-label>
+                    <input matInput placeholder="2022" formControlName="anio">
+                </mat-form-field>
+                <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4"
+                    appearance="standard">
+                    <mat-label>Mes</mat-label>
+                    <mat-select #profesional formControlName="mes">
+                        <mat-option *ngFor="let mes of meses" [value]="mes.codigo" click>{{mes.nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4"
+                    appearance="standard">
+                    <mat-label>Gerencia</mat-label>
+                    <mat-select #profesional formControlName="gerencia">
+                        <mat-option *ngFor="let gerencia of gerencias" [value]="gerencia.codigo" click>
+                            {{gerencia.nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4"
+                    appearance="standard">
+                    <mat-label>Tipo de Auditoria</mat-label>
+                    <mat-select #profesional formControlName="tipoAuditoria">
+                        <mat-option *ngFor="let tipo of tipos" [value]="tipo.codigo" click>{{tipo.nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4"
+                    appearance="standard">
+                    <mat-label>Meta</mat-label>
+                    <input matInput placeholder="350" formControlName="meta">
+                </mat-form-field>
+            </form>
+        </div> -->
+    </mat-card>
+</div>

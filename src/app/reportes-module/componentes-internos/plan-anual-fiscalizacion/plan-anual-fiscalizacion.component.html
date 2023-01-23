@@ -1,0 +1,141 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+    <mat-card-title class="mt-2 main-title">Plan Anual de Fiscalización</mat-card-title>
+    <br>
+    <mat-card>
+        <div class="centrar">
+            <form [formGroup]="generalFormGroup">
+                <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4"
+                    appearance="standard">
+                    <mat-label>Seleccione el Año</mat-label>
+                    <mat-select #profesional formControlName="anio">
+                        <mat-option *ngFor="let anio of anioPlan" [value]="anio.anio">{{anio.anio}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3 me-0 me-sm-0 me-md-3 me-lg-4"
+                    appearance="standard">
+                    <mat-label>Seleccione el Mes</mat-label>
+                    <mat-select #profesional formControlName="mes">
+                        <mat-option *ngFor="let mes of meses" [value]="mes.codigo">{{mes.nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+            <div>
+                <button mat-button type="button" color="primary" class="btn-container me-2 mt-3" (click)="getPlanes()"
+                    [disabled]="generalFormGroup.invalid">
+                    <mat-icon>search</mat-icon>
+                    Buscar
+                </button>
+            </div>
+        </div>
+        <div *ngIf="mostrarTablas">
+            <div>
+                <br><br>
+                <mat-divider></mat-divider><br>
+                <p class="main-Subtitle">Metas Iniciadas Generales</p>
+                <table mat-table [dataSource]="dataSourceGeneral">
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="gerencia">
+                        <th class="alinear2" mat-header-cell *matHeaderCellDef>Gerencia</th>
+                        <td class="tituloColumna" mat-cell *matCellDef="let element">{{element.gerencia}}</td>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="selectivo">
+                        <th class="alinear2" mat-header-cell *matHeaderCellDef>Selectivo</th>
+                        <td class="alinear" mat-cell *matCellDef="let element"> {{element.selectivo}} </td>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="masivo">
+                        <th class="alinear2" mat-header-cell *matHeaderCellDef>Masivo</th>
+                        <td class="alinear" mat-cell *matCellDef="let element"> {{element.masivo}} </td>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="comex">
+                        <th class="alinear2" mat-header-cell *matHeaderCellDef>COMEX</th>
+                        <td class="alinear" mat-cell *matCellDef="let element"> {{element.comex}} </td>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="fiscaInter">
+                        <th class="alinear2" mat-header-cell *matHeaderCellDef>Fiscalidad Internacional</th>
+                        <td class="alinear" mat-cell *matCellDef="let element"> {{element.fiscaInter}} </td>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="totalGerencia">
+                        <th class="alinear3" mat-header-cell *matHeaderCellDef> Total</th>
+                        <td class="alinear3" mat-cell *matCellDef="let element"> <b>{{element.totalGerencia}}</b> </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                        [class.refused]="row.gerencia == 'Total'">
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <br><br>
+                <mat-divider></mat-divider><br>
+                <p class="main-Subtitle">Metas Finalizadas por Gerencia y Auditoria</p>
+                <table mat-table [dataSource]="dataSourceManagement">
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="gerencia">
+                        <th class="alinear2" mat-header-cell *matHeaderCellDef>Gerencia</th>
+                        <td class="tituloColumna" mat-cell *matCellDef="let manag"> <b>{{manag.gerencia}}</b> </td>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="meta">
+                        <th class="alinear2" mat-header-cell *matHeaderCellDef>Iniciada</th>
+                        <td class="alinear" mat-cell *matCellDef="let manag"> {{manag.meta}} </td>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="trabajadas">
+                        <th class="alinear2" mat-header-cell *matHeaderCellDef>Finalizada</th>
+                        <td class="alinear" mat-cell *matCellDef="let manag"> {{manag.trabajadas}} </td>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="porcentaje">
+                        <th class="alinear3" mat-header-cell *matHeaderCellDef>% de Logro</th>
+                        <td class="alinear3" *matCellDef="let manag"
+                            [ngStyle]="{'color': getColor(manag.porcentajeGerencia)}">
+                            <b>{{manag.porcentajeGerencia}}</b>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsManagement"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsManagement;"></tr>
+                </table>
+            </div>
+            <div>
+                <br><br>
+                <mat-divider></mat-divider><br>
+                <p class="main-Subtitle">Metas Finalizadas por Auditoria </p>
+                <table mat-table [dataSource]="dataSourceAudit">
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="auditoria">
+                        <th class="alinear2" mat-header-cell *matHeaderCellDef>Auditoria</th>
+                        <td class="tituloColumna" mat-cell *matCellDef="let audit"> <b>{{audit.auditoria}}</b> </td>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="meta">
+                        <th class="alinear2" mat-header-cell *matHeaderCellDef>Iniciada</th>
+                        <td class="alinear" mat-cell *matCellDef="let audit"> {{audit.metas}} </td>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="trabajadas">
+                        <th class="alinear2" mat-header-cell *matHeaderCellDef>Finalizada</th>
+                        <td class="alinear" mat-cell *matCellDef="let audit"> {{audit.trabajadas}} </td>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="porcentaje">
+                        <th class="alinear3" mat-header-cell *matHeaderCellDef>% de Logro</th>
+                        <td class="alinear3" mat-cell *matCellDef="let audit"
+                            [ngStyle]="{'color': getColor(audit.porcentajeAuditoria)}">
+                            <b>{{audit.porcentajeAuditoria}}</b>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsAudit"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsAudit;"></tr>
+                </table>
+            </div>
+        </div>
+        <br>
+    </mat-card>
+</div>

@@ -1,0 +1,92 @@
+<!-- Muestra documento a consultado -->
+<div class="row">
+  <!-- Se muestre documento -->
+  <div [ngClass]="!scope || ((dataSource.data.length > 0 || (propiedadesDocMostrar)) ) ? 'col-6':'col-12' ">
+    <div class="pdf-body">
+      <p *ngIf="mostrarMensajeError" class="text-danger text-center">No se puede abrir una vista previa de
+        este documento.</p>
+      <ngx-extended-pdf-viewer *ngIf="mostrarPdf" [src]="docBase64" [showOpenFileButton]="false"
+        [showBookmarkButton]="false" [showPropertiesButton]="false" [showSidebarButton]="false"
+        [useBrowserLocale]="true" [showUnverifiedSignatures]="true">
+      </ngx-extended-pdf-viewer>
+
+      <div class="container">
+        <img *ngIf="mostrarImg" src={{docBase64}}>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Se muestra versiones del documento -->
+  <div class="col-6">
+    <!-- Propiedades del documento -->
+    <mat-accordion *ngIf="!scope || (scope && (propiedadesDocMostrar && propiedadesDocMostrar.length > 0))">
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h3>Propiedades</h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngFor="let propiedad of propiedadesDocMostrar">
+          <p>{{propiedad.key}}: {{propiedad.value}}</p>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+    <!-- Historial de versiones -->
+    <mat-accordion *ngIf="!scope || (scope && (dataSource.data.length > 0))">
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h3>Historial de Versiones</h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field appearance="standard">
+          <mat-label>Filtro</mat-label>
+          <input matInput (keyup)="applyFilter($event)" #input>
+        </mat-form-field>
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Versión</th>
+            <td mat-cell *matCellDef="let row">&nbsp;&nbsp;&nbsp;{{row.idv}} </td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell *matCellDef="let row"> {{row.name}}
+              <p>
+                <mat-icon aria-hidden="false" style="font-size:15px; color: grey;">person</mat-icon>
+                {{row.editor}} {{row.fecha}}
+              </p>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef></th>
+
+            <td mat-cell *matCellDef="let documento">
+              <span class="material-icons botonAccion" [matMenuTriggerFor]="menu"
+                aria-label="Example icon-button with a menu">more_horiz</span>
+              <mat-menu #menu="matMenu">
+
+                <button mat-menu-item title="Descargar" class="iconos"
+                  (click)="downloadFile(documento.id,documento.name)">
+                  <mat-icon class="iconos">arrow_downward</mat-icon>
+                  <span>Descargar</span>
+                </button>
+                <button mat-menu-item title="Ver documento" class="iconos"
+                  (click)="viewDocument(documento.id)">
+                  <mat-icon class="iconos">visibility</mat-icon>
+                  <span>Visualizar</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+
+  </div>
+</div>

@@ -1,0 +1,392 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <!-- *ngIf="autorizado && cargado" -->
+  <mat-card-title class="main-title">Solicitudes Posteriori Aduanas</mat-card-title>
+
+  <mat-card class="mt-4">
+    <mat-horizontal-stepper labelPosition="bottom" #stepper linear>
+      <mat-step [stepControl]="generalFormGroup">
+        <ng-template matStepLabel>Entidad solicitante</ng-template>
+        <div class="row d-flex justify-content-center">
+          <div class="col-sm-12">
+            <form [formGroup]="generalFormGroup">
+
+              <div class="row p-0">
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>No.</mat-label>
+                  <input matInput formControlName="No" type="number">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Audiencia No.</mat-label>
+                  <input matInput formControlName="audiencia">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Fecha de Audiencia</mat-label>
+                  <input matInput [matDatepicker]="fechaAudiencia" formControlName="fechaAudiencia" readonly>
+                  <mat-datepicker-toggle matSuffix [for]="fechaAudiencia">
+                    <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #fechaAudiencia></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>NIT</mat-label>
+                  <input matInput formControlName="NIT" (change)="searchTaxpayer()">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Nombre Contribuyente</mat-label>
+                  <input matInput formControlName="nombre">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Duca No.</mat-label>
+                  <input matInput formControlName="noDuca">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Duca No. Orden</mat-label>
+                  <input matInput formControlName="noDucaOrden" (change)="getDuca()">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Fecha de Aceptación</mat-label>
+                  <input matInput formControlName="fechaAceptacion">
+                </mat-form-field>
+
+                <!--   <mat-form-field appearance="standard" class="col-sm-6">
+                                    <mat-label>Fecha de Aceptación</mat-label>
+                                    <input matInput [matDatepicker]="fechaAceptacion" formControlName="fechaAceptacion"
+                                        readonly>
+                                    <mat-datepicker-toggle matSuffix [for]="fechaAceptacion">
+                                        <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #fechaAceptacion></mat-datepicker>
+                                </mat-form-field> -->
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Regimen</mat-label>
+                  <input matInput formControlName="regimen">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Selectivo</mat-label>
+                  <input matInput formControlName="selectivo">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>País Proveedor</mat-label>
+                  <input matInput formControlName="paisProveedor">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Expediente</mat-label>
+                  <input matInput formControlName="expedientes">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Certificado de Ensayo</mat-label>
+                  <input matInput formControlName="certificadoensayo">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Dictamen de Clasificación Arancelaria No.</mat-label>
+                  <input matInput formControlName="dictamenArancelaria">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Fecha de Dictamen</mat-label>
+                  <input matInput [matDatepicker]="fechaDictamen" formControlName="fechaDictamen" readonly>
+                  <mat-datepicker-toggle matSuffix [for]="fechaDictamen">
+                    <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #fechaDictamen></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Descripción de la Mercaderia Ajustada </mat-label>
+                  <input matInput formControlName="Descripcion">
+                </mat-form-field>
+
+                <div class="col-sm-6">
+                  <mat-label>Tipo de Ajustes:</mat-label>
+                  <mat-radio-group aria-label="Select an option" formControlName="tipoAjuste">
+                    <br><br>
+                    <div class="col-12">
+                      <mat-radio-button value="Valor de las Mercaderias">Valor de las Mercaderias
+                      </mat-radio-button>
+                      <mat-radio-button value="Denegacion Trato Arancelario">Denegacion Trato
+                        Arancelario</mat-radio-button>
+
+                    </div>
+                    <div class="col-12">
+                      <mat-radio-button value="Clasificación Arancelario">Clasificación
+                        Arancelario</mat-radio-button>
+                      <mat-radio-button value="Otros">Otros</mat-radio-button>
+                    </div>
+                  </mat-radio-group>
+                </div>
+
+                <upload-file #archivo class="col-sm-6" [filename]="'Archivo de insumos'" 
+                [label]="'Archivo de Respaldo'"
+                  [accept]="['xlsx', 'xls' , 'doc', 'pdf']" 
+                  [id]="'cargaArchivo'" 
+                  [folder]="folder" [saveOnLoad]="false"
+                  [formControlName]="'cargaArchivo'" 
+                  (onStateChange)="stateChange($event)">
+                </upload-file>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <div class="d-flex mt-1 pt-3">
+          <div class="ms-auto">
+            <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" (click)="cancelar()">
+              <mat-icon>clear</mat-icon>
+              Cancelar
+            </button>
+            <button mat-button type="button" color="primary" class="btn-container mt-3" matStepperNext
+              [disabled]="generalFormGroup.invalid">
+              <mat-icon>arrow_forward</mat-icon>
+              Siguiente
+            </button>
+          </div>
+        </div>
+      </mat-step>
+      <!-- Paso 2 Tipo de Solicitud -->
+      <mat-step [stepControl]="arancelarioDeclarado" #tipoStep>
+        <ng-template matStepLabel>Arancelario Declarado</ng-template>
+
+        <div class="row d-flex justify-content-center">
+          <div class="col-sm-12">
+            <form [formGroup]="arancelarioDeclarado">
+
+              <div class="row p-0">
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Capitulo Declarado</mat-label>
+                  <input matInput formControlName="capituloDeclarado" maxlength="2">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Partida Declarada</mat-label>
+                  <input matInput formControlName="partidaDeclarada" maxlength="2">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Inciso Declarado</mat-label>
+                  <input matInput formControlName="incisosDeclarado" maxlength="6">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>TASA DAI Declarado</mat-label>
+                  <input matInput formControlName="tasaDai">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>DAI Q. Pagado</mat-label>
+                  <input matInput formControlName="daiPagado">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>IVA Q. Pagado</mat-label>
+                  <input matInput formControlName="ivaPago">
+                </mat-form-field>
+
+                <!--  <mat-form-field appearance="standard" class="col-sm-6">
+                                    <mat-label>Trato Arancelario Preferencial:</mat-label>
+                                    <input matInput formControlName="tratoArancelario">
+                                </mat-form-field> -->
+
+                <!--   <mat-form-field appearance="standard" class="col-sm-6">
+                                    <mat-label>Trato Arancelario Preferencial</mat-label>
+                                    <input matInput formControlName="tratoArancelario">
+                                </mat-form-field> -->
+
+                <div class="col-sm-6">
+                  <mat-label>Trato Arancelario Preferencial:</mat-label>
+                  <mat-radio-group aria-label="Select an option" formControlName="tratoArancelario">
+                    <mat-radio-button value="SI">Si</mat-radio-button>
+                    <mat-radio-button value="No">No</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div><br>
+
+        <mat-divider></mat-divider>
+        <div class="d-flex mt-1 pt-3">
+          <div class="ms-auto">
+            <button mat-button type="button" color="primary" class="btn-container me-2" matStepperPrevious>
+              <mat-icon>arrow_back</mat-icon>
+              Atras
+            </button>
+            <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" (click)="cancelar()">
+              <mat-icon>clear</mat-icon>
+              Cancelar
+            </button>
+            <button mat-button type=" button" color="primary" class="btn-container mt-3" matStepperNext>
+              <mat-icon>arrow_forward</mat-icon>
+              Siguiente
+            </button>
+          </div>
+        </div>
+      </mat-step>
+      <!-- Paso 3 Tipo de Solicitud -->
+      <mat-step [stepControl]="arancelarioDictaminado" #tipoStep>
+        <ng-template matStepLabel>Arancelario Dictaminado</ng-template>
+
+        <div class="row d-flex justify-content-center">
+          <div class="col-sm-12">
+            <form [formGroup]="arancelarioDictaminado">
+
+              <div class="row p-0">
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Capitulo Dictaminado</mat-label>
+                  <input matInput formControlName="capituloDictaminado" maxlength="2" (keypress)="soloNumeros($event)">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Partida Dictaminado</mat-label>
+                  <input matInput formControlName="partidaDictaminado" maxlength="2" (keypress)="soloNumeros($event)">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Inciso Dictaminado</mat-label>
+                  <input matInput formControlName="incisoDictaminado" maxlength="6" (keypress)="soloNumeros($event)">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>TASA DAI Dictaminado</mat-label>
+                  <input matInput formControlName="tasaDaiaDictaminado">
+                </mat-form-field>
+
+                <!--  <mat-form-field appearance="standard" class="col-sm-6">
+                                    <mat-label>Tipo de Alertivo</mat-label>
+                                    <input matInput formControlName="tipoAlertivo">
+                                </mat-form-field> -->
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Tipo aletivo</mat-label>
+                  <mat-select formControlName="tipoAlertivo">
+                    <mat-option *ngFor="let food of foods" [value]="food.value">
+                      {{food.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Opinion Técnica DACE</mat-label>
+                  <input matInput formControlName="opinionDace">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Monto total Ajustado Q. por Lineas</mat-label>
+                  <input matInput formControlName="montoTotal" type="number">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Observaciones (Motivo del Ajuste)</mat-label>
+                  <input matInput formControlName="observaciones">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Unidad de Medida</mat-label>
+                  <input matInput formControlName="unidadMedida">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Cantidad</mat-label>
+                  <input matInput formControlName="cantidad" type="number">
+                </mat-form-field>
+
+                <!--  <mat-form-field appearance="standard" class="col-sm-6">
+                                    <mat-label>Entidad Solicitante</mat-label>
+                                    <mat-select #entidad formControlName="entidad" (selectionChange)="otros($event.value)">
+                                        <mat-option *ngFor="let item of entidades" [value]="item.codigo">{{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field> -->
+
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <div class="d-flex mt-1 pt-3">
+          <div class="ms-auto">
+            <button mat-button type="button" color="primary" class="btn-container me-2" matStepperPrevious>
+              <mat-icon>arrow_back</mat-icon>
+              Atras
+            </button>
+            <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" (click)="cancelar()">
+              <mat-icon>clear</mat-icon>
+              Cancelar
+            </button>
+            <button mat-button type="button" color="primary" class="btn-container mt-3" matStepperNext>
+              <mat-icon>arrow_forward</mat-icon>
+              Siguiente
+            </button>
+          </div>
+        </div>
+      </mat-step>
+      <!-- Paso 4 Periodo de revisión -->
+      <mat-step [stepControl]="ajusteValorFromGrup">
+        <ng-template matStepLabel>Ajuste de Valor de Mercancias</ng-template>
+
+        <div class="row d-flex justify-content-center">
+          <div class="col-sm-12">
+            <form [formGroup]="ajusteValorFromGrup">
+
+              <div class="row p-0">
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Valor FOB Q. Unitario Declarado</mat-label>
+                  <input matInput formControlName="valorDeclarado">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Valor FOB Q. Unitario Ajustado</mat-label>
+                  <input matInput formControlName="valorAjustado" type="number">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" class="col-sm-6">
+                  <mat-label>Numero de Orden Declaración</mat-label>
+                  <input matInput formControlName="numeroOrden">
+                </mat-form-field>
+
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <div class="d-flex mt-1 pt-3">
+          <div class="ms-auto">
+            <button mat-button type="button" color="primary" class="btn-container me-2" matStepperPrevious>
+              <mat-icon>arrow_back</mat-icon>
+              Atras
+            </button>
+            <button mat-button color="warn" type="button" class="btn-container me-2 mt-3" (click)="cancelar()">
+              <mat-icon>clear</mat-icon>
+              Cancelar
+            </button>
+            <button mat-button type="button" color="primary" class="btn-container mt-3" (click)="showDialog()"
+              [disabled]="ajusteValorFromGrup.invalid">
+              <mat-icon>save</mat-icon>
+              Guardar
+            </button>
+          </div>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card>
+</div>

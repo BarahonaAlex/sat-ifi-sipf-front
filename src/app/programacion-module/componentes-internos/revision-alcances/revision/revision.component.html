@@ -1,0 +1,365 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5" *ngIf="cargado && autorizado">
+  <mat-card-title class="main-title">
+    {{tipo == 'detalle' ? 'Detalle de case' : 'Revisión de ' + tipo}}
+  </mat-card-title>
+  <mat-accordion multi *ngIf="case">
+    <mat-expansion-panel class="mt-4">
+      <mat-expansion-panel-header collapsedHeight="*" expandedHeight="*">
+        <mat-panel-title class="centrado">
+          <p class="text-sat font-weight-bold m-2">
+            <b>Resumen del insumo</b>
+          </p>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="row mt-2">
+        <div class="col-sm-4 p-3">
+          <mat-card class="parent">
+            <div class="child">
+              <mat-icon>manage_accounts</mat-icon>
+            </div>
+            <p class="title m-2 mt-3">Profesional</p>
+            <p class="text mx-2">{{case.nombreColaborador}}</p>
+          </mat-card>
+        </div>
+        <div class="col-sm-4 p-3">
+          <mat-card class="parent">
+            <div class="child">
+              <mat-icon>person</mat-icon>
+            </div>
+            <p class="title m-2 mt-3">Contribuyente</p>
+            <p class="text mx-2">{{case.nombreContribuyente}}</p>
+          </mat-card>
+        </div>
+        <div class="col-sm-4 p-3">
+          <mat-card class="parent">
+            <div class="child">
+              <mat-icon>tag</mat-icon>
+            </div>
+            <p class="title m-2 mt-3">No. de programa</p>
+            <p class="text mx-2">{{case.idPrograma ? case.idPrograma : 'No ingresado'}}</p>
+          </mat-card>
+        </div>
+      </div>
+      <ng-container *ngIf="tipo != 'detalle'">
+        <mat-divider></mat-divider>
+        <div class="mt-2">
+          <table mat-table [dataSource]="fuenteDatos" matSort>
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                No. de hallazgo
+              </th>
+              <td mat-cell *matCellDef="let item">
+                IFI-HI-{{item.idHallazgos}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="nombre">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Nombre
+              </th>
+              <td mat-cell *matCellDef="let item"> {{obtenerNombre(item)}} </td>
+            </ng-container>
+            <ng-container matColumnDef="plazo">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Plazo
+              </th>
+              <td mat-cell *matCellDef="let item"> {{obtenerPlazo(item)}} </td>
+            </ng-container>
+            <ng-container matColumnDef="tipo">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Tipo
+              </th>
+              <td mat-cell *matCellDef="let item"> {{item.tipo}} </td>
+            </ng-container>
+            <ng-container matColumnDef="estado">
+              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                Estado
+              </th>
+              <td mat-cell *matCellDef="let item"> {{item.estado}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+            <tr mat-row @enterExitLeft class="sobra-tabla" *matRowDef="let row; columns: columnas;"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5,10,15]" showFirstLastButtons></mat-paginator>
+        </div>
+      </ng-container>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-card class="mt-4">
+    <mat-checkbox class="ms-3 my-2" #revisar color="primary" *ngIf="tipo != 'detalle'"
+      (change)="porRevisar = revisar.checked">
+      Mostrar unicamente hallazgos por revisar
+    </mat-checkbox>
+    <mat-horizontal-stepper labelPosition="bottom">
+      <!-- Paso 1 Estados financieros -->
+      <mat-step>
+        <ng-template matStepLabel>Estados financieros</ng-template>
+        <div class="row d-flex justify-content-center">
+          <div class="col-sm-12">
+            <div class="row mt-2">
+              <div *ngFor="let item of estadosFinancieros; let i=index;" [hidden]="porRevisar ? item.reviewed : false"
+                class="col-12 col-sm-6 col-md-6 col-lg-4 p-3">
+                <mat-card class="parent m-0">
+                  <div class="child-full">
+                    <p>IFI-HI-{{item.idHallazgos}}</p>
+                  </div>
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <p class="title m-2 mt-3">Nombre del rubro</p>
+                          <p class="text mx-2">{{item.idRubro}}</p>
+                        </div>
+                        <div class="col-sm-6">
+                          <p class="title m-2 mt-3">Plazo</p>
+                          <p class="text mx-2">Al {{item.periodoEstadosFinancieros | date: "dd 'de' MMMM 'de' yyyy"}}
+                          </p>
+                        </div>
+                        <div class="col-sm-12">
+                          <p class="title m-2 mt-3">Descripcion</p>
+                          <p class="text text-justify mx-2">{{item.descripcionHallazgo}}</p>
+                        </div>
+                        <div class="col-sm-12">
+                          <p class="title m-2 mt-3">Documentos</p>
+                          <p class="text mx-2">{{item.arrayDocs > 0 ? '' : 'No hay documentos'}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div><br>
+                  <ng-container *ngIf="tipo != 'detalle'">
+                    <mat-divider></mat-divider>
+                    <div class="d-flex mt-3">
+                      <div class="ms-auto">
+                        <div *ngIf="!item.reviewed">
+                          <button mat-button type="button" color="primary" class="btn-container me-auto"
+                            (click)="revisarHallazgo('APROBAR', 'Estados financieros', item)">
+                            <mat-icon>check</mat-icon>
+                            Aprobar
+                          </button>
+                          <button mat-button type="button" color="warn" class="btn-container me-2"
+                            (click)="revisarHallazgo('RECHAZAR', 'Estados financieros', item)">
+                            <mat-icon>clear</mat-icon>
+                            Rechazar
+                          </button>
+                          <button mat-button type="button" color="primary" class="btn-container"
+                            (click)="revisarHallazgo('SEGUIMIENTO', 'Estados financieros', item)">
+                            <mat-icon>edit</mat-icon>
+                            Solicitar cambios
+                          </button>
+                        </div>
+                        <button mat-button type="button" color="primary" class="btn-container"
+                          (click)="quitarHallzago(item)" *ngIf="item.reviewed">
+                          <mat-icon>undo</mat-icon>
+                          Revertir acción
+                        </button>
+                      </div>
+                    </div>
+                  </ng-container>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="d-flex mt-1 pt-3">
+          <div class="ms-auto">
+            <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" (click)="cancelarRevision()"
+              *ngIf="tipo != 'detalle'">
+              <mat-icon>clear</mat-icon>
+              Cancelar
+            </button>
+            <button mat-button type="button" color="primary" class="btn-container mt-3" matStepperNext
+              [disabled]="tipo != 'detalle' && !hallazgosRevisados(estadosFinancieros)">
+              <mat-icon>arrow_forward</mat-icon>
+              Siguiente
+            </button>
+          </div>
+        </div>
+      </mat-step>
+      <!-- Paso 2 Fuente de terceros -->
+      <mat-step>
+        <ng-template matStepLabel>Fuentes de terceros</ng-template>
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-12">
+            <div class="row mt-2">
+              <div *ngFor="let item of terceros; let i=index;" [hidden]="porRevisar ? item.reviewed : false"
+                class="col-12 col-sm-6 col-md-6 col-lg-4 p-3">
+                <mat-card class="parent m-0">
+                  <div class="child-full">
+                    <p>IFI-HI-{{item.idHallazgos}}</p>
+                  </div>
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <p class="title m-2 mt-3">Nombre de la fuente</p>
+                          <p class="text mx-2">{{item.idFuente}}</p>
+                        </div>
+                        <div class="col-sm-6">
+                          <p class="title m-2 mt-3">Plazo</p>
+                          <p class="text mx-2">Del {{item.fechaInicio | date: "dd 'de' MMMM 'de' yyyy"}} al
+                            {{item.fechaFin | date: "dd 'de' MMMM 'de' yyyy"}}</p>
+                        </div>
+                        <div class="col-sm-12">
+                          <p class="title m-2 mt-3">Descripcion</p>
+                          <p class="text text-justify mx-2">{{item.descripcionHallazgo}}</p>
+                        </div>
+                        <div class="col-sm-12">
+                          <p class="title m-2 mt-3">Documentos</p>
+                          <!-- <img [src]="item.imagen" alt="Sin imagenes" class="imagen"> -->
+                          <p class="text mx-2">{{item.arrayDocs > 0 ? '' : 'No hay documentos'}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div><br>
+                  <ng-container *ngIf="tipo != 'detalle'">
+
+                    <mat-divider></mat-divider>
+                    <div class="d-flex mt-3">
+                      <div class="ms-auto">
+                        <div *ngIf="!item.reviewed">
+                          <button mat-button type="button" color="primary" class="btn-container me-auto"
+                            (click)="revisarHallazgo('APROBAR', 'Fuente de terceros', item)">
+                            <mat-icon>check</mat-icon>
+                            Aprobar
+                          </button>
+                          <button mat-button type="button" color="warn" class="btn-container me-2"
+                            (click)="revisarHallazgo('RECHAZAR', 'Fuente de terceros', item)">
+                            <mat-icon>clear</mat-icon>
+                            Rechazar
+                          </button>
+                          <button mat-button type="button" color="primary" class="btn-container"
+                            (click)="revisarHallazgo('SEGUIMIENTO', 'Fuente de terceros', item)">
+                            <mat-icon>edit</mat-icon>
+                            Solicitar cambios
+                          </button>
+                        </div>
+                        <button mat-button type="button" color="primary" class="btn-container"
+                          (click)="quitarHallzago(item)" *ngIf="item.reviewed">
+                          <mat-icon>undo</mat-icon>
+                          Revertir acción
+                        </button>
+                      </div>
+                    </div>
+                  </ng-container>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="d-flex mt-1 pt-3">
+          <div class="ms-auto">
+            <button mat-button type="button" color="primary" class="btn-container me-2" matStepperPrevious>
+              <mat-icon>arrow_back</mat-icon>
+              Atras
+            </button>
+            <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" (click)="cancelarRevision()"
+              *ngIf="tipo != 'detalle'">
+              <mat-icon>clear</mat-icon>
+              Cancelar
+            </button>
+            <button mat-button type="button" color="primary" class="btn-container mt-3" matStepperNext
+              [disabled]="tipo != 'detalle' && !hallazgosRevisados(terceros)">
+              <mat-icon>arrow_forward</mat-icon>
+              Siguiente
+            </button>
+          </div>
+        </div>
+      </mat-step>
+      <!-- Paso 3 Declaraciones -->
+      <mat-step>
+        <ng-template matStepLabel>Declaraciones</ng-template>
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-12">
+            <div class="row mt-2">
+              <div *ngFor="let item of declaraciones; let i=index;" [hidden]="porRevisar ? item.reviewed : false"
+                class="col-12 col-sm-6 col-md-6 col-lg-4 p-3">
+                <mat-card class="parent m-0">
+                  <div class="child-full">
+                    <p>IFI-HI-{{item.idHallazgos}}</p>
+                  </div>
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <p class="title m-2 mt-3">Nombre de la declaración</p>
+                          <p class="text mx-2">{{item.idFormulario}}</p>
+                        </div>
+                        <div class="col-sm-6">
+                          <p class="title m-2 mt-3">Plazo</p>
+                          <p class="text mx-2">
+                            Del {{item.fechaInicio | date: "dd 'de' MMMM 'de' yyyy"}} al
+                            {{item.fechaFin | date: "dd 'de' MMMM 'de' yyyy"}}
+                          </p>
+                        </div>
+                        <div class="col-sm-12">
+                          <p class="title m-2 mt-3">Descripcion</p>
+                          <p class="text text-justify mx-2">{{item.descripcionHallazgo}}</p>
+                        </div>
+                        <div class="col-sm-12">
+                          <p class="title m-2 mt-3">Documentos</p>
+                          <p class="text mx-2">{{item.arrayDocs > 0 ? '' : 'No hay documentos'}}</p>
+                          <br>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <ng-container *ngIf="tipo != 'detalle'">
+
+                    <mat-divider></mat-divider>
+                    <div class="d-flex mt-3">
+                      <div class="ms-auto">
+                        <div *ngIf="!item.reviewed">
+                          <button mat-button type="button" color="primary" class="btn-container me-auto"
+                            (click)="revisarHallazgo('APROBAR', 'Declaraciones', item)">
+                            <mat-icon>check</mat-icon>
+                            Aprobar
+                          </button>
+                          <button mat-button type="button" color="warn" class="btn-container me-2"
+                            (click)="revisarHallazgo('RECHAZAR', 'Declaraciones', item)">
+                            <mat-icon>clear</mat-icon>
+                            Rechazar
+                          </button>
+                          <button mat-button type="button" color="primary" class="btn-container"
+                            (click)="revisarHallazgo('SEGUIMIENTO', 'Declaraciones', item)">
+                            <mat-icon>edit</mat-icon>
+                            Solicitar cambios
+                          </button>
+                        </div>
+                        <button mat-button type="button" color="primary" class="btn-container"
+                          (click)="quitarHallzago(item)" *ngIf="item.reviewed">
+                          <mat-icon>undo</mat-icon>
+                          Revertir acción
+                        </button>
+                      </div>
+                    </div>
+                  </ng-container>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="d-flex mt-1 pt-3">
+          <div class="ms-auto">
+            <button mat-button type="button" color="primary" class="btn-container me-2" matStepperPrevious>
+              <mat-icon>arrow_back</mat-icon>
+              Atras
+            </button>
+            <button mat-button type="button" color="warn" class="btn-container me-2 mt-3" (click)="cancelarRevision()"
+              *ngIf="tipo != 'detalle'">
+              <mat-icon>clear</mat-icon>
+              Cancelar
+            </button>
+            <button mat-button type="button" color="primary" class="btn-container mt-3" *ngIf="tipo != 'detalle'"
+              [disabled]="!hallazgosRevisados(declaraciones)">
+              <mat-icon>done</mat-icon>
+              Finalizar
+            </button>
+          </div>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card>
+</div>

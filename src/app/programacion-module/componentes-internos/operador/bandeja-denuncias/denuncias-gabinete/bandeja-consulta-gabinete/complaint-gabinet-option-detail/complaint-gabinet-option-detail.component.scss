@@ -1,0 +1,24 @@
+$transition-delay: 0.3s;
+$transition-timing-function: ease;
+
+.tab-group-modal {
+  position: relative;
+
+  :not(.selected-modal) {
+    width: 100%;
+    left: -100px;
+    z-index: -1;
+  }
+
+  .selected-modal {
+    width: 100%;
+    left: 0;
+    opacity: 1.0;
+  }
+
+  &>* {
+    position: absolute;
+    opacity: 0.0;
+    transition: all $transition-delay $transition-timing-function;
+  }
+}

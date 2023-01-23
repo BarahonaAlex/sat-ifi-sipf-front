@@ -1,0 +1,134 @@
+<mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-card-title class="card-title">RTU</mat-card-title>
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <button mat-menu-item title="Muestra la información general de un contribuyente." (click)="openModal('RTU')">
+        <span>Información General del contribuyente</span>
+      </button>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-card-title class="card-title">Auditorias Anteriores</mat-card-title>
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <button mat-menu-item title="Muestra la Información de las Audiorías Anteriores." (click)="openModal('HAUD')">
+        <span>Información de Auditorías Anteriores del Contribuyente</span>
+      </button>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-card-title class="card-title">Declaraciones</mat-card-title>
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <button mat-menu-item title="Muestra la información de declaraciones de un contribuyente." (click)="openModal('DC')">
+        <span>Información sobre las declaraciones de un contribuyente.</span>
+      </button>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-card-title class="card-title">Vehículos</mat-card-title>
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <button mat-menu-item title="Muestra la Consulta de Vehículos de un contribuyente" (click)="openModal('CVH')">
+        <span>Consulta de vehiculos</span>
+      </button>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-card-title class="card-title">Convenios de Pago</mat-card-title>
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <button mat-menu-item title="Muestra la Consulta de Convenios de Pago del contribuyente" (click)="openModal('CP')">
+        <span>Consulta de Convenios de Pago del Contribuyente</span>
+      </button>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-card-title class="card-title">Asiste Libros</mat-card-title>
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <button mat-menu-item title="Muestra la Consulta de Asiste Libros del contribuyente" (click)="openModal('AL')">
+        <span>Consulta de Asiste Libros</span>
+      </button>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-card-title class="card-title">Reten IVA</mat-card-title>
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <button mat-menu-item title="Muestra las Retenciones IVA, Consulta de Constancias del contribuyente" (click)="openModal('RIVA')">
+        <span>Retenciones IVA, Consulta de Constancias del Contribuyente</span>
+      </button>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-card-title class="card-title">Reten ISR</mat-card-title>
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <button mat-menu-item title="Muestra las Retenciones del ISR, Consulta de Constancias del contribuyente" (click)="openModal('RISR')">
+        <span>Retenciones ISR, Consulta de Constancias del Contribuyente</span>
+      </button>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-card-title class="card-title">FEL</mat-card-title>
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <button mat-menu-item title="Muestra las Facturas Electrónicas del contribuyente" (click)="openModal('FEL')">
+        <span>Consulta de Facturas Electrónicas del Contribuyente</span>
+      </button>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-card-title class="card-title">DUAS y DUCAS</mat-card-title>
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <button mat-menu-item title="Muestra las DUAS y DUCAS del Contribuyente" (click)="openModal('DD')">
+        <span>Consulta DUAS y DUCAS del Contribuyente</span>
+      </button>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-card-title class="card-title">EFA</mat-card-title>
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <button mat-menu-item title="Muestra la Consulta de Estados Financieros Auditados para el Auditor del contribuyente" (click)="openModal('EFA')">
+        <span>Consulta de Estados Financieros Auditados</span>
+      </button>
+    </mat-expansion-panel>
+  </mat-accordion>

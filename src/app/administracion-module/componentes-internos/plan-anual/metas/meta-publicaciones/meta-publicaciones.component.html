@@ -1,0 +1,81 @@
+<form [formGroup]="planForm">
+  <div>
+    <table border="1" bordercolor="E7EFF7">
+      <tr class="titulo">
+        <th scope="row">Gerencia</th>
+        <th scope="row">Selectivo</th>
+        <th scope="row">Masivo</th>
+        <th scope="row">COMEX</th>
+        <th scope="row" class="total2">Total</th>
+      </tr>
+      <tr>
+        <th scope="row" class="tituloColumnaGerencia">Central</th>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" formControlName="goal1"
+            (input)="calculateTotals()" >
+        </td>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal2"
+            (input)="calculateTotals()"></td>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal3"
+            (input)="calculateTotals()"></td>
+        <td class="total2">{{totalsManagement[0]}}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="tituloColumnaGerencia">Sur</th>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal5"
+            (input)="calculateTotals()"></td>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal6"
+            (input)="calculateTotals()"></td>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal7"
+            (input)="calculateTotals()"></td>
+        <td class="total2">{{totalsManagement[1]}}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="tituloColumnaGerencia">Occidente</th>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal9"
+            (input)="calculateTotals()"></td>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal10"
+            (input)="calculateTotals()"></td>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal11"
+            (input)="calculateTotals()"></td>
+        <td class="total2">{{totalsManagement[2]}}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="tituloColumnaGerencia">NorOriente</th>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal13"
+            (input)="calculateTotals()"></td>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal14"
+            (input)="calculateTotals()"></td>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal15"
+            (input)="calculateTotals()"></td>
+        <td class="total2">{{totalsManagement[3]}}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="tituloColumnaGerencia">Especiales Medianos</th>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal17"
+            (input)="calculateTotals()"></td>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal18"
+            (input)="calculateTotals()"></td>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal19"
+            (input)="calculateTotals()"></td>
+        <td class="total2">{{totalsManagement[4]}}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="tituloColumnaGerencia">Especiales Grandes</th>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal21"
+            (input)="calculateTotals()"></td>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal22"
+            (input)="calculateTotals()"></td>
+        <td><input type="number" min="1" pattern="^[1-9]\d*$" class="input" class="input" formControlName="goal23"
+            (input)="calculateTotals()"></td>
+        <td class="total2">{{totalsManagement[5]}}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="total3">Total</th>
+        <td class="total3">{{totalsDepartament[0]}}</td>
+        <td class="total3">{{totalsDepartament[1]}}</td>
+        <td class="total3">{{totalsDepartament[2]}}</td>
+        <td class="total4">{{totalsDepartamentSum()}}</td>
+      </tr>
+    </table>
+  </div>
+</form>

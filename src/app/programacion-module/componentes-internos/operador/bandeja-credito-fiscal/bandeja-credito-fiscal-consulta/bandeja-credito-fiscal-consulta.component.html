@@ -1,0 +1,85 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+    <div class="d-flex h-100">
+        <button mat-icon-button (click)="regresar()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <mat-card-title class="justify-content-center align-self-center mt-2">
+          Consulta Unificada del Contribuyente
+        </mat-card-title>
+      </div>
+      <button mat-button class="btn-container mt-3" color="primary" (click)="toggleTaxPayer()">
+        <mat-icon id="tax-icon" class="open">chevron_right</mat-icon>
+        Contribuyente
+      </button>
+      <button mat-button id="inconsistencies_button" class="btn-container mt-3 mat-raised-button" color="primary"
+    (click)="selectOption('inconsistencies')">
+    <mat-icon id="tax-icon">legend_toggle</mat-icon>
+    Inconsistencias
+  </button>
+  <button mat-button id="analitycs_button" class="btn-container mt-3" color="primary"
+    (click)="selectOption('analitycs')">
+    <mat-icon id="tax-icon">search</mat-icon>
+    Consulta
+  </button>
+  <button mat-button id="verificationCard_button" class="btn-container mt-3" color="primary" (click)="selectOption('verificationCard')">
+    <mat-icon id="tax-icon">grading</mat-icon>
+    Generación de Cédula
+  </button>
+  <div class="row mt-2">
+    <mat-card id="toggleTayPayer" class="tp tp-close">
+      <div class="title-text-container">
+        <span class="title-text center">Información del Contribuyente</span>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="text-container">
+        <span class="sub-title-text">Número de Identificación Tributaria (NIT)</span>
+        <span class="body-text">{{taxPayerData?.data?.id}}</span>
+      </div>
+      <div class="text-container">
+        <span class="sub-title-text">Nombre / Razón Social</span>
+        <span class="body-text">{{taxPayer.name}}</span>
+      </div>
+      <div class="text-container">
+        <span class="sub-title-text">Impuestos Afiliados</span>
+        <span class="body-text">{{taxPayer.taxes}}</span>
+      </div>
+      <div class="text-container" *ngIf="taxPayerData?.data?.attributes?.datos?.contribuyente">
+        <span class="sub-title-text">Código Único de Identificación (CUI)</span>
+        <span class="body-text">{{taxPayer.dpi}}</span>
+      </div>
+      <div class="text-container">
+        <span class="sub-title-text">Actividad Económica</span>
+        <span class="body-text">{{taxPayer.activity}}</span>
+      </div>
+      <div class="text-container">
+        <span class="sub-title-text">Domicilio Fiscal</span>
+        <span class="body-text">{{taxPayer.address}}</span>
+      </div>
+      <div class="text-container">
+        <span class="sub-title-text">Tipo Contribuyente</span>
+        <span class="body-text">{{taxPayer.taxPayerType}}</span>
+      </div>
+      <div class="text-container">
+        <span class="sub-title-text">Clasificación</span>
+        <span class="body-text">{{taxPayer.classification}}</span>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="text-container" *ngIf="esCorreccion">
+        <span class="sub-title-text">Comentario de rechazo:</span>
+        <span class="body-text">{{this.comentarioCorrecciones}}</span>
+      </div>
+    </mat-card>
+    <div id="option-container" class="col py-3 ps-2 pe-3 tab-group">
+      <div id="inconsistencies" class="mat-card selected mx-2 py-3">
+        <app-inconsistencias [idSolicitud]="id" (agregarInconsistenciaEvent)="inconsistecias($event)" [idEstadoSolicitud]="idEstadoSolicitud" *ngIf="idEstadoSolicitud"></app-inconsistencias>
+      </div>
+      <div id="analitycs" class="mx-2">
+        <app-opciones-consulta-credito-fiscal [idSolicitud]="id" [taxPayerData]="taxPayerData" [taxPayerCredito]="taxPayerCredito"></app-opciones-consulta-credito-fiscal>
+      </div>
+      <div id="verificationCard" class="mx-2">
+       <app-generacion-cedula [idSolicitud]="id"  *ngIf="id && idEstadoSolicitud && extraDataSolicitud" [inconsistencias]="inconsistencias" [taxPayerData]="taxPayerData" 
+       [taxPayerCredito]="taxPayerCredito" [idEstadoSolicitud]="idEstadoSolicitud" [extraDataSolicitud]="extraDataSolicitud"></app-generacion-cedula>
+      </div>    
+    </div>
+    </div>
+</div>

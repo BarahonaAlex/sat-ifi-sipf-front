@@ -1,0 +1,98 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">Administración de colaboradores</mat-card-title>
+  <mat-card class="mt-4">
+    <form>
+      <mat-form-field appearance="standard">
+        <mat-label>Filtro</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="">
+      </mat-form-field>
+
+      <button mat-button type="button" class="btn-container mt-3 mb-2" color="primary" (click)="showDialog()">
+        <mat-icon>add</mat-icon>
+        Agregar colaborador
+      </button>
+      <div>
+        <table mat-table [dataSource]="collaboratorTable" matSort>
+          <!-- Position Column -->
+          <ng-container matColumnDef="nit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>NIT</th>
+            <td mat-cell class="centrar" *matCellDef="let element"> {{element.nit}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombres}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="usuario">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</th>
+            <td mat-cell class="centrar" *matCellDef="let element"> {{element.login}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="puesto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Puesto</th>
+            <td mat-cell class="centrar" *matCellDef="let element"> {{element.puesto_trabajo}} </td>
+          </ng-container>
+
+          
+          
+          
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+            <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombreEstado}} </td>
+          </ng-container>
+
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="unidad">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Unidad Administrativa</th>
+            <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombreUnidadAdministrativa}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="nombreTipoProgramacion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo programación</th>
+            <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombreTipoProgramacion}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+            <td mat-cell class="centrar" *matCellDef="let element">
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item type="button" title="Reasignar" color="primary"
+                  (click)="showDialog(element)" >
+                  <mat-icon class="iconos">edit</mat-icon>
+                  <span>Modificar colaborador</span>
+                </button>
+                <button mat-menu-item type="button" title="actualizarPuesto" color="warn"
+                  (click)="updateJobPositionCollaborator(element.nit)">
+                  <mat-icon class="iconos">update</mat-icon>
+                  <span>Actualizar información</span>
+                </button>
+                <button mat-menu-item type="button" title="Eliminar" color="warn"
+                  (click)="deleteCollaborator(element.nit)">
+                  <mat-icon class="iconos">delete</mat-icon>
+                  <span>Remover colaborador</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+        </table>
+        <div>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+          </mat-paginator>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>

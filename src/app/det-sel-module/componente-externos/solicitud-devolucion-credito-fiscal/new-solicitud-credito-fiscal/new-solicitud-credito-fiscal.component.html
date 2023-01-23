@@ -1,0 +1,269 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <div class="d-flex h-100" *ngIf="!isRevision">
+     <button mat-icon-button [routerLink]="['/det-sel/solicitud/formulario/credito/fiscal']">
+      <mat-icon>arrow_back</mat-icon>
+    </button> 
+    
+    <mat-card-title class="justify-content-center align-self-center mt-2 ms-2">
+      Solicitudes de Credito Fiscal
+    </mat-card-title>
+    <br><br>
+  </div>
+  <mat-horizontal-stepper #stepper >
+    <!--PRIMER STEPER-->
+    <mat-step [stepControl]="FirstSteper">
+      <ng-template matStepLabel>Datos del Contibuyente</ng-template><br>
+      <div style="margin-left: 100px; margin-right: 100px">
+        <form [formGroup]="FirstSteper">
+          <div class="col-sm-12">
+            <mat-form-field appearance="standard" style="margin-right: 25px;">
+              <mat-label>NIT del Contribuyente</mat-label>
+              <input matInput autocomplete="off" formControlName="NITcontribuyente" readonly>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+              <mat-label>Nombre, razón o denominación social</mat-label>
+              <input matInput autocomplete="off" formControlName="NombreRazonSocial" readonly>
+            </mat-form-field>
+          </div><br>
+          <div class="col-sm-12">
+            <mat-form-field appearance="standard" class="col-sm-12" style="margin-right: 40px;">
+              <mat-label>Domicilio Fiscal</mat-label>
+              <input matInput autocomplete="off" formControlName="DomicilioFiscal" readonly>
+            </mat-form-field>
+          </div>
+        </form>
+        <span *ngIf="!isRevision"><b>¿El domicilio fiscal es el designado para recibir correspondencia?</b></span>
+        <mat-radio-group *ngIf="!isRevision" [(ngModel)]="direccion" class="col-sm-2" style="margin-left: 30px;">
+          <mat-radio-button value="1">Si</mat-radio-button>
+          <mat-radio-button value="2">No</mat-radio-button>
+        </mat-radio-group>
+
+        <form [formGroup]="FirstSteper" *ngIf="!isRevision && direccion == 2" >
+          <mat-form-field appearance="standard" class="col-sm-12" >
+            <mat-label>Ingrese la dirección del lugar señalado para recibir correspondencia:</mat-label>
+            <input matInput autocomplete="off" formControlName="DomicilioOpcional">
+          </mat-form-field>
+          <span style="font-size: 12px; font-style: italic;">Ejemplo: 1ª Calle 1-1 Zona 1, Guatemala, Guatemala</span>
+        </form>
+        
+        <form [formGroup]="FirstSteper">
+          <br>
+          <mat-form-field appearance="standard" class="col-sm-12" *ngIf="!isRevision">
+            <mat-label>Dirección de correo electrónico registrada en Agencia Virtual:</mat-label>
+            <input matInput autocomplete="off" formControlName="DireccionEmail" >
+          </mat-form-field>
+          <mat-form-field appearance="standard" class="col-sm-12" *ngIf="isRevision">
+            <mat-label>Dirección de correo electrónico registrada en Agencia Virtual:</mat-label>
+            <input matInput autocomplete="off" formControlName="DireccionEmailEsRevision" readonly>
+          </mat-form-field>
+        </form>
+      
+        <span *ngIf="!isRevision"><b>¿La dirección de correo electrónico registrada en Agencia Virtual, será la que utilizará para esta
+            gestión?</b></span>
+        <mat-radio-group *ngIf="!isRevision" [(ngModel)]="email" class="col-sm-2" style="margin-left: 30px;">
+          <mat-radio-button value="1">Si</mat-radio-button>
+          <mat-radio-button value="2">No</mat-radio-button>
+        </mat-radio-group>
+        <form [formGroup]="FirstSteper" *ngIf="!isRevision && email == 2">
+          <mat-form-field appearance="standard" class="col-sm-12">
+            <mat-label>Ingrese otra dirección de correo electrónico:</mat-label>
+            <input matInput autocomplete="off" formControlName="DireccionEmail">
+          </mat-form-field>
+          <span style="font-size: 12px; font-style: italic;">Ejemplo: glopez@correo.com</span>
+        </form>
+      </div><br>
+      <hr>
+      <div *ngIf="!isRevision" style="margin-left: 100px; margin-right: 100px">
+        <p style="text-align: center;"><b>DATOS DEL REPRESENTANTE LEGAL</b></p>
+        <form [formGroup]="FirstSteper">
+          <div class="col-sm-12" *ngIf="!isRevision">
+            <span style="margin-right: 40px;"><b>Ingrese el NIT del Representante Legal que realiza la
+                gestión:</b></span>
+            <mat-form-field appearance="standard" style="margin-right: 25px;">
+              <mat-label>Seleccione un representante</mat-label>
+              <mat-select  formControlName="NombreRepresentante" (selectionChange)="llenarDatosRepresentante($event.value)">
+                <mat-option *ngFor="let item of listaRepresentantes" [value]="item">{{item.nombreRepresentante}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </form>
+        <form [formGroup]="FirstSteper" style="text-aling:center;">
+          <div class="col-sm-12 ">
+            <mat-form-field appearance="standard" style="margin-right: 25px;">
+              <mat-label>NIT Representante Legal:</mat-label>
+              <input matInput autocomplete="off" formControlName="nitRepresentante" readonly>
+            </mat-form-field>
+            <mat-form-field appearance="standard" style="margin-right: 25px;">
+              <mat-label>CUI:</mat-label>
+              <input matInput autocomplete="off" formControlName="CUIrepresentante" readonly>
+            </mat-form-field>
+            <mat-form-field appearance="standard" style="margin-right: 25px;">
+              <mat-label>Fecha Nombramiento:</mat-label>
+              <input matInput autocomplete="off" formControlName="FechaNombramiento" readonly>
+            </mat-form-field>
+          <!-- <mat-form-field appearance="standard" style="margin-right: 25px;">
+              <mat-label>Fecha Vencimiento Nombramiento:</mat-label>
+              <input matInput autocomplete="off" formControlName="FechaVencimiento">
+            </mat-form-field> --> 
+            <mat-form-field appearance="standard">
+              <mat-label>Número de Pasaporte (si aplica):</mat-label>
+              <input matInput autocomplete="off" formControlName="NumeroPasaporte" readonly>
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
+      <div style="text-align:end">
+        <button mat-button type="button" color="primary" class="btn-container mt-3" matStepperNext [disabled]="!isRevision && (FirstSteper.invalid || !email || !direccion)">
+          <mat-icon>arrow_forward</mat-icon>
+          Siguiente
+        </button>
+      </div>
+    </mat-step>
+    <!--SEGUNDO STEPER-->
+    <mat-step [stepControl]="SecondSteper">
+      <ng-template matStepLabel>Datos del Contador</ng-template><br>
+      <div style="margin-left: 100px; margin-right: 100px">
+        <form [formGroup]="SecondSteper">
+          <div class="col-sm-12">
+            <mat-form-field appearance="standard" style="margin-right: 25px;">
+              <mat-label>NIT Contador</mat-label>
+              <input matInput autocomplete="off" formControlName="NITcontador" readonly>
+            </mat-form-field>
+            <mat-form-field appearance="standard" style="margin-right: 25px;">
+              <mat-label>CUI</mat-label>
+              <input matInput autocomplete="off" formControlName="CUIcontador" readonly>
+            </mat-form-field>
+            <mat-form-field appearance="standard" style="margin-right: 25px;">
+              <mat-label>Nombre Contador</mat-label>
+              <input matInput autocomplete="off" formControlName="NombreContador" readonly>
+            </mat-form-field>
+            <mat-form-field appearance="standard" style="margin-right: 25px;">
+              <mat-label>Fecha Nombramiento</mat-label>
+              <input matInput autocomplete="off" formControlName="FechaNombramiento" readonly>
+            </mat-form-field>
+          </div>
+        </form>
+      </div><br>
+      <div style="text-align:end">
+        <button mat-button type="button" color="warn" class="btn-container mt-3" matStepperPrevious>
+          <mat-icon>arrow_back</mat-icon>
+          Atras
+        </button>
+        <button mat-button type="button" color="primary" class="btn-container mt-3" matStepperNext>
+          <mat-icon>arrow_forward</mat-icon>
+          Siguiente
+        </button>
+      </div>
+    </mat-step>
+    <!--TERCER STEPER-->
+    <mat-step [stepControl]="ThreeSteper">
+      <ng-template matStepLabel>Credito Fiscal Solicitado</ng-template> <br>
+      <div style="margin-left: 100px; margin-right: 100px">
+        <p style="text-align: center;"><b>ACTIVIDAD ECONÓMICA</b></p>
+        <form [formGroup]="ThreeSteper">
+          <div class="col-sm-12">
+            <span style="margin-right: 25px;"><b> Actividades de la administración pública en general:</b></span>
+            <mat-form-field appearance="standard" style="margin-right: 25px;">
+              <mat-label>Principal Producto Que Exporta</mat-label>
+              <input matInput autocomplete="off" formControlName="ActividadEconomica" >
+            </mat-form-field>
+          </div>
+          <br>
+        </form>
+        <span style="margin-right: 25px;" *ngIf="!isRevision"><b> Seleccione período a solicitar (Trimestral o Semestral)</b></span><br><br>
+        <div class="row center" style="width:auto" *ngIf="!isRevision">
+          <div class="col-sm-5">
+            <form action="" [formGroup]="SecondSteper">
+              <mat-form-field color="primary" appearance="standard" class="col-sm-11" [formGroup]="ThreeSteper">
+                <mat-label>Periodo de Inicio</mat-label>
+                <input matInput [matDatepicker]="fechaInicio" formControlName="PeriodoInicio" [disabled]="true">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+                <mat-datepicker #fechaInicio color="primary" [disabled]="false"></mat-datepicker>
+              </mat-form-field>
+            </form>
+          </div>
+          <div class="col-sm-5">
+            <form action="" [formGroup]="SecondSteper">
+              <mat-form-field color="primary" appearance="standard" class="col-sm-11" [formGroup]="ThreeSteper">
+                <mat-label>Periodo de Fin</mat-label>
+                <input matInput [matDatepicker]="fechaFin" formControlName="PeriodoFin" [disabled]="true">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+                <mat-datepicker #fechaFin [disabled]="false"></mat-datepicker>
+              </mat-form-field>
+            </form>
+          </div>
+          <div class="col-sm-4">
+            <button mat-button type="button" color="primary" class="btn-container mt-3" (click)="getCalculoDeclaraciones()" [disabled]="this.ThreeSteper.controls['PeriodoInicio'].value === '' || this.ThreeSteper.controls['PeriodoFin'].value === ''">
+              <mat-icon>search</mat-icon>
+              Consultar
+            </button>
+          </div>
+        </div>
+      </div>
+      <table mat-table [dataSource]="calculoDeclaraciones">
+        <ng-container matColumnDef="periodos">
+          <th mat-header-cell *matHeaderCellDef class="center"> Períodos Impositivos </th>
+          <td mat-cell *matCellDef="let element"> {{ element.periodoDel | date:'dd/MM/yyyy' }} </td>
+        </ng-container>
+        <ng-container matColumnDef="numeroFormulario">
+          <th mat-header-cell *matHeaderCellDef class="center"> Formulario Declaración de IVA </th>
+          <td mat-cell *matCellDef="let element"> {{element.numeroFormulario}} </td>
+        </ng-container>
+        <ng-container matColumnDef="montoCalculado">
+          <th mat-header-cell *matHeaderCellDef class="center"> Crédito Sujeto a Devolución del Período </th>
+          <td mat-cell *matCellDef="let element"> {{element.montoCalculado}} </td>
+        </ng-container>
+        <ng-container matColumnDef="montoSolicitud">
+          <th mat-header-cell *matHeaderCellDef class="center"> Monto Régimen Especial/ Optativo/ Especial Electrónico
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.montoSolicitud}} </td>
+        </ng-container>
+        <ng-container matColumnDef="creditoNoSolicitado">
+          <th mat-header-cell *matHeaderCellDef class="center">Crédito no Solicitado</th>
+          <td mat-cell *matCellDef="let element"> {{element.creditoNoSolicitado}} </td>
+        </ng-container>
+        <ng-container matColumnDef="devolucion">
+          <th mat-header-cell *matHeaderCellDef class="center"> Monto Sujeto a Devolución</th>
+          <td mat-cell *matCellDef="let element"> {{element.sujetoADevolucion}} </td>
+        </ng-container>
+        <ng-container matColumnDef="multa">
+          <th mat-header-cell *matHeaderCellDef class="center"> Multa</th>
+          <td mat-cell *matCellDef="let element"> {{element.multa}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="tablaCalculoDeclaraciones"></tr>
+        <tr mat-row *matRowDef="let row; columns: tablaCalculoDeclaraciones;"></tr>
+      </table>
+      <mat-paginator #MatPaginator="matPaginator" [pageSizeOptions]="[5,10,15]" showFirstLastButtons></mat-paginator>
+      <br>
+      <hr>
+      <div style="margin-left: 100px; margin-right: 100px">
+        <p style="text-align: center;"><b>DECLARACION DEL CONTRIBUYENTE</b></p>
+      </div>
+      <p style="text-align: center;">Declaro y Juro que son verdaderos los datos contenidos en este formulario y que estoy enterado de las penas correspondientes al delito de perjurio.
+      </p><br>
+      <div style="text-align:end">
+        <button mat-button type="button" color="warn" class="btn-container mt-3" matStepperPrevious>
+          <mat-icon>arrow_back</mat-icon>
+          Atras
+        </button>
+        <button mat-button type="button" color="primary" class="btn-container mt-3" (click)="guardarSolicitud()" [disabled]="ThreeSteper.invalid || calculoDeclaraciones.data.length === 0" *ngIf="!isRevision">
+          <mat-icon>save</mat-icon>
+          Congelar
+        </button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>
+
+
+
+
+
+
+<!--         datos del contador
+        datos de la solicitud
+        determinación del monto de devolución de credito fiscal solicitado
+        declaracion del contribuyente -->

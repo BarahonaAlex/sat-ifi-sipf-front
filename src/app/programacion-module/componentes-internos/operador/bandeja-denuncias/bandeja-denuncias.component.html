@@ -1,0 +1,234 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">Bandeja de Denuncias</mat-card-title>
+  <button mat-button id="alcances_button" class="btn-container mt-3" color="primary">
+    <mat-icon id="tax-icon">task</mat-icon>
+    Denuncia
+  </button>
+  <button mat-button id="alcances_button" class="btn-container mt-3" color="primary" (click)="openModalScope()">
+    <mat-icon id="tax-icon">description</mat-icon>
+    Presencias, Puntos Fijos
+  </button>
+  <button mat-button id="alcances_button" class="btn-container mt-3" color="primary" (click)="openModalCabinet()">
+    <mat-icon id="tax-icon">splitscreen</mat-icon>
+    Gabinete
+  </button>
+  <div class="row mt-2">
+    <div class="col-sm py-3 ps-2 pe-3">
+      <mat-card class="parent">
+        <!--INICIO DE DENUNCIAS SIN ATENDER-->
+        <div class="result-count">
+          <div class="row">
+            <div class="col">
+              <span class="title">Total de <b>denuncias</b> sin atender</span>
+              <span class="count">{{Complaints.data.length}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table mat-table [dataSource]="Complaints">
+            <ng-container matColumnDef="correlativo">
+              <th mat-header-cell *matHeaderCellDef class="center"> No. Correlativo </th>
+              <td mat-cell *matCellDef="let element" class="center"> {{element.correlativo}} </td>
+            </ng-container>
+            <ng-container matColumnDef="nombre">
+              <th mat-header-cell *matHeaderCellDef class="center"> Concepto de la Denuncia</th>
+              <td mat-cell *matCellDef="let element" class="center"> {{element.nombre}} </td>
+            </ng-container>
+            <ng-container matColumnDef="producto">
+              <th mat-header-cell *matHeaderCellDef class="center"> Producto o Servicio</th>
+              <td mat-cell *matCellDef="let element" class="center"> {{element.producto}} </td>
+            </ng-container>
+            <ng-container matColumnDef="compra">
+              <th mat-header-cell *matHeaderCellDef class="center"> Valor de Compra o Servicio</th>
+              <td mat-cell *matCellDef="let element" class="center"> {{element.compra}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Accion">
+              <th mat-header-cell *matHeaderCellDef class="center"> Acción </th>
+              <th mat-header-cell *matHeaderCellDef class="header-table" class="center"></th>
+              <td mat-cell *matCellDef="let documento" class="center">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                  <mat-icon>more_horiz</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <!--(click)="showAnalityc(documento.idCaso)" ALCANCES-->
+                  <button mat-menu-item title="Cambiar Nombre" class="iconos" (click)="openModal(documento)">
+                    <mat-icon class="iconos">query_stats</mat-icon>
+                    <span>Analizar Denuncia</span>
+                  </button>
+                </mat-menu>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="getComplaints"></tr>
+            <tr mat-row *matRowDef="let row; columns: getComplaints;"></tr>
+          </table>
+          <mat-paginator #MatPaginator1="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+          </mat-paginator>
+        </div>
+
+        &nbsp;&nbsp;
+        <!--INICIO DE APLICA || NO APLICA-->
+        <div class="row">
+          <div class="col">
+            <mat-accordion>
+              <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                  <div class="result-count">
+                    <span class="title">Listado de <b>Denuncias Aprobadas</b></span>
+                    <span class="count">{{applyComplaints.data.length}}</span>
+                  </div>
+                </mat-expansion-panel-header>
+                <table mat-table [dataSource]="applyComplaints">
+                  <ng-container matColumnDef="correlativo">
+                    <th mat-header-cell *matHeaderCellDef> No. Correlativo </th>
+                    <td mat-cell *matCellDef="let element" class="center"> {{element.correlativo}} </td>
+                  </ng-container>
+                  <!--                   <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef> NIT de Denunciado </th>
+                    <td mat-cell *matCellDef="let element" class="center"> {{element.nombre}} </td>
+                  </ng-container> -->
+                  <ng-container matColumnDef="producto">
+                    <th mat-header-cell *matHeaderCellDef> Producto o Servicio </th>
+                    <td mat-cell *matCellDef="let element" class="center"> {{element.producto}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="compra">
+                    <th mat-header-cell *matHeaderCellDef class="center"> Valor de Compra</th>
+                    <td mat-cell *matCellDef="let element" class="center"> {{element.compra}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="Accion">
+                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                    <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                    <td mat-cell *matCellDef="let documento">
+                      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                        <mat-icon>more_horiz</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <!--(click)="showAnalityc(documento.idCaso)" ALCANCES-->
+                        <button mat-menu-item title="Cambiar Nombre" class="iconos" (click)="editarModal(documento)">
+                          <mat-icon class="iconos">edit</mat-icon>
+                          <span>Editar</span>
+                        </button>
+                      </mat-menu>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="getApplyComplaints"></tr>
+                  <tr mat-row *matRowDef="let row; columns: getApplyComplaints;"></tr>
+                </table>
+                <mat-paginator #MatPaginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                </mat-paginator>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+          <div class="col">
+            <mat-accordion>
+              <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                  <div class="result-count">
+                    <span class="title">Listado de <b>Denuncias Rechazadas</b></span>
+                    <span class="count">{{rejectedComplaints.data.length}}</span>
+                  </div>
+                </mat-expansion-panel-header>
+                <div *ngIf="!date">
+                  <button mat-button class="btn-container mt-3" color="primary" (click)="date = true">
+                    <mat-icon id="tax-icon" class="open">chevron_right</mat-icon>
+                    Filtrar por Fecha
+                  </button>
+                </div>
+                <div *ngIf="date">
+                  <button mat-button class="btn-container mt-3" color="primary" (click)="date = false">
+                    <mat-icon id="tax-icon" class="open">chevron_left</mat-icon>
+                    Regresar
+                  </button>
+                  <div class="row center">
+                    <div class="col-sm-6">
+                      <form action="" [formGroup]="complaintsDate">
+                        <mat-form-field color="primary" appearance="standard" class="col-sm-10"
+                          [formGroup]="complaintsDate">
+                          <mat-label>Fecha Inicio</mat-label>
+                          <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" [disabled]="true">
+                          <!-- <mat-hint>yyyy/mm/dd</mat-hint> -->
+                          <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+                          <mat-datepicker #fechaInicio color="primary" [disabled]="false"></mat-datepicker>
+                        </mat-form-field>
+                      </form>
+                    </div>
+                    <div class="col-sm-6">
+                      <form action="" [formGroup]="complaintsDate">
+                        <mat-form-field color="primary" appearance="standard" class="col-sm-10"
+                          [formGroup]="complaintsDate">
+                          <mat-label>Fecha Fin</mat-label>
+                          <input matInput [matDatepicker]="fechaFin" formControlName="fechaFin" [disabled]="true">
+                          <!--  <mat-hint>mm/dd/yyyy</mat-hint> -->
+                          <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+                          <mat-datepicker #fechaFin [disabled]="false"></mat-datepicker>
+                        </mat-form-field>
+                      </form>
+                    </div>
+                    <div class="centerButton">
+                      <button mat-button type="button" color="primary" class="btn-container mt-3"
+                        (click)="getRejectedComplaintsForDate()">
+                        <mat-icon>search</mat-icon>
+                        Consultar
+                      </button>
+                    </div>
+                  </div>
+                </div><br>
+                <table mat-table [dataSource]="rejectedComplaints">
+                  <!--    <ng-container matColumnDef="seleccion">
+                    <th mat-header-cell *matHeaderCellDef class="header-table center">
+                      <mat-checkbox (change)="$event ? isEditAllSelectedComplaintsNAP() : null"
+                        [checked]="editSelectionComplaintsNAP.hasValue() && isEditAllSelectedComplaintsNAP()"
+                        [indeterminate]="editSelectionComplaintsNAP.hasValue() && !isEditAllSelectedComplaintsNAP()"
+                        [color]="'primary'">
+                      </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let equipo" class="center">
+                      <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? editSelectionComplaintsNAP.toggle(equipo) : null"
+                        [checked]="editSelectionComplaintsNAP.isSelected(equipo)"></mat-checkbox>
+                    </td>
+                  </ng-container> -->
+                  <ng-container matColumnDef="correlativo">
+                    <th mat-header-cell *matHeaderCellDef> No. Correlativo </th>
+                    <td mat-cell *matCellDef="let element" class="center"> {{element.correlativo}} </td>
+                  </ng-container>
+                  <!--                   <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef> NIT de Denunciado </th>
+                    <td mat-cell *matCellDef="let element" class="center"> {{element.nombre}} </td>
+                  </ng-container> -->
+                  <ng-container matColumnDef="producto">
+                    <th mat-header-cell *matHeaderCellDef> Producto o Servicio </th>
+                    <td mat-cell *matCellDef="let element" class="center"> {{element.producto}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="compra">
+                    <th mat-header-cell *matHeaderCellDef class="center"> Valor de Compra </th>
+                    <td mat-cell *matCellDef="let element" class="center"> {{element.compra}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="Accion">
+                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                    <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                    <td mat-cell *matCellDef="let documento">
+                      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                        <mat-icon>more_horiz</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <!--(click)="showAnalityc(documento.idCaso)" ALCANCES-->
+                        <button mat-menu-item title="Cambiar Nombre" class="iconos" (click)="editarModalNAP(documento)">
+                          <mat-icon class="iconos">edit</mat-icon>
+                          <span>Editar</span>
+                        </button>
+                      </mat-menu>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="getRejectedComplaints"></tr>
+                  <tr mat-row *matRowDef="let row; columns: getRejectedComplaints;"></tr>
+                </table>
+                <mat-paginator #MatPaginator3="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                </mat-paginator>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+  </div>

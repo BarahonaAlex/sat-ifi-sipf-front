@@ -1,0 +1,75 @@
+<mat-toolbar *ngIf="showNavbar">
+  <button mat-icon-button matRipple [matRippleColor]="'#19AFE1'" [disableRipple]="true" [matRippleCentered]="true"
+    (click)="toggleMenu()" [title]="expanded ? 'Cerrar barra lateral' : 'Abrir barra lateral'">
+    <svg id="menu-icon" width="24px" height="24px" viewBox="0 0 24 24">
+      <g>
+        <path d="M4 7L20 7" id="top" stroke="#fff" stroke-width="2" />
+        <path d="M4 12L20 12" id="middle" stroke="#fff" stroke-width="2" />
+        <path d="M4 17L20 17" id="bottom" stroke="#fff" stroke-width="2" />
+      </g>
+    </svg>
+  </button>
+  <span>{{title}}</span>
+  <div class="user-img" *ngIf="user" [matMenuTriggerFor]="menu">
+    <img id="{{user?.nit}}" *ngIf="hasImg" (error)="noImg($event)">
+    <mat-icon *ngIf="!hasImg" class="img">account_circle</mat-icon>
+    <p>{{user?.login}}</p>
+    <mat-icon class="expand">expand_more</mat-icon>
+  </div>
+  <mat-menu #menu="matMenu" class="profile-menu">
+    <mat-list class="pt-0">
+      <mat-list-item>
+        <span class="title">Nombre:</span>
+        <span class="content">{{user?.name}}</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <span class="title">NIT:</span>
+        <span class="content">{{user?.nit}}</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <span class="title">Último acceso:</span>
+        <span class="content">{{user?.loggedSince | date: "EEEE, dd 'de' MMMM 'de' YYYY hh:mm"}}</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+  </mat-menu>
+</mat-toolbar>
+
+<mat-drawer-container id="sidebar" class="sidenav-container" style="overflow-x: hidden;" autosize *ngIf="showNavbar">
+  <mat-drawer #drawer mode="side" opened [enableGhostResize]="true">
+    <div class="icon-logo" style="cursor: pointer;" routerLink="/inicio">
+      <img id="icon" src="assets/img/sat-icon.svg" alt="">
+      <img id="logo" src="assets/img/sat-logo.svg"
+        style="filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(123deg) brightness(108%) contrast(101%);">
+    </div>
+    <mat-nav-list *ngIf="user">
+      <div [id]="item.id" class="item-container" *ngFor="let item of user?.options;">
+        <mat-list-item matRipple [matRippleColor]="'#19AFE140'" [disableRipple]="true" [matRippleCentered]="true"
+          class="item" (click)="activateItem(item.id)">
+          <div class="indicator"></div>
+          <mat-icon class="item-icon">{{item.icon}}</mat-icon>
+          <span>{{item.title}}</span>
+          <mat-icon class="item-action" (click)="activateItem(item.id)" *ngIf="item.children">navigate_next</mat-icon>
+        </mat-list-item>
+        <div class="expandable" *ngIf="item.children">
+          <mat-list-item matRipple [matRippleColor]="'#19AFE140'" [disableRipple]="true" [matRippleCentered]="true"
+            class="item" [routerLink]="[child.route]" *ngFor="let child of item.children">
+            <mat-icon class="item-icon">{{child.icon}}</mat-icon>
+            <span>{{child.title}}</span>
+          </mat-list-item>
+        </div>
+      </div>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>
+<router-outlet *ngIf="!showNavbar"></router-outlet>
+
+<!-- Configuracion del spinner -->
+<ngx-spinner bdColor="rgba(10, 50, 78, 0.6)" size="medium" color="#fff" type="ball-clip-rotate" [fullScreen]="true">
+  <p style="color: white"> Cargando... </p>
+</ngx-spinner>

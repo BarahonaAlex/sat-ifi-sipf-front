@@ -1,0 +1,48 @@
+<mat-card *ngIf="verificacion">
+<div >
+      <app-bandeja-credito-fiscal-documento [idCedula]="idSolicitud" [idEstadoSolicitud]="idEstadoSolicitud" (componentEvent)="componente($event)"
+      (cantidadEvent)="cantidadValidacion($event)">
+      </app-bandeja-credito-fiscal-documento>
+</div>
+<mat-card-actions>
+<div style="text-align:end" *ngIf="verificacion" >
+  <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="validacionGenerarCedula()" *ngIf="btnGenerarCedula"
+  [disabled]="disableBtn">
+    <mat-icon>save</mat-icon>
+    Cédula de Respuesta 
+  </button>
+</div> 
+</mat-card-actions>
+</mat-card> 
+
+
+<div *ngIf="showVisorCedulaNoAdmision">
+ <mat-card>
+   <app-visor  [document]="documentoNoAdmision" [isScope]="versionado"></app-visor>
+ </mat-card>
+ <div style="text-align:end" >
+   <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="warn" (click)="regresar()">
+     <mat-icon>clear</mat-icon>
+     Cancelar
+   </button>   
+   <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="guardarCedulaNoAdmision()">
+     <mat-icon>save</mat-icon>
+     Guardar
+   </button>
+ </div>
+</div>
+<div *ngIf="showVisorCedulaVerifiacion">
+  <mat-card>
+    <app-visor  [document]="documentoVerificacion" [isScope]="versionado"></app-visor>
+  </mat-card>
+  <div style="text-align:end" >
+    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="warn" (click)="regresarCedula()">
+      <mat-icon>clear</mat-icon>
+      Cancelar
+    </button>   
+    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="guardarCedulaVerificacion()">
+      <mat-icon>save</mat-icon>
+      Guardar
+    </button>
+  </div>
+ </div>

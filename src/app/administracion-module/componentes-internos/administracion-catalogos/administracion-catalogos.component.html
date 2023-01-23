@@ -1,0 +1,123 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <div class="d-flex h-100">
+    <button mat-icon-button *ngIf="mostrarTablaHijo" (click)="returnMaster()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <mat-card-title class="main-title justify-content-center align-self-center mt-2 ms-2">
+      {{nameCatalog}}
+    </mat-card-title>
+  </div>
+  <mat-card *ngIf="mostrarTablaPadre" class="mt-3">
+    <div class="centrar">
+      <mat-form-field appearance="standard" class="col-12 col-sm-12 col-md-5 col-lg-4 me-0 me-sm-0 me-md-3 me-lg-4">
+        <mat-label>Filtro</mat-label>
+        <input matInput (keyup)="catalogSearchFilter($event)">
+      </mat-form-field>
+    </div>
+    <ng-container #CrearSolicitud>
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataTableFather" class="table-responsive">
+          <!-- Name Column -->
+          <ng-container matColumnDef="catalogo">
+            <th mat-header-cell *matHeaderCellDef style="max-width: 30%;"> Catálogo </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="btn-container" mat-flat-button>
+                <mat-icon color="primary">topic</mat-icon>&nbsp;
+                <span style="padding-bottom: 3px !important;">{{element.nombre}}</span>
+              </div>
+            </td>
+          </ng-container>
+          <!-- Weight Column -->
+          <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef style="max-width: 70%;"> Descripción </th>
+            <td mat-cell *matCellDef="let element" style="padding-right: 14px !important;">
+              <span>{{element.descripcion}}</span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+            <td mat-cell *matCellDef="let element; let id=index">
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item title="Muestras la insumo a corregir"  (click)="getItemSonById(element.id, element.nombre)">
+                  <mat-icon class="iconos">add</mat-icon>
+                  <span>Agregar</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator #MatPaginator1="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+          aria-label="Select page of periodic elements">
+        </mat-paginator>
+      </div>
+    </ng-container>
+  </mat-card>
+  <div *ngIf="mostrarTablaHijo">
+    <button mat-button type="button" color="primary" class="btn-container mt-3" (click)="createItemSon()">
+      <mat-icon>add</mat-icon>
+      Agregar
+    </button>
+    <mat-card class="mt-4">
+      <div class="centrar">
+        <mat-form-field appearance="standard" class="col-12 col-sm-12 col-md-5 col-lg-4 me-0 me-sm-0 me-md-3 me-lg-4">
+          <mat-label>Filtro</mat-label>
+          <input matInput (keyup)="itemSearchFilter($event)">
+        </mat-form-field>
+      </div>
+      <ng-container>
+        <table mat-table [dataSource]="dataTableSon">
+          <ng-container matColumnDef="No.">
+            <th mat-header-cell *matHeaderCellDef>Código</th>
+            <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="catalogo">
+            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+            <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+          </ng-container>
+          <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef> Descripción </th>
+            <td mat-cell *matCellDef="let element">
+              <div [innerHTML]="sanitizeHtml(element.descripcion)"></div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef> Estado </th>
+            <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+          </ng-container>
+          <ng-container matColumnDef="accion">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu" class="menuTamaño">
+                <div class="btns">
+                  <button mat-menu-item title="Editar el registro" class="iconos" (click)="editCatalogSon(element)">
+                    <mat-icon class="iconos">edit</mat-icon>
+                    <span>Editar</span>
+                  </button>
+                 <!-- <button mat-menu-item title="Eliminar el registro" class="iconos"
+                    (click)="removeItemSon(element.codigo)">
+                    <mat-icon class="iconos">delete</mat-icon>
+                    <span>Eliminar</span>
+                  </button>-->
+                </div>
+              </mat-menu>
+              {{element.symbol}}
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsSon"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsSon;"></tr>
+        </table>
+        <mat-paginator #MatPaginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+          aria-label="Select page of periodic elements">
+        </mat-paginator>
+      </ng-container>
+    </mat-card>
+  </div>
+</div>

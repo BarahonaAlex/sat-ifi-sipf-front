@@ -1,0 +1,19 @@
+.main-Subtitle {
+    font-size: 0.9rem;
+    text-align: left;
+    letter-spacing: 0px;
+    color: #19324B;
+    text-transform: uppercase;
+    opacity: 1;
+    font-weight: bolder;
+  }
+
+  .main-card {
+    font-size: 1.1rem;
+    text-align: left;
+    letter-spacing: 0px;
+    color: #19324B;
+    text-transform: uppercase;
+    opacity: 1;
+    font-weight: bolder;
+  }

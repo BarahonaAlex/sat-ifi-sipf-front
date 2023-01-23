@@ -1,0 +1,36 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <div class="d-flex h-100">
+    <button mat-icon-button [routerLink]="['/programacion/aprobador/bandeja/casos']">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <mat-card-title class="justify-content-center align-self-center mt-2">
+      Revisión de Alcance
+    </mat-card-title>
+  </div>
+  <div>
+    <mat-card>
+      <label>Operador Encargado: <b>{{userEncargado}}</b></label>
+      <br>
+      <label>Autorizado por: <b>{{userRevisado}}</b> </label>
+    </mat-card>
+  </div>
+  <div>
+    <div class="mt-2">
+      <button mat-button class="btn-container" color="primary" (click)="actionRevision(1)">
+        <mat-icon>check</mat-icon>
+        Aprobar
+      </button>
+      <button mat-button class="btn-container" color="basic" (click)="actionRevision(2)">
+        <mat-icon>edit</mat-icon>
+        Solicitar Correcciones
+      </button>
+      <button mat-button class="btn-container" color="warn" (click)="actionRevision(3)">
+        <mat-icon>close</mat-icon>
+        Rechazar
+
+      </button>
+    </div>
+    <app-visor *ngIf="node" [nodeId]="node.id" [arregloPropiedades]="arrayProperties"></app-visor>
+  </div>
+
+</div>

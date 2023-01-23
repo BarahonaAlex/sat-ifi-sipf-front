@@ -1,0 +1,97 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">Asignación de Perfiles</mat-card-title>
+  <br>
+
+  <div>
+    <mat-card class="example-form">
+      <body-container>
+        <form class="centrar" [formGroup]="scope">
+          <mat-form-field class="col-sm-3" appearance="standard">
+            <mat-label>NIT:</mat-label>
+            <input matInput formControlName="Nit" autocomplete="off">
+          </mat-form-field>
+          <button mat-button type="button" color="primary" class="btn-container mt-3"
+            (click)="getPerfilNit(scope.get('Nit')?.value)">
+            <mat-icon>search</mat-icon>
+            Búsqueda
+          </button>
+        </form>
+      </body-container>
+      <form>
+        <div *ngIf="mostrar">
+          <div>
+            <form class="centrar" [formGroup]="generalFormGroup">
+              <div class="row d-flex justify-content-center">
+                <div class="col-sm-12">
+                  <div class="row">
+
+                    <mat-form-field appearance="standard" class="col-sm-6">
+                      <mat-label>Nombre</mat-label>
+                      <input matInput formControlName="nombre">
+                    </mat-form-field>
+                    <mat-form-field appearance="standard" class="col-sm-6">
+                      <mat-label>Estado</mat-label>
+                      <input matInput formControlName="estado">
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-6" appearance="standard">
+                      <mat-label>Seleccione un Perfil</mat-label>
+                      <mat-select #perfil formControlName="perfil">
+                        <mat-option *ngFor="let perfil of perfiles" [value]="perfil.idPerfil">{{perfil.nombre}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <div class="col-sm-1">
+                      <button mat-button type="button" class="btn-container mt-3 mb-2" color="primary"
+                        (click)="openDialogCreateProfile(generalFormGroup.value)">
+                        <mat-icon>person_add</mat-icon>
+                        Asignar Perfil
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div><br>
+
+
+          <div>
+            <table mat-table [dataSource]="dataSource" matSort>
+              <ng-container matColumnDef="No.">
+                <th mat-header-cell *matHeaderCellDef class="header-table">No.</th>
+                <td mat-cell class="centrar" *matCellDef="let casos let i=index"> {{i+1}} </td>
+              </ng-container>
+              <ng-container matColumnDef="perfil">
+                <th mat-header-cell *matHeaderCellDef class="header-table">Perfil</th>
+                <td mat-cell class="centrar" *matCellDef="let element"> {{element.nombre}} </td>
+              </ng-container>
+              <ng-container matColumnDef="acciones" >
+                <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                <td mat-cell class="centrar" *matCellDef="let documento">
+
+                  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones"
+                    [hidden]="(documento.idPerfil==1 || documento.idPerfil==7 || documento.idPerfil==8)">
+                    <mat-icon>more_horiz</mat-icon>
+                  </button>
+
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item type="button" title="Quitar" color="primary"                    
+                      [hidden]="(documento.idPerfil==1 || documento.idPerfil==7 || documento.idPerfil==8)"
+                      (click)="openDialogDeleteProfile(documento.idPerfil)">
+                      <mat-icon class="iconos">person_remove</mat-icon>
+                      <span>Remover Perfil</span>
+                    </button>
+                  </mat-menu>
+
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="DisplayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: DisplayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+              aria-label="Select page of periodic elements">
+            </mat-paginator>
+          </div>
+        </div>
+      </form>
+    </mat-card>
+  </div>

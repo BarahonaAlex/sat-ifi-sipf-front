@@ -1,0 +1,71 @@
+.titulo {
+    text-align: center;
+    display: flex !important;
+    height: 48px;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    border-radius: 0px;
+    background: #1369a0;
+    color: white;
+  }
+
+  .centrar{
+    text-align:center;
+    justify-content: center;
+    align-content: center;
+  }
+
+  .titulo2{
+    text-align: center;
+    height: 40px;
+    justify-content: center;
+    align-content: center;
+    border-radius: 4px;
+    background: #1369a0;
+    color: white;
+  }
+
+  table {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .main-title {
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) var(--unnamed-font-size-32)/var(--unnamed-line-spacing-43) var(--unnamed-font-family-roboto);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    color: var(--unnamed-color-19324b);
+    text-align: left;
+    font: normal normal bold 32px/43px Roboto;
+    letter-spacing: 0px;
+    color: #19324B;
+    text-transform: uppercase;
+    opacity: 1;
+  }
+
+  .title {
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) var(--unnamed-font-size-32)/var(--unnamed-line-spacing-43) var(--unnamed-font-family-roboto);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    color: var(--unnamed-color-000307);
+    text-align: center;
+    font: normal normal bold 25px/35px Roboto;
+    letter-spacing: 0px;
+    color: #000307;
+    opacity: 1;
+  }
+  
+  .cuerpo{
+
+    background: #F7F7F7 0% 0% no-repeat padding-box;
+  
+    border-radius: 20px;
+    
+    opacity: 1;
+  
+  }
+
+  .border-table{
+    background-color: #1369a0;
+    border-radius: 0px;
+    border: none;
+  }

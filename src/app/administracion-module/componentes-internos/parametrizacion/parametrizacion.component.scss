@@ -1,0 +1,30 @@
+.option {
+    max-height: 80px;
+
+    .icon {
+        color: #145FAA;
+    }
+
+    .title {
+        font-size: 16px;
+        font-weight: bolder;
+        color: #0A324E;
+    }
+
+    .subtitle {
+        font-size: 14px;
+        font-weight: bold;
+        color: #0A324E;
+        opacity: 0.6;
+    }
+}
+
+::ng-deep .mat-slide-toggle-label {
+    margin-top: 8px !important;
+    user-select: none;
+}
+
+::ng-deep .mat-checkbox-layout {
+    margin-top: 8px !important;
+    user-select: none;
+}

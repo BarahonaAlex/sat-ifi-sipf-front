@@ -1,0 +1,145 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <div class="d-flex h-100">
+    <button mat-icon-button [routerLink]="['/programacion/operador/cartera/casos']">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <mat-card-title class="justify-content-center align-self-center mt-2 ms-2">
+      Consulta Unificada del Contribuyente
+    </mat-card-title>
+  </div>
+  <button mat-button class="btn-container mt-3" color="primary" (click)="toggleTaxPayer()">
+    <mat-icon id="tax-icon" class="open">chevron_right</mat-icon>
+    Contribuyente
+  </button>
+  <button mat-button id="reject_button" type="button" class="btn-container mt-3 mb-2 mat-button" color="warn"
+    (click)="rechazo()" *ngIf="validateState()">
+    <mat-icon>cancel</mat-icon>
+    Rechazar
+  </button>
+  <button mat-button id="findings_button" class="btn-container mt-3 mat-raised-button" color="primary"
+    (click)="selectOption('findings')" *ngIf="validateState()">
+    <mat-icon id="tax-icon">legend_toggle</mat-icon>
+    Hallazgo
+  </button>
+  <button mat-button id="analitycs_button" class="btn-container mt-3" color="primary"
+    (click)="selectOption('analitycs')" *ngIf="validateState()">
+    <mat-icon id="tax-icon">search</mat-icon>
+    Consulta
+  </button>
+  <button mat-button id="scope_button" class="btn-container mt-3" color="primary" (click)="selectOption('scope')">
+    <mat-icon id="tax-icon">grading</mat-icon>
+    Alcance
+  </button>
+
+  <div class="row mt-2">
+    <mat-card id="toggleTayPayer" class="tp tp-close">
+      <div class="title-text-container">
+        <span class="title-text center">Información del Contribuyente</span>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="text-container">
+        <span class="sub-title-text">Número de Identificación Tributaria (NIT)</span>
+        <span class="body-text">{{taxPayerData?.data?.id}}</span>
+      </div>
+      <div class="text-container">
+        <span class="sub-title-text">Nombre / Razón Social</span>
+        <span class="body-text">{{taxPayer.name}}</span>
+      </div>
+      <div class="text-container">
+        <span class="sub-title-text">Impuestos Afiliados</span>
+        <span class="body-text">{{taxPayer.taxes}}</span>
+      </div>
+      <div class="text-container" *ngIf="taxPayerData?.data?.attributes?.datos?.contribuyente">
+        <span class="sub-title-text">Código Único de Identificación (CUI)</span>
+        <span class="body-text">{{taxPayer.dpi}}</span>
+      </div>
+      <div class="text-container">
+        <span class="sub-title-text">Actividad Económica</span>
+        <span class="body-text">{{taxPayer.activity ? taxPayer.activity : "No Especificada"}}</span>
+      </div>
+      <div class="text-container">
+        <span class="sub-title-text">Domicilio Fiscal</span>
+        <span class="body-text">{{taxPayer.address}}</span>
+      </div>
+      <div class="text-container">
+        <span class="sub-title-text">Tipo Contribuyente</span>
+        <span class="body-text">{{taxPayer.taxPayerType}}</span>
+      </div>
+      <div class="text-container">
+        <span class="sub-title-text">Clasificación</span>
+        <span class="body-text">{{taxPayer.classification}}</span>
+      </div>
+      <ng-container>
+        <mat-divider class="mt-3"></mat-divider>
+        <div class="title-text-container mt-4 pt-2">
+          <span class="title-text center">Documentos de Respaldo</span>
+        </div>
+        <mat-divider></mat-divider>
+
+        <div class="text-container" *ngIf="files?.length == 0">
+          <span class="sub-title-text text-center" style="opacity: 0.6;">No se cargaron documentos de respaldo</span>
+        </div>
+
+        <mat-selection-list [multiple]="false">
+          <mat-list-option *ngFor="let file of files" (click)="showFile(file)">
+            <img matListIcon src="assets/img/{{file.icon}}.png">
+            <h3 matLine> {{file.name}} </h3>
+            <p matLine>
+              <span> {{file.createdAt | date}} </span>
+            </p>
+          </mat-list-option>
+        </mat-selection-list>
+      </ng-container>
+      <ng-container>
+        <mat-divider class="mt-3"></mat-divider>
+        <div class="title-text-container mt-4 pt-2">
+          <span class="title-text center">Programa Fiscal</span>
+        </div>
+        <mat-divider></mat-divider><br>
+
+        <form [formGroup]="selectionFormGroup">
+          <div class="row">
+
+            <mat-form-field appearance="standard" class="col-sm-12">
+              <mat-label>Gerencia</mat-label>
+              <mat-select (selectionChange)="updateProgramList()" formControlName="selectedRegional">
+                <mat-option *ngFor="let item of listRegional" [value]="item.codigo">{{item.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-error *ngIf="regionalValid">{{regionalErrorMessage}}</mat-error>
+
+          </div>
+
+          <div class="row" *ngIf="showProgramSelect">
+
+            <mat-form-field appearance="standard" class="col-sm-12">
+              <mat-label>Programa fiscal asignado</mat-label>
+              <mat-select (selectionChange)="asignarPrograma()" formControlName="selectedProgram">
+                <mat-option *ngFor="let item of listFiscalProgram" [value]="item.idPrograma">{{item.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          </div>
+
+        </form>
+      </ng-container>
+    </mat-card>
+    <div id="option-container" class="col py-3 ps-2 pe-3 tab-group">
+      <div id="findings" class="mat-card selected mx-2 py-3">
+        <app-findings [idCaso]="id" (dataEmit)="eventCatcher($event)"></app-findings>
+      </div>
+      <div id="analitycs" class="mx-2">
+        <app-analityc-options [idCaso]="id" [taxPayerData]="taxPayerData" [taxPayerCase]="taxPayerCase">
+        </app-analityc-options>
+      </div>
+      <div id="scope" class="mx-2">
+        <app-alcance-selectivo [idCase]="id" [dataSource2]="dataSource2" [taxPayerData]="taxPayerData"
+          [taxPayerCase]="taxPayerCase" [idProgram]="idProgram">
+        </app-alcance-selectivo>
+      </div>
+
+    </div>
+  </div>
+</div>

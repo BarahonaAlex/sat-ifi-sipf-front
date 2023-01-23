@@ -1,0 +1,272 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+<div>
+    <h4>Seleccione un Item para generar un <b>alcance</b></h4>
+  </div>
+  <div class="parent" *ngIf="!showVisor">
+    <mat-accordion>
+      <div cdkDropList (cdkDropListDropped)="drop($event)">
+        <mat-expansion-panel *ngFor="let itemPrincipal of principal" cdkDrag>
+          <mat-expansion-panel-header (click)="Seleccionar(itemPrincipal.nombre)">
+            <mat-panel-title>
+              <mat-checkbox #chekSelect [(ngModel)]="itemPrincipal.completed" color="primary">
+                {{itemPrincipal.nombre}}
+              </mat-checkbox>
+              &nbsp;&nbsp;
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+  
+          <div *ngIf="itemPrincipal.nombre=='ANTECEDENTES'">
+            <table mat-table [dataSource]="dataSource4" matSort class="p-0">
+              <ng-container matColumnDef="Nombre">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  {{itemPrincipal.nombre}}
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  <div [innerHTML]="item"></div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Descripcion">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Descripción
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  {{item.descripcion}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                <td mat-cell *matCellDef="let item ; let id=index">
+                  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                    <mat-icon>more_horiz</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item title="Muestra el detalle del caso." (click)=" EliminarAntecedente(item)">
+                      <mat-icon class="iconos">delete</mat-icon>
+                      <span>Eliminar</span>
+                    </button>
+                    <button mat-menu-item title="Muestra el detalle del caso." (click)=" editScopeComplaints(item)">
+                      <mat-icon class="iconos">edit</mat-icon>
+                      <span>Editar</span>
+                    </button>
+                  </mat-menu>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="columns4"></tr>
+              <tr mat-row *matRowDef="let row; columns: columns4;"></tr>
+            </table>
+          </div>
+
+          <div *ngIf="itemPrincipal.nombre=='INCONSISTENCIAS'">
+            <!--<div style="text-align:end">
+              <button mat-button color="primary" class="btn-container" (click)="reloadInconsistencias()">
+                <mat-icon>refresh</mat-icon>Recargar
+              </button>
+            </div>-->
+            <table mat-table [dataSource]="dataSource11" matSort class="p-0">
+              <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Nombre
+                </th>
+                <td mat-cell *matCellDef="let item"> {{item.nombre}} </td>
+              </ng-container>
+              <ng-container matColumnDef="desc">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Descripción
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  <div [innerHTML]="item.descripcion"></div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="rubros">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Rubros
+                </th>
+                <td mat-cell *matCellDef="let item"> {{itemToString(item.rubros)}} </td>
+              </ng-container>
+  
+              <tr mat-header-row *matHeaderRowDef="columnsHallazgo"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnsHallazgo;"></tr>
+            </table>
+            <mat-paginator #MatPaginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+              aria-label="Select page of periodic elements">
+            </mat-paginator>
+          </div>
+  
+          <div class="table-responsive" *ngIf="itemPrincipal.nombre=='OBJETIVOS'">
+            <div style="text-align:end">
+              <button mat-button color="primary" class="btn-container">
+                <mat-icon>refresh</mat-icon>Recargar
+              </button>
+            </div>
+            <form action="" [formGroup]="cabinet">
+            <mat-form-field>
+              <mat-label>Seleccione un Objetivo</mat-label>
+              <mat-select required="true" [(ngModel)]="select" formControlName="objetivo">
+                <mat-option [value]="imp" *ngFor="let imp of catalogos">
+                  {{imp.nombre}}
+                </mat-option>
+                <mat-option [value]="0" (click)="Otro()">otros</mat-option>
+              </mat-select>
+            </mat-form-field>
+            </form>
+            <div style="text-align:end">
+              <button mat-button class="btn-container" color="primary" (click)="agregar()">
+                <mat-icon>add</mat-icon>Agregar
+              </button>
+            </div>
+            <table mat-table [dataSource]="dataSourceObEspecifico" matSort>
+              <ng-container matColumnDef="caso">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  {{itemPrincipal.nombre}}
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  <div [innerHTML]="item"></div>
+                </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                <td mat-cell *matCellDef="let item ; let id=index">
+                  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                    <mat-icon>more_horiz</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item title="Elimina el Objetivo." (click)=" Eliminar(item)">
+                      <mat-icon class="iconos">delete</mat-icon>
+                      <span>Eliminar</span>
+                    </button>
+                  </mat-menu>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="columns"></tr>
+              <tr mat-row class="sobra-tabla" *matRowDef="let row; columns: columns;"></tr>
+            </table>
+          </div>
+
+          <!-- procedimiento -->
+          <div *ngIf="itemPrincipal.nombre=='PROCEDIMIENTOS'">
+            <form action="" [formGroup]="cabinet">
+            <mat-form-field>
+              <mat-label>Seleccione una procedimiento</mat-label>
+              <mat-select  [(ngModel)]="selectHijo" formControlName="select">
+                <mat-option [value]="imp" *ngFor="let imp of catalogosHijo">
+                  {{imp.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+            &nbsp; &nbsp;
+            <div style="text-align:end">
+              <button mat-button class="btn-container" color="primary" (click)="agregarProcedimiento()">
+                <mat-icon>add</mat-icon>Agregar
+              </button>
+            </div>
+            <table mat-table [dataSource]="dataSource5" matSort class="p-0">
+              <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Nombre
+                </th>
+                <td mat-cell *matCellDef="let item"> {{item.nombre}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Descripcion">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Descripción
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  {{item.descripcion}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                <td mat-cell *matCellDef="let item ; let id=index">
+                  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                    <mat-icon>more_horiz</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item title="Elimina el Objetivo." (click)=" EliminarProceso(item)">
+                      <mat-icon class="iconos">delete</mat-icon>
+                      <span>Eliminar</span>
+                    </button>
+                  </mat-menu>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="columnsProdecimiento"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnsProdecimiento;"></tr>
+            </table>
+          </div>
+  
+          <div *ngIf="itemPrincipal.nombre=='ASPECTOS GENERALES'">
+            <form action="" [formGroup]="cabinet">
+            <mat-form-field>
+              <mat-label>Seleccione una aspecto</mat-label>
+              <mat-select [(ngModel)]="selectAspecto" formControlName="aspecto">
+                <mat-option [value]="imp" *ngFor="let imp of aspectosGenerales">
+                  {{imp.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            </form>
+            &nbsp; &nbsp;
+            <div style="text-align:end">
+              <button mat-button class="btn-container" color="primary" (click)="agregarAspecto()">
+                <mat-icon>add</mat-icon>Agregar
+              </button>
+            </div>
+            <table mat-table [dataSource]="dataSource2" matSort class="p-0">
+              <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Nombre
+                </th>
+                <td mat-cell *matCellDef="let item"> {{item.nombre}} </td>
+              </ng-container>
+              <ng-container matColumnDef="descripcion">
+                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                  Descripción
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  {{item.descripcion}}
+                </td>
+              </ng-container>
+            <ng-container matColumnDef="acciones">
+              <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+              <td mat-cell *matCellDef="let item ; let id=index">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                  <mat-icon>more_horiz</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item title="Elimina el Objetivo." (click)=" EliminarAspecto(item)">
+                    <mat-icon class="iconos">delete</mat-icon>
+                    <span>Eliminar</span>
+                  </button>
+                </mat-menu>
+              </td>
+            </ng-container>
+              <tr mat-header-row *matHeaderRowDef="columnsAspectos"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnsAspectos;"></tr>
+            </table>
+          </div>
+        </mat-expansion-panel>
+      </div>
+    </mat-accordion><br>
+    <div style="text-align:end">
+      <button mat-button color="primary" class="btn-container" (click)="GenerarAlcance()" [disabled]="!idProgram?true:false">
+        <mat-icon>description</mat-icon>Generar Alcance
+      </button>
+    </div>
+  </div>
+  <div *ngIf="showVisor">
+    <mat-card>
+      <app-visor [isScope]="true" [nodeId]="nodeId" [arregloPropiedades]="arrayProperties" [document]="documento"></app-visor>
+    </mat-card>
+    <div style="text-align:end">
+      <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="warn" (click)="regresar()">
+        <mat-icon>clear</mat-icon>
+        Cancelar
+      </button>
+      <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary" (click)="GuardarArchivo()">
+        <mat-icon>save</mat-icon>
+        Guardar
+      </button>
+    </div>
+  </div>
+</div>

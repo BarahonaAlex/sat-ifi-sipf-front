@@ -1,0 +1,39 @@
+<div class="container mt-5">
+    <mat-card-title class="main-title">Administracion de alcances masivos</mat-card-title>
+    <mat-card>
+      <button mat-button type="button" class="btn-container mt-3 mb-2 cust" color="primary" (click)="newScope()">
+          <mat-icon class="iconos">add</mat-icon>
+          Agregar nuevo alcance
+      </button>
+  
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef>Nombre</th>
+          <td mat-cell *matCellDef="let alcance">{{alcance.nombreAlcanceMasivo}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="descripcion">
+          <th mat-header-cell *matHeaderCellDef>Descripcion</th>
+          <td mat-cell *matCellDef="let alcance">{{alcance.descripcionAlcanceMasivo}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell mat-cell *matCellDef="let alcance">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item title="ver detalle" (click)="verDetalle(alcance.idAlcanceMasivo)">
+                <mat-icon class="iconos">description</mat-icon>
+                <span>Ver detalle</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card>
+  </div>

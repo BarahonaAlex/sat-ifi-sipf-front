@@ -1,0 +1,90 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title">
+    <button mat-button type="button" class="btn-container mt-3 mb-2 btn-add" color="primary"
+    [routerLink]="['/det-sel/cartera/insumos/dte']">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  Corregir Insumo
+  </mat-card-title>
+  <div>
+   
+    <button mat-button type="button" class="btn-container " color="primary" *ngIf="vconstante==estado"
+      (click)="EditarInsumo()">
+      <mat-icon>edit</mat-icon>
+      Resolver Insumo
+    </button>
+    <button mat-button type="button" class="btn-container " color="warn" *ngIf="vconstante==estado"
+      (click)="RechazoDefinitivo()">
+      <mat-icon> delete_forever</mat-icon>
+      Rechazo Definitivo
+    </button>
+  </div>
+  <div class="full-wrapper button-wrapper">
+    <div *ngIf="vconstante==estado">
+      <mat-card>
+        <p>
+          <strong>Comentario de Rechazo</strong>
+          <br>
+          <div [innerHTML]="vComentario"></div>
+      </mat-card>
+    </div>
+    <br>
+    <br>
+    <mat-card>
+
+      <div class="row d-flex justify-content-center">
+        <div class="col-sm" style="text-align: center ;">
+          <form [formGroup]="detalleGroup" autocomplete="off">
+
+            <mat-form-field>
+              <input matInput type="text" required="true" placeholder="Identificador Insumo" formControlName="idInsumo">
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field>
+              <input matInput type="text" required="true" placeholder="Nombre Insumo" formControlName="nombreInsumo">
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field>
+              <input matInput type="text" required="true" placeholder="Descripción Hallazgo"
+                formControlName="descripcion">
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field>
+              <mat-select required="true" placeholder="Departamento" aria-label="Default select example"
+                formControlName="nombreDepartamento" [(ngModel)]="dep">
+                <mat-option [value]="item.codigo" *ngFor="let item of departamento"
+                  style="height:unset; white-space:normal;">{{item.nombre}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field>
+              <input matInput type="text" required="true" placeholder="Estado" formControlName="nombreEstado">
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field>
+              <mat-select required="true" placeholder="Gerencia" aria-label="Default select example"
+                formControlName="nombreGerencia" [(ngModel)]="gen">
+                <mat-option [value]="item.codigo" *ngFor="let item of gerencia"
+                  style="height:unset; white-space:normal;">{{item.nombre}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            &nbsp;
+
+          </form>
+          <div style="text-align: end;" *ngIf="editar==true">
+            <button mat-button color="warn" type="button" class="btn-container me-2 mt-3" (click)="Cancelar()">
+              <mat-icon>clear</mat-icon>
+              Cancelar
+            </button>
+            <button mat-button type="button" color="primary" class="btn-container mt-3" 
+              (click)="Guardar()">
+              <mat-icon>save</mat-icon>
+              Guardar
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
